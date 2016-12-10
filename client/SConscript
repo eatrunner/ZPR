@@ -4,60 +4,7 @@
 #  @brief scons build for client part (JavaScript, AngularJS)
 
 import os
-
 Import('env')
-
 Import('WEB_SRV_PREFIX WEB_SRV_HOST WEB_SRV_PORT WEB_CLIENT_HOST WEB_CLIENT_PORT')
 
-def build_lighttpd_conf(target, source, env):
-    configText = """
-var.server_root = "{root_path}"
-var.log_root    = server_root
-var.state_dir   = server_root
-var.home_dir    = server_root
-var.conf_dir    = server_root
-
-server.port = {client_port}
-server.pid-file = state_dir + "/lighttpd.pid"
-server.errorlog = log_root + "/lighttpd.log"
-server.document-root = server_root
-
-index-file.names = ( "index.html" )
-
-mimetype.assign = (
-  ".html" => "text/html",
-  ".txt" => "text/plain",
-  ".jpg" => "image/jpeg",
-  ".png" => "image/png",
-  ".css" => "text/css",
-  ".svg" => "image/svg+xml",
-  ".js" => "text/javascript"
-)
-
-static-file.exclude-extensions = (".py")
-server.modules += ( "mod_proxy" )
-
-$HTTP["url"] =~ "^/{prefix}" {{
-        proxy.balance = "hash"
-        proxy.server = ( "" => (
-                "{prefix}" => ( "host" => "{server_host}", "port" => {server_port} )
-        ))
-}}
-"""
-    with open(str(target[0]),'w') as file:
-       server_root_path = os.path.abspath('client')
-       clientConfig = configText.format(prefix=WEB_SRV_PREFIX,
-                                        server_host=WEB_SRV_HOST,
-                                        server_port=WEB_SRV_PORT,
-                                        client_host=WEB_CLIENT_HOST,
-                                        client_port=WEB_CLIENT_PORT,
-                                        root_path=server_root_path)
-       file.write(clientConfig)
-    return
-
-
-#build lighttpd config
-lighttd_conf = 'lighttpd.develop'
-env.Command(lighttd_conf, [], build_lighttpd_conf )
-env.SideEffect('lighttpd.log', lighttd_conf)
-env.SideEffect('lighttpd.pid', lighttd_conf)
+os.system('gulp build-app-prod')

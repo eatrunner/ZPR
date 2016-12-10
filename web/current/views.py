@@ -8,12 +8,13 @@ version interface module. Return database version, database connecting strings a
 import datetime
 
 def time(params):
-    """server UTC time"""
-    return str(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
+	"""server UTC time"""
+	return str(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
 
 def get(params):
-    """current parameters of server"""
-    return {
-        "paramsVer" : 1,
-        "time" : time({})
-    }
+	"""current parameters of server"""
+	return {
+		"paramsVer" : 1,
+		"time" : time({})
+	}
+

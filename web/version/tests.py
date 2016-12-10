@@ -13,24 +13,6 @@ class VersionModelTestCase(django.test.TestCase):
         """test if getVersion return non-empty string"""
         self.assertTrue( len(models.getVersionString()) > 0 )
 
-    def test02getDBName(self):
-        """test if getDBName return non-empty string"""
-        self.assertTrue( len(models.getDBName()) > 0)
-
-    def test03getDBUser(self):
-        """test if getDBUser return non-empty string"""
-        self.assertTrue( len(models.getDBUser()) > 0)
-
-    def test04getDBPassword(self):
-        """test if getDBPassword return non-empty string"""
-        self.assertTrue( len(models.getDBPassword()) > 0)
-
-    def test05getDBVersionString(self):
-        """test if getDBPassword return any output"""
-        v = models.getDBVersionString()
-        self.assertTrue( len(v) > 0)
-        self.assertNotEqual( str(v), 'unknown' )
-
     def test06versionFromRow(self):
         """check if database version string has 'ver'"""
         self.assertEqual( models._versionFromRow(''), 'unknown' )

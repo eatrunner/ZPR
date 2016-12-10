@@ -27,8 +27,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
 #    'django.contrib.staticfiles',
     'version',
-    'current',
-    'calcpy'
+    'current'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -45,17 +44,6 @@ ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'wsgi.application'
 
 import version.models
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': version.models.getDBName(),
-        'HOST': '',
-        'PORT': '5432',
-        'USER': version.models.getDBUser(),
-        'PASSWORD': version.models.getDBPassword()
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

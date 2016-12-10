@@ -14,8 +14,6 @@ import version
 import version.views
 import current
 import current.views
-import calcpy
-import calcpy.views
 
 ## for test working server
 def index(request):

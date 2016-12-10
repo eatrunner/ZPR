@@ -12,6 +12,5 @@ def get(params):
     """versions"""
     return {
         "paramsVer" : 1,
-        "server": models.getVersionString(),
-        "database": models.getDBVersionString(),
+        "server": models.getVersionString()
     }

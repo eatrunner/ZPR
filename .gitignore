@@ -1,1 +1,3 @@
 build_web/
+client/lighttpd.develop
+client/lighttpd.log

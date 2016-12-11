@@ -3,9 +3,10 @@ from django.shortcuts import render
 # Create your views here.
 def getmap(params):
 	"""map table of content"""
+	map = [[1,2],[3,4]]
 	return {
 		"size": [2,2],
-		"map": [[1,2],[3,4]]
+		"map": map
 	}
 
 def getplayer(params):

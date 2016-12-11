@@ -12,6 +12,8 @@ MYAPP_VER_INSTALL = '1'
 MYAPP_VER_STRING = str(MYAPP_VER_MAJOR) + '.' + str(MYAPP_VER_MINOR) + '.' + MYAPP_VER_COMPILATION
 
 #web
+WWW_BROWSER_WINDOWS='chrome'
+WWW_BROWSER_LINUX='firefox'
 WEB_SRV_PREFIX = 'tank-game'
 WEB_SRV_HOST = '127.0.0.1'
 WEB_SRV_PORT = '9000'
@@ -19,7 +21,9 @@ WEB_CLIENT_HOST = '127.0.0.1'
 WEB_CLIENT_PORT = '9001'
 
 Export('MYAPP_VER_MAJOR MYAPP_VER_MINOR MYAPP_VER_COMPILATION MYAPP_VER_INSTALL')
+Export('WWW_BROWSER_WINDOWS WWW_BROWSER_LINUX')
 Export('WEB_SRV_PREFIX WEB_SRV_HOST WEB_SRV_PORT WEB_CLIENT_HOST WEB_CLIENT_PORT')
+
 
 vars = Variables('custom.py')
 
@@ -49,6 +53,14 @@ type 'scons' to build the program and libraries. Settings specific for this proj
      +
      additional_help_text)
 
+if (platform.system() == "Linux"):
+    WWW_BROWSER = WWW_BROWSER_LINUX
+    BROWSER_CMD = WWW_BROWSER_LINUX + ' http://' + WEB_SRV_HOST + ':' + WEB_SRV_PORT + ' &'
+else:
+    WWW_BROWSER = WWW_BROWSER_WINDOWS
+    BROWSER_CMD = 'start "" ' + WWW_BROWSER_WINDOWS + ' http://' + WEB_SRV_HOST + ':' + WEB_SRV_PORT
+
+
 def addToLD(path):
     if "LD_LIBRARY_PATH" in os.environ:
         os.environ["LD_LIBRARY_PATH"]= os.environ["LD_LIBRARY_PATH"] + ':' + os.path.abspath(path)
@@ -64,6 +76,7 @@ if env['r'] == 'n':
         os.system('python build_web/manage.py runfcgi daemonize=false method=threaded host=' + WEB_SRV_HOST + ' port=' + WEB_SRV_PORT)
 
 elif env['r'] == 'd':
+    os.system(BROWSER_CMD)
     os.system('python build_web/manage.py runserver ' + WEB_SRV_HOST + ':' + WEB_SRV_PORT)
 
 elif env['s'] == 'w':

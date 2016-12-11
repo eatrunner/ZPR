@@ -6,3 +6,5 @@ client/node_modules
 client/bower_components
 client/dist.dev
 client/dist.prod
+
+*.pyc

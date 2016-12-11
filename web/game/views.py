@@ -15,5 +15,8 @@ def getplayer(params):
 
 def getbullet(params):
 	"""bullet position with given id"""
-	return params['id']
+	return {
+		"id": params['id'],
+		"pos": [1,2]
+	}
 

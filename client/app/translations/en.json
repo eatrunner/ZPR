@@ -1,3 +1,7 @@
 {
-	"WELCOME": "Welcome to the Tanks game!"
+	"WELCOME": "Welcome to the Tanks game!",
+	"SETTINGS": "Settings",
+	"1_PLAYER": "1 player",
+	"2_PLAYERS": "2 players",
+	"HIGH_SCORES": "High-Scores"
 }

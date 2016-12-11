@@ -1,1 +1,10 @@
-<strong>{{'WELCOME' | translate}}</strong>
+<div class="row">
+	<div class="col-sm-offset-3 col-sm-6 text-center">
+		<h1 class="start-title">TANKS GAME</h1>
+		<h1 class="start-title">2016</h1>
+		<br />
+		<start-menu on-item-accept="$ctrl.onItemAccept(item)">
+			<start-menu-item ng-repeat="itemText in $ctrl.menuItemsTexts" item-text="{{itemText}}"></start-menu-item>
+		</start-menu>
+	</div>
+</div>

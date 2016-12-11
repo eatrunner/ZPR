@@ -1,1 +1,31 @@
 @import "../../bower_components/bootstrap-css-only/css/bootstrap";
+
+body {
+	background-color: black;
+	font-family: 'Press Start 2P';
+	font-size: 30px;
+	color: white;
+	text-transform: uppercase
+}
+
+.start-title {
+	color: tomato;
+	font-size: 64px;
+}
+
+.start-menu {
+	border: 5px dashed white;
+}
+
+.start-menu div {
+	padding-top: 1em;
+}
+
+.start-menu-item-selector {
+	text-align: center;
+	color: goldenrod;
+}
+
+.start-menu-item-text {
+	text-align: left;
+}

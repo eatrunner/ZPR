@@ -10,10 +10,20 @@ class Game:
 		self.map = map
 		self.playerTank = Tank(0, playerX, playerY, self.map)
 
+	def notifyTankPosition(self):
+		playerTank = self.playerTank
+		for observer in self.observers:
+				observer.updateTankPosition(playerTank.id, playerTank.currPos, playerTank.faceDirection)
+
+	def notifyBulletPosition(self):
+		bullet = self.playerTank.bullet
+		for observer in self.observers:
+				observer.updateBulletPosition(bullet.id,bullet.currPos, bullet.direction)
+	
+
 	def movePlayer(self, direction):
 		if (self.playerTank.move(direction)):
-			for observer in self.observers:
-				observer.notifyTankPosition(self.playerTank)
+			self.notifyTankPosition()
 
 	def fireBullet(self):
 		if (self.playerTank.bullet == None):
@@ -24,5 +34,4 @@ class Game:
 
 	def processGame(self):
 		if (self.playerTank.moveBullet() == True):
-			for observer in self.observers:
-				observer.notifyBulletPosition(self.playerTank.bullet)
+			self.notifyBulletPosition()

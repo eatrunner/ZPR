@@ -2,14 +2,17 @@ from unittest import TestCase
 
 # Create your tests here.
 import views
-
+from views import Controller
 
 class GameViewTestCase(TestCase):
+	def setUp(self):
+		contr = Controller()
 
 	"""test game functions"""
 	def test01getmap(self):
 		"""checks if getmap returns proper size of matrix"""
-		msg = views.getmap({})
+		contr = Controller()
+		msg = contr.getmap()
 		size = msg["size"]
 		map = msg["map"]
 		self.assertEqual( len(map),size[0] )
@@ -17,30 +20,68 @@ class GameViewTestCase(TestCase):
 
 	def test01getplayer(self):
 		"""checks if player position is vector with 2 elements"""
-		msg = views.getplayer({})
+		contr = Controller()
+		msg = contr.getplayertanks()
 		self.assertEqual( len(msg), 2)
 
 
-	def test01getbullet(self):
+	def test01getbullets(self):
 		"""checks if bullet position is vector with 2 elements"""
-		msg = views.getbullet({"id":1})
+		contr = Controller()
+		msg = contr.getbullets({"id":1})
 		pos = msg["pos"]
 		self.assertEqual(len(pos), 2)
 
-	def test02getbullet(self):
+	def test02getbullets(self):
 		"""checks if bullet returns correct id"""
-		msg = views.getbullet({"id":1})
+		contr = Controller()
+		msg = contr.getbullets({"id":1})
 		self.assertEqual(msg["id"], 1)
-		msg = views.getbullet({"id":2})
+		msg = contr.getbullets({"id":2})
 		self.assertEqual(msg["id"],2)
-		msg = views.getbullet({"id":100})
+		msg = contr.getbullets({"id":100})
 		self.assertEqual(msg["id"],100)
-		msg = views.getbullet({"id":-2})
-		self.assertEqual(msg, "fail")
-		msg = views.getbullet({"id":-100})
-		self.assertEqual(msg, "fail")
-		msg = views.getbullet({"id":0})
+		msg = contr.getbullets({"id":-2})
+		self.assertEqual(msg, {'errors':"wrong id"})
+		msg = contr.getbullets({"id":-100})
+		self.assertEqual(msg, {'errors':"wrong id"})
+		msg = contr.getbullets({"id":0})
 		self.assertEqual(msg["id"],0)
+
+	# def test01getmap(self):
+	# 	"""checks if getmap returns proper size of matrix"""
+	# 	msg = views.getmap({})
+	# 	size = msg["size"]
+	# 	map = msg["map"]
+	# 	self.assertEqual( len(map),size[0] )
+	# 	self.assertEqual( len(map[1]),size[1])
+
+	# def test01getplayer(self):
+	# 	"""checks if player position is vector with 2 elements"""
+	# 	msg = views.getplayertanks({})
+	# 	self.assertEqual( len(msg), 2)
+
+
+	# def test01getbullet(self):
+	# 	"""checks if bullet position is vector with 2 elements"""
+	# 	msg = views.getbullet({"id":1})
+	# 	pos = msg["pos"]
+	# 	self.assertEqual(len(pos), 2)
+
+	# def test02getbullet(self):
+	# 	"""checks if bullet returns correct id"""
+	# 	msg = views.getbullet({"id":1})
+	# 	self.assertEqual(msg["id"], 1)
+	# 	msg = views.getbullet({"id":2})
+	# 	self.assertEqual(msg["id"],2)
+	# 	msg = views.getbullet({"id":100})
+	# 	self.assertEqual(msg["id"],100)
+	# 	msg = views.getbullet({"id":-2})
+	# 	self.assertEqual(msg, {'errors':"wrong id"})
+	# 	msg = views.getbullet({"id":-100})
+	# 	self.assertEqual(msg, {'errors':"wrong id"})
+	# 	msg = views.getbullet({"id":0})
+	# 	self.assertEqual(msg["id"],0)
 
 	# def test01getscores(self):
 	# 	"""checks if there are not two scores with the same position"""

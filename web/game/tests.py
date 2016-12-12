@@ -36,6 +36,36 @@ class GameViewTestCase(TestCase):
 		msg = views.getbullet({"id":100})
 		self.assertEqual(msg["id"],100)
 		msg = views.getbullet({"id":-2})
-		self.assertEqual(msg["id"],-2)
+		self.assertEqual(msg, "fail")
+		msg = views.getbullet({"id":-100})
+		self.assertEqual(msg, "fail")
 		msg = views.getbullet({"id":0})
 		self.assertEqual(msg["id"],0)
+
+	# def test01getscores(self):
+	# 	"""checks if there are not two scores with the same position"""
+	# 	msg = views.getscores({})
+	# 	scores = msg["scores"]
+	# 	for x in range(len(scores)):
+	# 		for y in range(x,len(scores)):
+	# 			self.assertNotEqual(scores[x].position, scores[y].position)
+
+	# def test01getscore(self):
+	# 	"""checks if returns proper score"""
+	# 	msg = views.getscore({"pos":1})
+	# 	score = msg["score"]
+	# 	self.assertEqual(len(score), 1)
+	# 	self.assertEqual(score["pos"], 1)
+
+	# 	msg = views.getscore({"pos":2})
+	# 	score = msg["score"]
+	# 	self.assertEqual(len(score), 1)
+	# 	self.assertEqual(score["pos"], 2)
+
+	# 	msg = views.getscore({"pos":-1})
+	# 	self.assertEqual(msg, "fail")
+
+	# 	msg = views.getscore({"pos":0})
+	# 	self.assertEqual(msg, "fail")
+
+	# 	

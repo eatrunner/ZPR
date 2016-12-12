@@ -46,6 +46,10 @@ WSGI_APPLICATION = 'wsgi.application'
 
 import version.models
 
+
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 

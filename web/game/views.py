@@ -1,15 +1,34 @@
 from django.shortcuts import render
+# from game.GameObserver import GameObserver
+
 
 # import models
+import thread
+
 		
 # Create your views here.
 class Controller(object):
 	"""docstring for Controller"""
+	player_tanks = []
+	enemy_tanks = []
+	bullets = []
+
 	def __init__(self):
 		super(Controller, self).__init__()
-
-	def startgame(self):
+		# GameObserver.__init__(self)
+	
+	def addPLayerTank(self):
 		pass
+
+	def addEnemyTank(self):
+		pass
+
+	def addBullet(self):
+		pass
+
+	"""game handling functions"""
+	def startgame(self):
+		thread.start_new_thread(None)
 
 	def getmap(self,params):
 		"""map table of content"""
@@ -23,6 +42,7 @@ class Controller(object):
 	def getplayertanks(self,params):
 		"""player tank position"""
 		return {
+			"id": 1,
 			"pos":[1,2],
 			"errors":""
 		}
@@ -37,6 +57,18 @@ class Controller(object):
 			"pos": [1,2],
 			"errors":""
 		}
+
+	def moveplayer(self,params):
+		return {
+			"error": ""
+		}
+
+	def playershoot(self,params):
+		return {
+			"error": ""
+		}
+
+		
 
 
 def getmap(params):

@@ -2,16 +2,11 @@ from Tank import Tank
 from Bullet import Bullet
 
 class GameObserver:
-	def notifyTankPosition(self, tank):
-		id = tank.id
-		x = tank.currPos[0]
-		y = tank.currPos[1]
-		direction = tank.faceDirection
-		print "Tank no", id, ", position: ", x, " ", y,", direction: ", direction
+	def updateTankPosition(self, id, pos, dir):
+		x, y = pos
+		print "Tank no", id, ", position: ", x, " ", y,", direction: ", dir
 		
 
-	def notifyBulletPosition(self, bullet):
-		id = bullet.id
-		x, y = bullet.getPosition()
-		direction = bullet.direction
-		print "Bullet no", id, ", position: ", x, " ", y,", direction: ", direction
+	def updateBulletPosition(self, id, pos, dir):
+		x, y = pos
+		print "Bullet no", id, ", position: ", x, " ", y,", direction: ", dir

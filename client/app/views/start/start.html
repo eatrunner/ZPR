@@ -1,10 +1,7 @@
-<div class="row">
-	<div class="col-sm-offset-3 col-sm-6 text-center">
-		<h1 class="start-title">TANKS GAME</h1>
-		<h1 class="start-title">2016</h1>
-		<br />
-		<start-menu on-item-accept="$ctrl.onItemAccept(item)">
-			<start-menu-item ng-repeat="itemText in $ctrl.menuItemsTexts" item-text="{{itemText}}"></start-menu-item>
-		</start-menu>
+<div class="text-center">
+	<div ng-repeat="(itemText, itemHref) in $ctrl.menuItems" style="padding-top: 1em" ng-mouseover="mouseOver = true" ng-mouseleave="mouseOver = false">
+		<i ng-if="mouseOver">*</i>
+		<a ng-href="#!/{{itemHref}}" translate="{{itemText}}"></a>
+		<i ng-if="mouseOver">*</i>
 	</div>
 </div>

@@ -1,7 +1,8 @@
 {
 	"WELCOME": "Welcome to the Tanks game!",
 	"SETTINGS": "Settings",
-	"1_PLAYER": "1 player",
+	"SINGLE_PLAYER": "Single player",
+	"MULTI_PLAYER": "Multi player",
 	"2_PLAYERS": "2 players",
 	"HIGH_SCORES": "High-Scores"
 }

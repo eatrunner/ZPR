@@ -10,12 +10,12 @@
 
 		$ctrl.onItemAccept = onItemAccept;
 
-		$ctrl.menuItemsTexts = [
-			'1_PLAYER',
-			'2_PLAYERS',
-			'HIGH_SCORES',
-			'SETTINGS'
-		];
+		$ctrl.menuItems = {
+			'SINGLE_PLAYER': 'single-player',
+			'MULTI_PLAYER': 'multi-player',
+			'HIGH_SCORES': 'highscores',
+			'SETTINGS': 'settings'
+		};
 
 		function onItemAccept(item) {
 			alert('You have selected: ' + item.itemText);

@@ -5,7 +5,8 @@ body {
 	font-family: 'Press Start 2P';
 	font-size: 30px;
 	color: white;
-	text-transform: uppercase
+	text-transform: uppercase;
+	overflow-x: hidden;
 }
 
 .start-title {
@@ -14,7 +15,7 @@ body {
 }
 
 .start-menu {
-	border: 5px dashed white;
+	
 }
 
 .start-menu div {
@@ -22,7 +23,7 @@ body {
 }
 
 .start-menu-item-selector {
-	text-align: center;
+	text-align: right;
 	color: goldenrod;
 }
 

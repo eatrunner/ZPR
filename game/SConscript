@@ -9,8 +9,6 @@ Import('env')
 
 
 out_dir = '../game/'
-file_ver_name = out_dir + 'version/version_gen.py'
-env.Command(file_ver_name, [], build_websrv_version )
 
 #install web
 app_src = '../game'
@@ -24,5 +22,4 @@ for root, dirs, files in os.walk(app_src):
          env.SideEffect( pyc, inst_file)
 
 
-env.Clean('.',out_dir)
 

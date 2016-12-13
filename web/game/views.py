@@ -1,7 +1,9 @@
 from django.shortcuts import render
-import sys
-sys.path.append('../../game/')
-# from GameObserver import GameObserver
+import sys, os
+sys.path.append(sys.path[0] + '/../game/')
+from GameObserver import GameObserver
+from GameThread import GameThread
+
 
 
 # import models
@@ -9,95 +11,76 @@ import thread
 
 		
 # Create your views here.
-class Controller(object):
+class Controller(GameObserver):
 	"""docstring for Controller"""
-	player_tanks = []
-	enemy_tanks = []
+	tanks = []
 	bullets = []
+	game_threads_=[]
+	maps = []
 
 	def __init__(self):
 		super(Controller, self).__init__()
-		# GameObserver.__init__(self)
-	
-	def addPLayerTank(self):
-		pass
+		GameObserver.__init__(self)
 
-	def addEnemyTank(self):
-		pass
+	def updateTankPosition(self, id, pos, dir):
+		for i in xrange(len(tanks)):
+			if self.tanks[i]['id'] == id:
+				self.tanks[i]['pos'] = pos
+				self.tanks[i]['dir'] = dir
+				return 1
+		return 0
 
-	def addBullet(self):
-		pass
+	def updateBulletPosition(self, id, pos, dir):
+		for i in xrange(len(bullets)):
+			if self.bullets[i]['id'] == id:
+				self.bullets[i]['pos'] = pos
+				self.bullets[i]['dir'] = dir
+				return 1
+		return 0
+
+	def addTank(self, id, pos, dir):
+		self.player_tanks = [self.player_tanks, {'id':id, 'pos':pos, 'dir':dir}]
+
+
+	def addBullet(self, id, pos , dir):
+		self.bullets = [self.bullets, {'id':id, 'pos':pos, 'dir':dir}]
+
 
 	"""game handling functions"""
 	def startgame(self):
-		thread.start_new_thread(None)
+		self.self.game_threads_=[self.game_threads_,GameThread()]
+		self.self.game_threads_[len(self.game_threads_)].run()
 
 	def getmap(self,params):
 		"""map table of content"""
 		map = [[1,2],[3,4]]
-		return {
-		"size": [2,2],
-			"map": map,
-			"errors": ""
-		}
-
+		return self.game_threads_.getmap()
+		
 	def getplayertanks(self,params):
 		"""player tank position"""
 		return {
-			"id": 1,
-			"pos":[1,2],
-			"errors":""
-		}
+			"tanks": self.tanks,
+			"error":""
+			}
 
 	def getbullets(self,params):
 		"""bullet position with given id"""
-		if params['id']<0:
-			return {"errors": "wrong id"}
-		
 		return {
-			"id": params['id'],
-			"pos": [1,2],
-			"errors":""
-		}
+			'bullets':self.bullets,
+			'error':""
+			}
 
 	def moveplayer(self,params):
+		self.game_threads_[params['game_id']].move(params['id'])
 		return {
 			"error": ""
 		}
 
 	def playershoot(self,params):
+		self.game_threads_[params['game_id']].shoot(params['id'])
 		return {
 			"error": ""
 		}
-
-		
-
-
-def getmap(params):
-	"""map table of content"""
-	map = [[1,2],[3,4]]
-	return {
-	"size": [2,2],
-		"map": map,
-		"errors": ""
-	}
-
-def getplayertanks(params):
-	"""player tank position"""
-	return {
-		"pos":[1,2],
-		"errors":""
-	}
-def getbullet(params):
-	"""bullet position with given id"""
-	if params['id']<0:
-		return {"errors":"wrong id"}
-
-	return {
-		"id": params['id'],
-		"pos": [1,2],
-		"errors":""
-	}
 
 def getscores():
 	"""array of best scores"""

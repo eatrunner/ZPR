@@ -1,5 +1,7 @@
 from django.shortcuts import render
-# from game.GameObserver import GameObserver
+import sys
+sys.path.append('../../game/')
+# from GameObserver import GameObserver
 
 
 # import models

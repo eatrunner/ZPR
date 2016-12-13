@@ -8,9 +8,9 @@ FPS = 1
 SEC_PER_FRAME = 1.0/FPS
 
 class GameThread(threading.Thread):
-	def __init__(self, mapID, mapSize, playerX, playerY):
+	def __init__(self, mapID, mapSize, playerX, playerY, observer):
 		threading.Thread.__init__(self)
-		self.game = Game(Map(mapID,mapSize), playerX, playerY)
+		self.game = Game(Map(mapID,mapSize), playerX, playerY, observer)
 		self.killFlag = 0
 
 	def kill(self):

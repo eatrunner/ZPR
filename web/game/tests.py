@@ -18,35 +18,54 @@ class GameViewTestCase(TestCase):
 		self.assertEqual( len(map),size[0] )
 		self.assertEqual( len(map[1]),size[1])
 
-	def test01getplayer(self):
-		"""checks if player position is vector with 2 elements"""
+	def test01gettanks(self):
+		"""checks if msg is list of 2 elements"""
 		contr = Controller()
-		msg = contr.getplayertanks()
+		msg = contr.gettanks()
 		self.assertEqual( len(msg), 2)
+
+	def test02gettanks(self):
+		"""checks if tanks position is vector with 2 elements"""
+		contr = Controller()
+		msg = contr.gettanks()
+		tanks = msg['tanks']
+		for x in xrange(len(tanks)):
+			self.assertEqual( len(tanks[x]['pos']), 2)
+
+	def test03gettanks(self):
+		"""checks if there are tanks with same id"""
+		contr = Controller()
+		msg = contr.gettanks()
+		tanks = msg['tanks']
+		for x in xrange(len(tanks)-1):
+			for y in xrange(x+1,len(tanks)):
+				self.assertNotEqual(tanks[x]['id'], tanks[y]['id'] )
 
 
 	def test01getbullets(self):
-		"""checks if bullet position is vector with 2 elements"""
+		"""checks if msg is list of 2 elements"""
 		contr = Controller()
-		msg = contr.getbullets({"id":1})
-		pos = msg["pos"]
-		self.assertEqual(len(pos), 2)
+		msg = contr.gettanks()
+		self.assertEqual( len(msg), 2)
 
 	def test02getbullets(self):
-		"""checks if bullet returns correct id"""
+		"""checks if tanks position is vector with 2 elements"""
 		contr = Controller()
-		msg = contr.getbullets({"id":1})
-		self.assertEqual(msg["id"], 1)
-		msg = contr.getbullets({"id":2})
-		self.assertEqual(msg["id"],2)
-		msg = contr.getbullets({"id":100})
-		self.assertEqual(msg["id"],100)
-		msg = contr.getbullets({"id":-2})
-		self.assertEqual(msg, {'errors':"wrong id"})
-		msg = contr.getbullets({"id":-100})
-		self.assertEqual(msg, {'errors':"wrong id"})
-		msg = contr.getbullets({"id":0})
-		self.assertEqual(msg["id"],0)
+		msg = contr.getbullets()
+		bullets = msg['bullets']
+		for x in xrange(len(bullets)):
+			self.assertEqual( len(bullets[x]['pos']), 2)
+
+	def test03gettanks(self):
+		"""checks if there are tanks with same id"""
+		contr = Controller()
+		msg = contr.getbullets()
+		bullets = msg['bullets']
+		for x in xrange(len(bullets)-1):
+			for y in xrange(x+1,len(bullets)):
+				self.assertNotEqual(bullets[x]['id'], bullets[y]['id'] )
+
+	
 
 	# def test01getmap(self):
 	# 	"""checks if getmap returns proper size of matrix"""

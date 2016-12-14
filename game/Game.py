@@ -4,11 +4,14 @@ from random import randint
 class Game:
 	CONTROL = ["left", "right", "up", "down"]
 
-	def __init__(self, map, playerX, playerY, observer):
-		self.observers = observer 
+	def __init__(self, map):
+		self.observers = []
 		self.input = 0
 		self.map = map
-		self.playerTank = Tank(0, playerX, playerY, self.map)
+		self.playerTank = Tank(0, map.playerPos, self.map)
+
+	def getMap(self):
+		return self.map.matrix
 
 	def notifyTankPosition(self):
 		playerTank = self.playerTank

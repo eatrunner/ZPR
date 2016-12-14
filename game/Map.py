@@ -5,6 +5,7 @@ class Map:
 		self.id = id
 		self.matrix = [[MapBlock(0) for j in range(13)] for i in range(13)]
 		self.size = size
+		self.playerPos = [3,3]
 
 		#just a map example
 		for i in range(4,9):

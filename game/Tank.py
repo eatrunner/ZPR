@@ -12,10 +12,10 @@ class Tank:
 	    "down",
 	]
 
-	def __init__(self, id, x, y, map):
+	def __init__(self, id, pos, map):
 		self.id = id
-		self.currPos = [x, y]
-		self.prevPos = [x, y]
+		self.currPos = pos
+		self.prevPos = pos
 		self.map = map
 		self.bullet = None
 		self.faceDirection = "up"

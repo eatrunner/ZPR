@@ -1,8 +1,13 @@
 {
 	"WELCOME": "Welcome to the Tanks game!",
 	"SETTINGS": "Settings",
+	"NEW_GAME": "New game",
+	"SELECT_MAP": "Select map",
 	"SINGLE_PLAYER": "Single player",
 	"MULTI_PLAYER": "Multi player",
 	"2_PLAYERS": "2 players",
-	"HIGH_SCORES": "High-Scores"
+	"HIGH_SCORES": "High-Scores",
+	"BACK_MENU": "Back to menu",
+	"START_GAME": "Start game",
+	"LOAD_GAME": "Load game"
 }

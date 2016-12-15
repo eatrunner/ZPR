@@ -43,7 +43,7 @@ class Controller(GameObserver):
 
 
 	def addTank(self, id, pos, dir):
-		self.player_tanks.append({'id':id, 'pos':pos, 'dir':dir})
+		self.tanks.append({'id':id, 'pos':pos, 'dir':dir})
 	
 	def removeTank(self, id):
 		for i in xrange(len(tanks)):
@@ -65,6 +65,18 @@ class Controller(GameObserver):
 		self.self.game_threads_.append(self.game_threads_,GameThread())
 		self.self.game_threads_[len(self.game_threads_)].run()
 		self.maps=[self.maps, self.self.game_threads_[len(self.game_threads_)].getmap()]
+
+	def stopgame():
+		self.game_threads_[0].kill()
+		return {
+			"errors": ""
+		}
+
+	def pausegame():
+		# TODO
+		return {
+			'error':""
+		}
 
 
 	def getmap(self,params):

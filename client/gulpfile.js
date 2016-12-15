@@ -20,7 +20,9 @@ var paths = {
     distDev: './dist.dev',
     distProd: './dist.prod',
     distScriptsProd: './dist.prod/scripts',
-    scriptsDevServer: 'devServer/**/*.js'
+    scriptsDevServer: 'devServer/**/*.js',
+    fonts: ['./app/**/*.woff', './app/**/*.woff2', './app/**/*.ttf', './app/**/*.eot'],
+    sounds: './app/sounds/**/*'
 };
 
 // == PIPE SEGMENTS ========
@@ -96,6 +98,17 @@ pipes.validatedPartials = function() {
         .pipe(plugins.htmlhint.reporter());
 };
 
+pipes.processedFontsDev = function() {
+    return gulp.src(paths.fonts)
+        .pipe(gulp.dest(paths.distDev));
+}
+
+pipes.processedFontsProd = function() {
+    return gulp.src(paths.fonts)
+        .pipe(gulp.dest(paths.distProd));
+}
+
+
 pipes.builtPartialsDev = function() {
     return pipes.validatedPartials()
         .pipe(gulp.dest(paths.distDev));
@@ -147,6 +160,17 @@ pipes.processedImagesProd = function() {
         .pipe(gulp.dest(paths.distProd + '/images/'));
 };
 
+pipes.processedSoundsDev = function() {
+    return gulp.src(paths.sounds)
+        .pipe(gulp.dest(paths.distDev + '/sounds/'));
+}
+
+pipes.processedSoundsProd = function() {
+    return gulp.src(paths.sounds)
+        .pipe(gulp.dest(paths.distProd + '/sounds/'));
+}
+
+
 pipes.validatedIndex = function() {
     return gulp.src(paths.index)
         .pipe(plugins.htmlhint())
@@ -187,11 +211,11 @@ pipes.builtIndexProd = function() {
 };
 
 pipes.builtAppDev = function() {
-    return es.merge(pipes.builtIndexDev(), pipes.builtPartialsDev(), pipes.processedImagesDev(), pipes.processedTranslationsDev());
+    return es.merge(pipes.builtIndexDev(), pipes.builtPartialsDev(), pipes.processedImagesDev(), pipes.processedFontsDev(), pipes.processedTranslationsDev(), pipes.processedSoundsDev());
 };
-
+ 
 pipes.builtAppProd = function() {
-    return es.merge(pipes.builtIndexProd(), pipes.processedImagesProd(), pipes.processedTranslationsProd());
+    return es.merge(pipes.builtIndexProd(), pipes.processedImagesProd(), pipes.processedFontsProd(), pipes.processedTranslationsProd(), pipes.processedSoundsProd());
 };
 
 // == TASKS ========

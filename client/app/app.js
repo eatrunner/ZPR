@@ -3,7 +3,7 @@
 
 	angular
 		.module('tankGame', [
-				'ngRoute',
+				'ui.router',
 				'ngAnimate',
 				'ui.bootstrap',
 				'pascalprecht.translate'

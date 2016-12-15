@@ -11,7 +11,7 @@
 		$ctrl.$onInit = onInit;
 
 		function onInit() {
-			alert('Welcome to the Tank Game!');
+
 		}
 	}
 })();

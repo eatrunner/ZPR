@@ -4,6 +4,7 @@ A client-server game written in Python (game engine), Django(game server), HTML5
 
 It is based on [bioweb library written by Robert Nowak](http://bioweb.sourceforge.net/en/index.html) with some modifications. 
 Project is splitted into three modules:
+
 1. **game** - (python) - module that is a tank-game library.
 2. **web** - (python/django) - web server
 3. **client** - (javascript/angular) - front-end of game

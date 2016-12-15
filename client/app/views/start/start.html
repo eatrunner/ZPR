@@ -1,7 +1,0 @@
-<div class="text-center">
-	<div ng-repeat="(itemText, itemHref) in $ctrl.menuItems" style="padding-top: 1em" ng-mouseover="mouseOver = true" ng-mouseleave="mouseOver = false">
-		<i ng-if="mouseOver">*</i>
-		<a ng-href="#!/{{itemHref}}" translate="{{itemText}}"></a>
-		<i ng-if="mouseOver">*</i>
-	</div>
-</div>

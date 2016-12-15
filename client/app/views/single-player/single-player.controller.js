@@ -6,8 +6,6 @@
 		.controller('SinglePlayerController', SinglePlayerController);
 
 	function SinglePlayerController() {
-		var $ctrl = this;
-
-		//TODO
+		
 	}
 })();

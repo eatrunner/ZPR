@@ -1,0 +1,15 @@
+// Styles
+$topbar-bgcolor: #333;
+$brand-color: #FF6347;
+
+body {
+  font-family: $base-font;
+  font-weight: normal;
+  padding-top: 50px;
+  background-color: lighten($topbar-bgcolor, 2%);
+}
+
+/*
+ * Main content
+ */
+

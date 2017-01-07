@@ -1,0 +1,8 @@
+{
+	"MENU_WELCOME": "Welcome! Please select, where you would like to go:",
+	"SINGLE": "Single-Player",
+	"MENU": "Main menu",
+	"MULTI": "Multi-Player",
+	"HIGHSCORES": "Highscores",
+	"SETTINGS": "Settings"
+}

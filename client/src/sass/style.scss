@@ -1,0 +1,16 @@
+// // Base
+// // Contains all the global styles for the application as well as the resets, typography, colors, buttons, etc...
+// @import "base";
+
+// // Components
+// // Contains each isolated component. Should ideally mimic the Angular component structure
+// @import "components";
+
+// // Vendors
+// // Contains all the 3rd party styles
+// @import "vendors";
+
+@import "vendors";
+@import "base";
+@import "common";
+@import "components";

@@ -1,0 +1,38 @@
+<div class="text-center">
+	<h1>Tank Game</h1>
+	<p translate="MENU_WELCOME"></p>
+	<ul class="nav nav-sidebar">
+		<li ng-repeat="item in $ctrl.menuItems">
+			<a ui-sref="{{item.state}}" translate="{{item.name}}"></a>
+		</li>
+
+		<li>
+			<a ui-sref="single">
+				<i class="mdi mdi-account mdi-24px"></i>
+				{{'SINGLE' | translate}}
+				<i class="mdi mdi-account mdi-24px"></i>
+			</a>
+		</li>
+		<li>
+			<a ui-sref="multi">
+				<i class="mdi mdi-account-multiple mdi-24px"></i>
+				{{'MULTI' | translate}}
+				<i class="mdi mdi-account-multiple mdi-24px"></i>
+			</a>
+		</li>
+		<li>
+			<a ui-sref="highscores">
+				<i class="mdi mdi-crown mdi-24px"></i>
+				Highscores
+				<i class="mdi mdi-crown mdi-24px"></i>
+			</a>
+		</li>
+		<li>
+			<a ui-sref="settings">
+				<i class="mdi mdi-wrench mdi-24px"></i>
+				{{'SETTINGS' | translate}}
+				<i class="mdi mdi-wrench mdi-24px mdi-flip-vertical"></i>
+			</a>
+		</li>
+	</ul>
+</div>

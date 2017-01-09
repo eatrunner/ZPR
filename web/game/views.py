@@ -26,7 +26,7 @@ class Controller(GameObserver):
 		GameObserver.__init__(self)
 
 	def updateTankPosition(self, id, pos, dir):
-		for i in xrange(len(tanks)):
+		for i in xrange(len(self.tanks)):
 			if self.tanks[i]['id'] == id:
 				self.tanks[i]['pos'] = pos
 				self.tanks[i]['dir'] = dir
@@ -34,7 +34,7 @@ class Controller(GameObserver):
 		return 0
 
 	def updateBulletPosition(self, id, pos, dir):
-		for i in xrange(len(bullets)):
+		for i in xrange(len(self.bullets)):
 			if self.bullets[i]['id'] == id:
 				self.bullets[i]['pos'] = pos
 				self.bullets[i]['dir'] = dir
@@ -46,37 +46,59 @@ class Controller(GameObserver):
 		self.tanks.append({'id':id, 'pos':pos, 'dir':dir})
 	
 	def removeTank(self, id):
-		for i in xrange(len(tanks)):
-			if tanks[i]['id']==id:
-				return tanks.pop(i)		
+		for i in xrange(len(self.tanks)):
+			if self.tanks[i]['id']==id:
+				return self.tanks.pop(i)		
 		return None
 
 	def addBullet(self, id, pos , dir):
 		self.bullets.append({'id':id, 'pos':pos, 'dir':dir})
 
 	def removeBullet(self,id):
-		for i in xrange(len(bullets)):
-			if bullets[i]['id']==id:
-				return bullets.pop(i)		
+		for i in xrange(len(self.bullets)):
+			if self.bullets[i]['id']==id:
+				return self.bullets.pop(i)		
 		return None
 
 	"""game handling functions"""
 	def startgame(self):
-		self.self.game_threads_.append(self.game_threads_,GameThread())
-		self.self.game_threads_[len(self.game_threads_)].run()
-		self.maps=[self.maps, self.self.game_threads_[len(self.game_threads_)].getmap()]
+		if self.game_threads_ == []:
+			self.self.game_threads_.append(self.game_threads_,GameThread(1,13))
+			self.game_threads_[len(self.game_threads_)].addObserver(self)
+			self.self.game_threads_[len(self.game_threads_)].run()
+			self.maps=[self.maps, self.self.game_threads_[len(self.game_threads_)].getMap()]
+			return {
+				"error":""
+			}
+		else:
+			return {
+				"error":"game_is_running"
+			}
 
-	def stopgame():
-		self.game_threads_[0].kill()
-		return {
-			"errors": ""
-		}
 
-	def pausegame():
-		# TODO
-		return {
-			'error':""
-		}
+	def stopgame(self,params):
+		if self.game_threads_ == []:
+			return {
+				"error":"no_running_game"
+
+			}
+		else:
+			self.game_threads_[0].kill()
+			return {
+				"error": ""
+			}
+
+	def pausegame(self, params):
+		if self.game_threads_ == []:
+			return {
+				"error":"no_running_game"
+
+			}
+		else:
+			self.game_threads_[0].pause()
+			return {
+				"error": ""
+			}
 
 
 	def getmap(self,params):
@@ -165,7 +187,7 @@ def getscores():
 def getscore(params):
 	"""score with given position"""
 	if params['pos']<1:
-		return {"errors":"wrong pos"}
+		return {"error":"wrong pos"}
 
 	scores_array = Scores.objects.filter(position=params['pos'])
 	return scores_array.values_list();

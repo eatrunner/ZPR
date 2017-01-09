@@ -63,10 +63,10 @@ class Controller(GameObserver):
 	"""game handling functions"""
 	def startgame(self):
 		if self.game_threads_ == []:
-			self.self.game_threads_.append(self.game_threads_,GameThread(1,13))
-			self.game_threads_[len(self.game_threads_)].addObserver(self)
-			self.self.game_threads_[len(self.game_threads_)].run()
-			self.maps=[self.maps, self.self.game_threads_[len(self.game_threads_)].getMap()]
+			self.game_threads_.append(GameThread(1,13))
+			self.game_threads_[len(self.game_threads_)-1].addObserver(self)
+			self.game_threads_[len(self.game_threads_)-1].run()
+			self.maps=[self.maps, self.self.game_threads_[len(self.game_threads_)-1].getMap()]
 			return {
 				"error":""
 			}

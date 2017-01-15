@@ -121,9 +121,16 @@ class Controller(GameObserver):
 			}
 
 	def resumegame(self,params):
-		return {
-			"error":"function not ready"
-		}
+		if self.game_threads_ == []:
+			return {
+				"error":"no_running_game"
+
+			}
+		else:
+			self.game_threads_[0].resume()
+			return {
+				"error": ""
+			}
 
 	def getavalmaps(self,params):
 		return {

@@ -13,13 +13,16 @@ class GameThread(threading.Thread, Game):
 		Game.__init__(self, Map(mapID,mapSize))
 		self.killFlag = False
 		self.pauseFlag = False
-		self.i =0;
+		self.i = 0;
 
 	def kill(self):
 		self.killFlag = True
 
 	def pause(self):
-		self.pauseFlag = not self.pauseFlag
+		self.pauseFlag = True
+
+	def resume(self):
+		self.pauseFlag = False
 
 	def run(self):
 		while (not self.killFlag):

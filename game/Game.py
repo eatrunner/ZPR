@@ -11,7 +11,10 @@ class Game:
 		self.playerTank = Tank(0, map.playerPos, self.map)
 
 	def getMap(self):
-		return self.map.matrix
+		return self.map.array
+
+	def getMapSize(self):
+		return self.map.size
 
 	def notifyTankPosition(self):
 		playerTank = self.playerTank

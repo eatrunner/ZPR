@@ -32,7 +32,7 @@ class Tank:
 			self.currPos[d > 2] += (d - (1 if d < 3 else 4))
 			
 			#Check collisions
-			if not((-1<self.currPos[0]<self.map.size) and (-1<self.currPos[1]<self.map.size) and self.map.matrix[self.currPos[0]][self.currPos[1]].id == 0):
+			if not((-1<self.currPos[0]<self.map.size) and (-1<self.currPos[1]<self.map.size) and self.map.matrix[self.currPos[0]][self.currPos[1]] == 'E'):
 				self.currPos = self.prevPos[:]
 				if flag:
 					return True

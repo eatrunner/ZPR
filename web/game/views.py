@@ -85,6 +85,7 @@ class Controller(GameObserver):
 		if not self.game_threads_[0].is_alive():
 			self.game_threads_[len(self.game_threads_)-1].start()
 			return {
+				"mapsize": self.game_threads_[0].getMapSize(),
 				"error":""
 			}
 		else:
@@ -102,6 +103,7 @@ class Controller(GameObserver):
 		else:
 			self.game_threads_[0].kill()
 			self.game_threads_.pop(0)
+			self.maps_.pop(0)
 			return {
 				"error": ""
 			}
@@ -137,10 +139,9 @@ class Controller(GameObserver):
 			}
 		else:
 			try:
-				tmp = self.maps_[0]
+				tmp = self.game_threads_[0].getMap()
 				return {
-				'size':[len(tmp), len(tmp[0])],
-				'map':[1,2],
+				'map':tmp,
 				'error':""
 			}
 			except IndexError:

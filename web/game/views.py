@@ -104,6 +104,8 @@ class Controller(GameObserver):
 			self.game_threads_[0].kill()
 			self.game_threads_.pop(0)
 			self.maps_.pop(0)
+			del self.tanks_[:]
+			del self.bullets_[:]
 			return {
 				"error": ""
 			}
@@ -188,7 +190,7 @@ class Controller(GameObserver):
 			}
 		else:
 			try:
-				self.game_threads_[params['game_id']].movePlayer(params['id'], params['dir'])
+				self.game_threads_[int(params['game_id'])].moveTank(int(params['id']), params['dir'])
 				return {
 				"error": ""
 				}

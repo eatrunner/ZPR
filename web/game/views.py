@@ -16,80 +16,139 @@ import thread
 # Create your views here.
 class Controller(GameObserver):
 	"""docstring for Controller"""
-	tanks = []
-	bullets = []
+	tanks_ = []
+	bullets_ = []
 	game_threads_=[]
-	maps = []
+	maps_ = []
 
 	def __init__(self):
 		super(Controller, self).__init__()
 		GameObserver.__init__(self)
 
 	def updateTankPosition(self, id, pos, dir):
-		for i in xrange(len(tanks)):
-			if self.tanks[i]['id'] == id:
-				self.tanks[i]['pos'] = pos
-				self.tanks[i]['dir'] = dir
+		for i in xrange(len(self.tanks)):
+			if self.tanks_[i]['id'] == id:
+				self.tanks[_i]['pos'] = pos
+				self.tanks_[i]['dir'] = dir
 				return 1
 		return 0
 
 	def updateBulletPosition(self, id, pos, dir):
-		for i in xrange(len(bullets)):
-			if self.bullets[i]['id'] == id:
-				self.bullets[i]['pos'] = pos
-				self.bullets[i]['dir'] = dir
+		for i in xrange(len(self.bullets)):
+			if self.bullets_[i]['id'] == id:
+				self.bullets_[i]['pos'] = pos
+				self.bullets_[i]['dir'] = dir
 				return 1
 		return 0
 
 
+
 	def addTank(self, id, pos, dir):
-		self.tanks.append({'id':id, 'pos':pos, 'dir':dir})
+		self.tanks_.append({'id':id, 'pos':pos, 'dir':dir})
 	
 	def removeTank(self, id):
-		for i in xrange(len(tanks)):
-			if tanks[i]['id']==id:
-				return tanks.pop(i)		
+		for i in xrange(len(self.tanks)):
+			if self.tanks_[i]['id']==id:
+				return self.tanks_.pop(i)		
 		return None
 
 	def addBullet(self, id, pos , dir):
-		self.bullets.append({'id':id, 'pos':pos, 'dir':dir})
+		self.bullets_.append({'id':id, 'pos':pos, 'dir':dir})
 
 	def removeBullet(self,id):
-		for i in xrange(len(bullets)):
-			if bullets[i]['id']==id:
-				return bullets.pop(i)		
+		for i in xrange(len(self.bullets)):
+			if self.bullets_[i]['id']==id:
+				return self.bullets_.pop(i)		
 		return None
 
 	"""game handling functions"""
+
+	def creategame(self, params):
+		if self.game_threads_ == []:
+			self.game_threads_.append(GameThread(1,13))
+			self.game_threads_[len(self.game_threads_)-1].addObserver(self)
+			self.maps_.append(self.game_threads_[len(self.game_threads_)-1].getMap())
+			return {
+				"error":""
+			}
+		else:
+			return {
+				"error":"game_is_created"
+			}
+
 	def startgame(self):
-		self.self.game_threads_.append(self.game_threads_,GameThread())
-		self.self.game_threads_[len(self.game_threads_)].run()
-		self.maps=[self.maps, self.self.game_threads_[len(self.game_threads_)].getmap()]
+		if self.game_threads_ == []:
+			return {
+				"error":"none games created"
+			}
+			
+		if not self.game_threads_[0].is_alive():
+			self.game_threads_[len(self.game_threads_)-1].start()
+			return {
+				"mapsize": self.game_threads_[0].getMapSize(),
+				"error":""
+			}
+		else:
+			return {
+				"error":"game_is_running"
+			}
 
-	def stopgame():
-		self.game_threads_[0].kill()
-		return {
-			"errors": ""
-		}
 
-	def pausegame():
-		# TODO
+	def stopgame(self,params):
+		if self.game_threads_ == []:
+			return {
+				"error":"no_running_game"
+
+			}
+		else:
+			self.game_threads_[0].kill()
+			self.game_threads_.pop(0)
+			self.maps_.pop(0)
+			return {
+				"error": ""
+			}
+
+	def pausegame(self, params):
+		if self.game_threads_ == []:
+			return {
+				"error":"no_running_game"
+
+			}
+		else:
+			self.game_threads_[0].pause()
+			return {
+				"error": ""
+			}
+
+	def resumegame(self,params):
+		if self.game_threads_ == []:
+			return {
+				"error":"no_running_game"
+
+			}
+		else:
+			self.game_threads_[0].resume()
+			return {
+				"error": ""
+			}
+
+	def getavalmaps(self,params):
 		return {
-			'error':""
+			"error":"function not ready"
 		}
 
 
 	def getmap(self,params):
 		"""map table of content"""
-		if self.maps == []:
+		if self.maps_ == []:
 			return {
 				'error':'no_maps'
 			}
 		else:
 			try:
+				tmp = self.game_threads_[0].getMap()
 				return {
-				'size':[len(self.maps[params['id']]), len(self.maps[params['id']][0])],
-				'map':self.maps[params['id']],
+				'map':tmp,
 				'error':""
 			}
 			except IndexError:
@@ -100,25 +159,25 @@ class Controller(GameObserver):
 		
 	def gettanks(self,params):
 		"""player tank position"""
-		if self.tanks == []:
+		if self.tanks_ == []:
 			return {
 				'error':'no_tanks'
 			}
 		else:
 			return {
-				"tanks": self.tanks,
+				"tanks": self.tanks_,
 				"error":""
 			}
 
 	def getbullets(self,params):
 		"""bullet position with given id"""
-		if self.bullets == []:
+		if self.bullets_ == []:
 			return {
 				'error':'no_bullets'
 			}
 		else:
 			return {
-				'bullets':self.bullets,
+				'bullets':self.bullets_,
 				'error':""
 				}
 
@@ -165,7 +224,7 @@ def getscores():
 def getscore(params):
 	"""score with given position"""
 	if params['pos']<1:
-		return {"errors":"wrong pos"}
+		return {"error":"wrong pos"}
 
 	scores_array = Scores.objects.filter(position=params['pos'])
 	return scores_array.values_list();

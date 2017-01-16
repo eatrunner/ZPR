@@ -21,11 +21,13 @@ while i < 15:
 	
 	#Action example
 	if(i==3):
-		game.movePlayer("right")
+		game.moveTank(game.playerTank, "right")
 
 	if(i==6):
-		game.fireBullet()
+		game.fireBullet(game.playerTank)
 
 	game.processGame()
 
 	time.sleep(currentTime + SEC_PER_FRAME - time.time())
+
+game.removeTank(game.playerTank)

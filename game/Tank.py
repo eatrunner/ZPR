@@ -50,7 +50,10 @@ class Tank:
 	def moveBullet(self):
 		if (self.bullet != None):
 			if (self.bullet.move() == False):
-				self.bullet = None
 				return False
 			return True
 		return False
+
+	def removeBullet(self):
+		if (self.bullet!=None):
+			self.bullet = None

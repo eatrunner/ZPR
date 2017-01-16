@@ -14,3 +14,15 @@ class GameObserver(object):
 	def updateBulletPosition(self, id, pos, dir):
 		x, y = pos
 		print "Bullet no", id, ", position: ", x, " ", y,", direction: ", dir
+
+	def addTank(self, id, pos, dir):
+		print "Added tank ", id
+	
+	def removeTank(self, id):
+		print "Removed tank ", id
+
+	def addBullet(self, id, pos , dir):
+		print "Added bullet ", id
+
+	def removeBullet(self,id):
+		print "Removed bullet ", id

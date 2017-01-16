@@ -2,14 +2,22 @@
 $topbar-bgcolor: #333;
 $brand-color: #FF6347;
 
-body {
-  font-family: $base-font;
-  font-weight: normal;
-  padding-top: 50px;
-  background-color: lighten($topbar-bgcolor, 2%);
+html {
+	height: 100%;
 }
 
-/*
- * Main content
- */
+body {
+  height: 100%;
+  font-family: $base-font;
+  font-weight: normal;
+  background-color: black;
+  color: white;
+}
 
+.app {
+	height: 100%;
+}
+
+.root {
+	height: 100%;
+}

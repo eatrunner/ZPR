@@ -1,0 +1,21 @@
+<div>
+	<h1>New game</h1>
+	<p>Please specify game options:</p>
+	<br/>
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label for="map-id" class="col-sm-6 control-label">Game map:</label>
+			<div class="col-sm-3">
+				<ui-select ng-model="$ctrl.selected.value">
+					<ui-select-match>
+						<span ng-bind="$select.selected.name"></span>
+					</ui-select-match>
+					<ui-select-choices repeat="item in $ctrl.itemArray">
+						<span ng-bind="item.name"></span>
+					</ui-select-choices>
+				</ui-select>
+			</div>
+		</div>
+		<a ui-sref="single-player.create-sp-game({mapId: $ctrl.selected.value.id})" class="btn btn-success">Create the game!</a>
+	</form>
+</div>

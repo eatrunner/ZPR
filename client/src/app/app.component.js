@@ -1,5 +1,6 @@
 var app = {
-  templateUrl: './app.html'
+  templateUrl: './app.html',
+  replace: true
 };
 
 angular

@@ -14,11 +14,5 @@
  **/
 angular
   .module('app.common', [
-  	'app.common.main',
-  	'app.common.sidebar',
   	'app.common.topbar'
   ])
-  .run(function ($transitions) {
-    // $transitions.onStart({}, cfpLoadingBar.start);
-    // $transitions.onSuccess({}, cfpLoadingBar.complete);
-  });

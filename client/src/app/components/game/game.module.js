@@ -14,19 +14,15 @@
  **/
 
 angular
-	.module('app.game', [
-
+	.module('app.components.game', [
+		'app.components.game.states',
+		'app.components.game.entities'
 	])
 	.config(function($stateProvider) {
 		$stateProvider
 			.state('game', {
-				url: '/game',
-				abstract: true,
-				templateUrl: './game.html'
-			})
-			.state('game.play', {
-				url: '/play',
-				template: '<div game></div>',
+				url: '/game/:gameId',
+				template: '<div game game-id="gameId" style="height: 100%"></div>',
 				controller: 'GameController'
 			});
 	});

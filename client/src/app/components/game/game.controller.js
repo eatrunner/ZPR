@@ -1,33 +1,11 @@
-function SidebarController() {
-  var ctrl = this;
-  ctrl.sidebarItems = [
-    {
-      name: 'MENU',
-      state: 'menu'
-    },
-    {
-      name: 'SINGLE',
-      state: 'single'
-    },
-    {
-      name: 'MULTI',
-      state: 'multi'
-    },
-    {
-      name: 'HIGHSCORES',
-      state: 'highscores'
-    },
-    {
-      name: 'SETTINGS',
-      state: 'settings'
-    }
-  ];
-}
+function GameController($scope, $stateParams) {
+	$scope.gameId = $stateParams.gameId;
+}	
 
 /*
  * @ngdoc type
  * @module common
- * @name SidebarController
+ * @name GameController
  *
  * @description
  *
@@ -40,5 +18,6 @@ function SidebarController() {
  * Donec non felis gravida, rutrum ante mattis, sagittis urna. Sed quam quam, facilisis vel cursus at.
  */
 angular
-  .module('app.common.sidebar')
-  .controller('SidebarController', SidebarController);
+  .module('app.components.game')
+  .controller('GameController', GameController);
+  

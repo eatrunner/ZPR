@@ -1,9 +1,9 @@
 angular
 	.module('app', [
 		'ui.router',
+		'ui.bootstrap',
 		'app.common',
 		'app.components',
-		'app.game',
 		'app.templates',
 		'pascalprecht.translate'
 	])

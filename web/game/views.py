@@ -104,6 +104,8 @@ class Controller(GameObserver):
 			self.game_threads_[0].kill()
 			self.game_threads_.pop(0)
 			self.maps_.pop(0)
+			del self.tanks_[:]
+			del self.bullets_[:]
 			return {
 				"error": ""
 			}

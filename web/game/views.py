@@ -14,219 +14,220 @@ import thread
 
 		
 # Create your views here.
-class Controller(GameObserver):
+class Controller():
 	"""docstring for Controller"""
-	tanks_ = []
-	bullets_ = []
+
 	game_threads_=[]
-	maps_ = []
+	observers_ = []
 
 	def __init__(self):
 		super(Controller, self).__init__()
-		GameObserver.__init__(self)
-
-	def updateTankPosition(self, id, pos, dir):
-		for i in xrange(len(self.tanks)):
-			if self.tanks_[i]['id'] == id:
-				self.tanks[_i]['pos'] = pos
-				self.tanks_[i]['dir'] = dir
-				return 1
-		return 0
-
-	def updateBulletPosition(self, id, pos, dir):
-		for i in xrange(len(self.bullets)):
-			if self.bullets_[i]['id'] == id:
-				self.bullets_[i]['pos'] = pos
-				self.bullets_[i]['dir'] = dir
-				return 1
-		return 0
-
-
-
-	def addTank(self, id, pos, dir):
-		self.tanks_.append({'id':id, 'pos':pos, 'dir':dir})
-	
-	def removeTank(self, id):
-		for i in xrange(len(self.tanks)):
-			if self.tanks_[i]['id']==id:
-				return self.tanks_.pop(i)		
-		return None
-
-	def addBullet(self, id, pos , dir):
-		self.bullets_.append({'id':id, 'pos':pos, 'dir':dir})
-
-	def removeBullet(self,id):
-		for i in xrange(len(self.bullets)):
-			if self.bullets_[i]['id']==id:
-				return self.bullets_.pop(i)		
-		return None
 
 	"""game handling functions"""
 
-	def creategame(self, params):
-		if self.game_threads_ == []:
-			self.game_threads_.append(GameThread(1,13))
-			self.game_threads_[len(self.game_threads_)-1].addObserver(self)
-			self.maps_.append(self.game_threads_[len(self.game_threads_)-1].getMap())
-			return {
-				"error":""
-			}
-		else:
-			return {
-				"error":"game_is_created"
-			}
+	def creategame(self):
+		self.game_threads_.append({"thread":GameThread(1,13), "gameid":len(self.game_threads_)})
+		self.observers_.append({"observ": GameObserver(), "gameid":len(self.game_threads_)-1})
+		self.game_threads_[len(self.game_threads_)-1].addObserver(self.observers_[len(self.observers_)-1])
+		return {
+			"gameid":len(self.game_threads_)-1,
+			"error":""
+		}
 
-	def startgame(self):
-		if self.game_threads_ == []:
+	def startgame(self,params):
+		if self.game_threads_==[]:
 			return {
 				"error":"none games created"
 			}
-			
-		if not self.game_threads_[0].is_alive():
-			self.game_threads_[len(self.game_threads_)-1].start()
-			return {
-				"mapsize": self.game_threads_[0].getMapSize(),
-				"error":""
-			}
-		else:
-			return {
+
+		for i in xrange(len(self.game_threads_)):
+			if self.game_threads_[i]['gameid'] == params["gameid"]:			
+				if not self.game_threads_[i].is_alive():
+					self.game_threads_[len(self.game_threads_)-1].start()
+					return {
+						"playerid": 0,
+						"error":""
+					}
+				else:
+					return {
 				"error":"game_is_running"
-			}
+				}
+		return {
+		"error":"game with given gameid does not exist"
+		}
+			
 
 
-	def stopgame(self,params):
+	def deletegame(self,params):
 		if self.game_threads_ == []:
 			return {
-				"error":"no_running_game"
+				"error":"no existing game"
 
 			}
 		else:
-			self.game_threads_[0].kill()
-			self.game_threads_.pop(0)
-			self.maps_.pop(0)
-			del self.tanks_[:]
-			del self.bullets_[:]
-			return {
-				"error": ""
-			}
+			for i in xrange(len(self.game_threads_)):
+				if self.game_threads_[i]['gameid'] == params["gameid"]:
+					self.game_threads_[i].kill()
+					self.game_threads_.pop(i)
+					for i in xrange(len(self.observers_)):
+						if self.observers_[i]['gameid'] == params["gameid"]:
+							self.observers_.pop(i)
+						return {
+							"error": ""
+						}
+		return {
+			"error": "game with given gameid does not exist"
+		}
 
 	def pausegame(self, params):
 		if self.game_threads_ == []:
 			return {
-				"error":"no_running_game"
+				"error":"no existing game"
 
 			}
 		else:
-			self.game_threads_[0].pause()
-			return {
-				"error": ""
-			}
+			for i in xrange(len(self.game_threads_)):
+				if self.game_threads_[i]['gameid'] == params["gameid"]:
+					self.game_threads_[i].pause()
+					return {
+						"error": ""
+					}
+		return {
+			"error": "game with given gameid does not exist"
+		}
+
 
 	def resumegame(self,params):
 		if self.game_threads_ == []:
 			return {
-				"error":"no_running_game"
+				"error":"no existing game"
 
 			}
 		else:
-			self.game_threads_[0].resume()
+			for i in xrange(len(self.game_threads_)):
+				if self.game_threads_[i]['gameid'] == params["gameid"]:
+					self.game_threads_[i].resume()
+					return {
+						"error": ""
+					}
+		return {
+			"error": "game with given gameid does not exist"
+		}
+
+	def continuegame(self,params):
+		if self.game_threads_ == []:
 			return {
-				"error": ""
+				"error":"no existing game"
+
 			}
+		else:
+			for i in xrange(len(self.game_threads_)):
+				if self.game_threads_[i]['gameid'] == params["gameid"]:
+					self.game_threads_[i].continue()
+					return {
+						"error": ""
+					}
+		return {
+			"error": "game with given gameid does not exist"
+		}
+
 
 	def getavalmaps(self,params):
 		return {
 			"error":"function not ready"
 		}
 
+	def getgameinfo(self,params):
+		if self.game_threads_ == []:
+			return {
+				"error":"no existing game"
 
-	def getmap(self,params):
+			}
+		else:
+			for i in xrange(len(self.observers_)):
+				if self.observers_[i]['gameid'] == params["gameid"]:
+					return {
+						'map':self.observers_[i].getMap(),
+						"mapWidth":self.observers_[i].getMapSize(),
+						"mapHeight":self.observers_[i].getMapSize(),
+						'error':""
+					}
+		return {
+			"error": "game with given gameid does not exist"
+		}
+
+	def getstate(self,params):
 		"""map table of content"""
-		if self.maps_ == []:
+		if self.game_threads_ == []:
 			return {
-				'error':'no_maps'
-			}
-		else:
-			try:
-				tmp = self.game_threads_[0].getMap()
-				return {
-				'map':tmp,
-				'error':""
-			}
-			except IndexError:
-				return {
-					"error":"IndexError"
-				}
-			
-		
-	def gettanks(self,params):
-		"""player tank position"""
-		if self.tanks_ == []:
-			return {
-				'error':'no_tanks'
-			}
-		else:
-			return {
-				"tanks": self.tanks_,
-				"error":""
-			}
+				"error":"no existing game"
 
-	def getbullets(self,params):
-		"""bullet position with given id"""
-		if self.bullets_ == []:
-			return {
-				'error':'no_bullets'
 			}
 		else:
+			for i in xrange(len(self.observers_)):
+				if self.observers_[i]['gameid'] == params["gameid"]:
+					return {
+						'map':self.observers_[i].getMap(),
+						"tanks":tmp_tanks = self.observers_[i].getTanks(),
+						"bullets":self.observers_[i].getBullets(),
+						"bonuses": self.observers_[i].getBonuses(),
+						"status": self.observers_[i].getStatus(),
+						"score": self.observers_[i].getScore(),
+						'error':""
+					}
+		return {
+			"error": "game with given gameid does not exist"
+		}
+
+	def getsummary(self,params):
+		if self.game_threads_ == []:
 			return {
-				'bullets':self.bullets_,
-				'error':""
-				}
+				"error":"no existing game"
+
+			}
+		else:
+			for i in xrange(len(self.observers_)):
+				if self.observers_[i]['gameid'] == params["gameid"]:
+					return {
+						"score": self.observers_[i].getScore(),
+						'error':""
+					}
+		return {
+			"error": "game with given gameid does not exist"
+		}
+	
 
 	def moveplayer(self,params):
 		if self.game_threads_ == []:
 			return {
-				'error':'no_game_threads'
+				"error":"no existing game"
+
 			}
 		else:
-			try:
-				self.game_threads_[params['game_id']].movePlayer(params['id'], params['dir'])
-				return {
-				"error": ""
-				}
-			except IndexError:
-				return {
-					"error":"IndexError"
-				}
+			for i in xrange(len(self.game_threads_)):
+				if self.game_threads_[i]['gameid'] == params["gameid"]:
+					self.game_threads_[i].moveTank()
+					return {
+						"error": ""
+					}
+		return {
+			"error": "game with given gameid does not exist"
+		}
 			
 
 	def playershoot(self,params):
 		if self.game_threads_ == []:
 			return {
-				'error':'no_game_threads'
+				"error":"no existing game"
+
 			}
 		else:
-			try:
-				self.game_threads_[params['game_id']].shoot(params['id'])
-				return {
-					"error": ""
-				}
-			except IndexError:
-				return{
-					"error":"IndexError"
-				}
-
-				
-
-def getscores():
-	"""array of best scores"""
-	scores_array = Scores.objects.ordered_by("position")
-	return scores_array.values_list()
-
-def getscore(params):
-	"""score with given position"""
-	if params['pos']<1:
-		return {"error":"wrong pos"}
-
-	scores_array = Scores.objects.filter(position=params['pos'])
-	return scores_array.values_list();
+			for i in xrange(len(self.game_threads_)):
+				if self.game_threads_[i]['gameid'] == params["gameid"]:
+					self.game_threads_[i].fireBullet()
+					return {
+						"error": ""
+					}
+		return {
+			"error": "game with given gameid does not exist"
+		}

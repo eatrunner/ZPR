@@ -54,6 +54,8 @@ class GameObserver(object):
 
 	def addBullet(self, id, pos , dir):
 		self.bullets_.append({'id':id, 'pos':pos, 'dir':dir})
+		x,y = pos
+		print "Added bullet ", id, "position ", x,y
 
 	def removeBullet(self,id):
 		for i in xrange(len(self.bullets_)):

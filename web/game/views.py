@@ -213,6 +213,15 @@ class Controller():
 		return {
 			"error": "game with given gameid does not exist"
 		}
+			try:
+				self.game_threads_[int(params['game_id'])].moveTank(int(params['id']), params['dir'])
+				return {
+				"error": ""
+				}
+			except IndexError:
+				return {
+					"error":"IndexError"
+				}
 			
 
 	def playershoot(self,params):

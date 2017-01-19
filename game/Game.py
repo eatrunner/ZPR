@@ -10,15 +10,23 @@ class Game:
 		self.input = 0
 		self.map = map
 		self.playerTank = Tank(0, map.playerPos, self.map)
+		self.playerTank.setMaxBullets(2)
 		self.tanks.append(self.playerTank)
+		self.avalMaps = []
+		self.avalMaps.append(1)
+
+	#Returns a list of available maps' id numbers
+	def getAvalMaps(self):
+		return avalMaps
 
 	def getMap(self):
 		return self.map.array
 
+	#Returns the map size - all maps are square
 	def getMapSize(self):
 		return self.map.size
 
-
+	#Notifies all obsevers about tank's position change
 	def notifyTankPosition(self, tank):
 		for observer in self.observers:
 				observer.updateTankPosition(tank.id, tank.currPos, tank.faceDirection)
@@ -43,39 +51,46 @@ class Game:
 		for observer in self.observers:
 			observer.removeBullet(bullet.id)
 
-
-	def moveTank(self, tank, direction):
-		if (tank.move(direction)):
-			self.notifyTankPosition(tank)
+	#if possible moves a tank in a direction
+	def moveTank(self, id, direction):
+		for tank in self.tanks:
+			if tank.id == id:
+				if (tank.move(direction)):
+					self.notifyTankPosition(tank)
 
 	def addTank(self, tank):
 		self.tanks.append(tank)
+		self.notifyAddTank(tank)
 
 	def removeTank(self, tank):
 		self.notifyRemoveTank(tank)
 		self.tanks.remove(tank)
 
-	def fireBullet(self, tank):
-		if (tank.bullet == None):
-			tank.createBullet()
-			self.notifyAddBullet(tank.bullet)
+	def shoot(self,id):
+		for tank in self.tanks:
+			if tank.id == id:
+				if (len(tank.bullets) < tank.maxBullets):
+					bullet = tank.createBullet()
+					self.notifyAddBullet(bullet)
 
 
 	def addObserver(self,observer):
 		self.observers.append(observer)
 		for tank in self.tanks:
 			observer.addTank(tank.id, tank.currPos, tank.faceDirection)
-			if(tank.bullet != None):
-				observer.addBullet(tank.bullet.id, tank.bullet.currPos, tank.bullet.direction)
+			if(tank.bullets != []):
+				for bullet in tank.bullets:
+					observer.addBullet(bullet.id, bullet.currPos, bullet.direction)
 
 	def processGame(self):
 		for tank in self.tanks:
-			if (tank.bullet != None):
-				if(tank.moveBullet() == True):
-					self.notifyBulletPosition(tank.bullet)
-				else:
-					self.notifyRemoveBullet(tank.bullet)
-					tank.removeBullet()
+			if (tank.bullets != []):
+				for bullet in tank.bullets:
+					if(tank.moveBullet(bullet) == True):
+						self.notifyBulletPosition(bullet)
+					else:
+						self.notifyRemoveBullet(bullet)
+						tank.removeBullet(bullet)
 
 from Map import Map
 game = Game(Map(0,13))

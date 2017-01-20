@@ -5,9 +5,9 @@ angular
 		function BeforePlayScreen(game, gameInfo) {
 			this.game = game;
 
-			this.initScreenGroup = createInitScreenGroup(game, gameInfo);
+			this.group = createInitScreenGroup(game, gameInfo);
 			this.initScreenTween = createInitScreenTween(game, 
-				this.initScreenGroup);
+				this.group);
 		}
 
 		BeforePlayScreen.prototype.hide = function(onHideCallback) {
@@ -15,12 +15,8 @@ angular
 		};
 
 		var createInitScreenGroup = function(game, gameInfo) {
-			var stageNumber;
-			if(angular.isUndefined(gameInfo.stageNumber))
-				stageNumber = 1;
-			else
-				stageNumber = gameInfo.stageNumber;
-
+			console.log(gameInfo);
+			var stageNumber = gameInfo.mapId;
 			var initScreenGroup = game.add.group();
 
 			var initScreenBmd = game.add.bitmapData(

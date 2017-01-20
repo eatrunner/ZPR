@@ -1,11 +1,38 @@
+// DEV SERVER - ONLY FOR TESTING PURPOSE
+
 const PREFIX = '/tank-game/ajax/game';
 
 var mapSize = [12, 12];
 var terrainsTags = ['E', 'S', 'G', 'W', 'B', 'P'];
 var terrain = [];
 for(var i = 0; i < mapSize[0]*mapSize[1]; ++i)
-	terrain.push(terrainsTags[Math.floor(Math.random()*terrainsTags.length)])
+	terrain.push(terrainsTags[Math.floor(Math.random()*2)]);
 
+var tanks = [
+ {
+  "id": 0,
+  "playerId": 1,
+  "x": 10, "y": 1,
+  "direction": "down",
+  "bonus": ""
+ },
+ {
+  "id": 1,
+  "playerId": 0,
+  "x": 1, "y": 3,
+  "direction": "right",
+  "bonus": "armor"
+ }
+];
+
+function getStateHandle(req, res, next) {
+	res.setHeader("Content-Type", "application/json");
+	res.end(JSON.stringify({
+		errors: "",
+		map: terrain,
+		tanks: tanks
+	}));
+}
 
 function startGameHandle(req, res, next) {
 	res.setHeader("Content-Type", "application/json");
@@ -15,31 +42,9 @@ function startGameHandle(req, res, next) {
 	}));
 }
 
-function getMapInfo(req, res, next) {
-	res.setHeader("Content-Type", "application/json");
-	res.end(JSON.stringify({
-		size: mapSize,
-		map: terrain,
-		errors: ""
-	}));
-}
-
 function stopGameHandle(req, res, next) {
 	res.setHeader("Content-Type", "application/json");
 	res.end(JSON.stringify({
-		errors: ""
-	}));
-}
-
-function getMapHandle(req, res, next) {
-	terrain = [];
-	for(var i = 0; i < mapSize[0]*mapSize[1]; ++i)
-		terrain.push(terrainsTags[Math.floor(Math.random()*terrainsTags.length)])
-		//terrain.push('');
-
-	res.setHeader("Content-Type", "application/json");
-	res.end(JSON.stringify({
-		map: terrain,
 		errors: ""
 	}));
 }
@@ -57,29 +62,14 @@ function getGameInfoHandle(req, res, next) {
 	res.setHeader("Content-Type", "application/json");
 	res.end(JSON.stringify({
 		errors: "",
-		gameInfo: {
-			mapSize: mapSize,
-			map: terrain,
-			gameFps: 1
-		}
+		mapWidth: mapSize[0],
+		mapHeight: mapSize[1],
+		map: terrain,
+		playerId: 1,
+		mapId: 1
 	}));
 }
 
-function getTanksHandle(req, res, next) {
-	res.setHeader("Content-Type", "application/json");
-	res.end(JSON.stringify({
-		"tanks": 
-		[
-			{
-				"id": 0, 
-				"dir": "up",
-				"x": 3,
-				"y": 3
-			}
-		], 
-		"error": ""
-	}));
-}
 
 export const middleware = [
 	{
@@ -95,16 +85,12 @@ export const middleware = [
 		handle: stopGameHandle
 	},
 	{
-		route: (PREFIX + '/getmap'),
-		handle: getMapHandle
-	},
-	{
-		route: (PREFIX + '/getmapinfo'),
-		handle: getMapInfo
-	},
-	{
 		route: (PREFIX + '/getgameinfo'),
 		handle: getGameInfoHandle
+	},
+	{
+		route: (PREFIX + '/getstate'),
+		handle: getStateHandle
 	}
 ];
 

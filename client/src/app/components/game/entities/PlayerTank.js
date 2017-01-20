@@ -5,29 +5,22 @@ angular
 
 		function PlayerTank(game, opts) {
 			Tank.call(this, game, 
-				this._getSpriteNameFromLevel(opts.level), 
+				'player1',
 				opts);
-		}
 
+			this._colourTank();
+		}
+		
 		PlayerTank.prototype = Object.create(Tank.prototype);
 		PlayerTank.prototype.constructor = Tank;
 		PlayerTank.prototype._parent = Tank.prototype;
 
-		PlayerTank.prototype._getSpriteNameFromLevel = function(level) {
-			if(level < 0 || level > 3) {
-				$log.error('Unsuported PlayerTank level:', level);
-				// TODO: throw an exception?
-			}
-
-			return 'player' + level;
+		PlayerTank.prototype._colourTank = function() {
+			this.sprite.tint = "0xffbb00";
 		};
 
 		PlayerTank.prototype.update = function(opts) {
 			this._parent.update.call(this, opts);
-		};
-
-		PlayerTank.prototype.changeLevel = function(level) {
-
 		};
 
 		PlayerTank.prototype.kill = function() {

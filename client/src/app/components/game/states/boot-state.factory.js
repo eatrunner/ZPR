@@ -1,11 +1,11 @@
 angular
   	.module('app.components.game.states')
-  	.factory('LoaderState', function() {
-		function LoaderState(game, mapW, mapH) {
+  	.factory('BootState', function() {
+		function BootState(game) {
 			this.game = game;
 		}
 
-		LoaderState.prototype.create = function() {
+		BootState.prototype.create = function() {
 			showLoader(this.game);
 			loadAssets(this.game);
 			configureGame(this.game);
@@ -26,7 +26,7 @@ angular
 			var label = game.add.text(
 				game.world.width / 2, 
 				game.world.height / 2, 
-				'GAME IS LOADING', 
+				'GAME IS BOOTING', 
 				labelOpts);
 			label.anchor.setTo(0.5, 0.5);
 			label.alpha = 0;
@@ -76,9 +76,9 @@ angular
 			game.load.start();
 
 			function loadComplete() {
-				game.state.start('ready');
+				game.state.start('load');
 			}
 		}
 
-		return LoaderState;
+		return BootState;
 	});

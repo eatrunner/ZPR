@@ -6,13 +6,14 @@ angular
 
 		function Tank(game, spriteName, opts) {
 			this.game = game;
+			
 			this.sprite = game.add.sprite(
 				FACTOR * opts.x + FACTOR/2, FACTOR * opts.y + FACTOR/2,
 				spriteName);
+
 			this.sprite.anchor.setTo(0.5, 0.5);
 			this.sprite.animations.add('move', null, 10, true);
 
-			this._setColor(opts.color);
 			this._setDirection(opts.direction);
 		}
 
@@ -22,7 +23,6 @@ angular
 
 		Tank.prototype.kill = function() {
 			this.sprite.loadTexture('destroy-anim-small');
-			this.sprite.tint = "0xFFFFFF";
 			this.sprite.animations.add('destroy', null, 10, true);
 			this.sprite.animations.play('destroy');
 
@@ -31,10 +31,6 @@ angular
 
 			var DESTROY_DURATION = 1000;
 			this.sprite.lifespan = DESTROY_DURATION;
-		};
-
-		Tank.prototype._setColor = function(color) {
-			this.sprite.tint = color;
 		};
 
 		Tank.prototype.Direction = Object.freeze({
@@ -71,11 +67,6 @@ angular
 			}
 
 			return angle;
-		};
-
-		Tank.prototype.setPosition = function(x, y) {
-			this.sprite.x = FACTOR * x;
-			this.sprite.y = FACTOR * y;
 		};
 
 		Tank.prototype.update = function(opts) {
@@ -119,14 +110,9 @@ angular
 
 			rotateTween.chain(moveTween);			
 
-			rotateTween.onComplete.add(this._rotateTankComplete, this);
 			moveTween.onComplete.add(this._moveTankComplete, this);
 			this.sprite.animations.play('move');
 			this._direction = direction;
-		};
-
-		Tank.prototype._rotateTankComplete = function() {
-			console.log('rotate complete');
 		};
 
 		Tank.prototype._moveTank = function(x, y) {
@@ -146,11 +132,6 @@ angular
 		Tank.prototype._moveTankComplete = function(x, y) {
 			this.sprite.animations.stop('move');
 		};
-
-		Tank.prototype.setSprite = function(spriteName) {
-			this.sprite.loadTexture(spriteName);
-		};
-
 
 		return Tank;
 	});

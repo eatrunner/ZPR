@@ -3,9 +3,7 @@ function gameService($http, $q) {
 		startGame: startGame,
 		stopGame: stopGame,
 		getGameInfo: getGameInfo,
-		getMap: getMap,
-		getTanks: getTanks,
-		getBullets: getBullets,
+		getState: getState,
 		movePlayer: movePlayer,
 		playerShoot: playerShoot
 	};
@@ -23,39 +21,33 @@ function gameService($http, $q) {
 		});
 	}
 
-	function startGame() {
-		return makeGET('/startgame');
+	function startGame(gameId) {
+		return makeGET('/startgame', {game_id: gameId});
 	}
 
-	function stopGame() {
-		return makeGET('/stopgame');
+	function stopGame(gameId) {
+		return makeGET('/stopgame', {game_id: gameId});
 	}
 
-	function getGameInfo() {
-		return makeGET('/getgameinfo');
+	function getGameInfo(gameId) {
+		return makeGET('/getgameinfo', {game_id: gameId});
 	}
 
-	function getMap() {
-		return makeGET('/getmap');
+	function getState(gameId) {
+		return makeGET('/getstate', {game_id: gameId});
 	}
 
-	function getTanks() {
-		return makeGET('/gettanks');
-	}
-
-	function getBullets() {
-		return makeGET('/getBullets');
-	}
-
-	function movePlayer(playerId, direction) {
+	function movePlayer(gameId, playerId, direction) {
 		return makeGET('/moveplayer', {
+			game_id: gameId,
 			id: playerId,
 			dir: direction
 		});
 	}
 
-	function playerShoot(playerId) {
+	function playerShoot(gameId, playerId) {
 		return makeGET('/playershoot', {
+			game_id: gameId,
 			id: playerId
 		});
 	}

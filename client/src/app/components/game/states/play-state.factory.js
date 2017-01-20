@@ -1,41 +1,29 @@
 angular
   	.module('app.components.game.states')
-  	.factory('PlayState', function($http, $q, $log, gameService, Map, BeforePlayScreen, PlayerTank) {
-  		var FACTOR = 16;
+  	.factory('PlayState', function($http, $q, $log, gameService, TankGame) {
   		var GAME_REFRESH_MS = 1000;
 
 		function PlayState(game, gameId) {
-			this.game = game;
-			this.gameId = gameId;
-
+			this._game = game;
+			this._gameId = gameId;
 			this._gameRunning = false;
 			this._lastUpdateTime = 0;
-
-			this.gameInfo = undefined;
-			this.map = undefined;
-			this.updatingMap = false;
+			this._updatingState = false;
+			this._gameInfo = {};
 		}
 
 		PlayState.prototype.init = function(gameInfo) {
-			this.gameInfo = gameInfo;
-
-			this.mapWidth = this.gameInfo.mapSize[0];
-			this.mapHeight = this.gameInfo.mapSize[1];
-			this.mapRealWidth = this.mapWidth * FACTOR;
-			this.mapRealHeight = this.mapHeight * FACTOR; 
+			this._gameInfo = gameInfo;
 		}
 
 		PlayState.prototype.create = function() {
-			this.game.stage.backgroundColor = "#808080";
-
-			this._createGameMap();
-			this._beforePlayScreen = new BeforePlayScreen(this.game, this.gameInfo);
+			this._tankGame = new TankGame(this._game, this._gameInfo);
 			this._startTheGame();
 		};
 
 		PlayState.prototype._startTheGame = function() {
 			gameService
-				.startGame()
+				.startGame(this._gameId)
 				.then(startGameCallback, startGameError);
 
 			var those = this;
@@ -53,73 +41,34 @@ angular
 
 		PlayState.prototype._runTheGame = function() {
 			this._gameRunning = true;
-			this._beforePlayScreen.hide();
-
-			var fx = this.game.add.audio('start-game');
-			fx.allowMultiple = true;
-			fx.play();
+			this._tankGame.startGame();
 		};
 
-		PlayState.prototype._createGameMap = function() {
-			this.map = new Map(this.game, 
-				this.mapWidth, this.mapHeight, this.gameInfo.map);
-
-			this.playerTank = new PlayerTank(this.game, {
-				x: 0, 
-				y: 0, 
-				direction: 'up',
-				color: "0x00FF00",
-				level: 3
-			});
-
-			var those = this;
-			setTimeout(function() {
-				// those.playerTank.update({
-				// 	x: 11,
-				// 	y: 0,
-				// 	direction: 'right'
-				// });
-
-				those.playerTank.kill();
-			}, 3000);
-
-			var grp = this.game.add.group();
-			grp.add(this.playerTank.sprite);
-
-			// group all together
-			this.group = this.game.add.group();
-			this.group.add(this.map.group);
-			this.group.add(grp);
-
-			this.group.x = parseInt(this.game.world.width/2 - this.mapRealWidth/2);
-			this.group.y = parseInt(this.game.world.height/2 - this.mapRealHeight/2);
-		};
-
-		PlayState.prototype._updateMap = function() {
-			if(!this.updatingMap) {
-				this.updatingMap = true;
+		PlayState.prototype._updateState = function() {
+			if(!this._updatingState) {
+				this._updatingState = true;
 
 				gameService
-					.getMap()
-					.then(getMapCallback, getMapError)
-					.finally(getMapEnds);
+					.getState(this._gameId)
+					.then(getStateCallback, getStateError)
+					.finally(getStateEnds);
 			}
 
 			var those = this;
-			function getMapCallback(response) {
+			function getStateCallback(response) {
 				if(response.errors) {
 					$log.warn(response.errors);
 				} else {
-					those.map.update(response.map);
+					those._tankGame.updateState(response);
 				}
 			}
 
-			function getMapError(reason) {
+			function getStateError(reason) {
 				$log.error(reason);
 			}
 
-			function getMapEnds() {
-				those.updatingMap = false;
+			function getStateEnds() {
+				those._updatingState = false;
 			}
 		}
 
@@ -129,7 +78,7 @@ angular
 
 			if(Date.now() - this._lastUpdateTime > GAME_REFRESH_MS) {
 				this._lastUpdateTime = Date.now();
-				this._updateMap();
+				this._updateState();
 			}
 		};
 

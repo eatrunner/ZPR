@@ -23,8 +23,9 @@ angular
 
 			var playgroundSprite = this.game.add.sprite(
 				0, 0,
-				playgroundBmd, null,
-				this.group);
+				playgroundBmd);
+
+			this.group.add(playgroundSprite);
 
 			var posY = 0;
 			var index = 0;

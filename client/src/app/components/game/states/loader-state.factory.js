@@ -51,15 +51,17 @@ angular
 
 			game.load.spritesheet('falcon', 'img/falcon.png', 16, 16);
 			game.load.spritesheet('create-anim', 'img/create-anim.png', 16, 16);
-			game.load.spritesheet('tank-yellow', 'img/tank-yellow.png', 16, 16);
-			game.load.spritesheet('tank-green', 'img/tank-green.png', 16, 16);
-			game.load.spritesheet('tank-red', 'img/tank-red.png', 16, 16);
-			game.load.spritesheet('tank-white', 'img/tank-white.png', 16, 16);
+
+			game.load.spritesheet('player1', 'img/player1.png', 16, 16);
+			game.load.spritesheet('player2', 'img/player2.png', 16, 16);
+			game.load.spritesheet('player3', 'img/player3.png', 16, 16);
+			game.load.spritesheet('player4', 'img/player3.png', 16, 16);
+
 			game.load.spritesheet('tank-powerup-anim', 'img/tank-powerup-anim.png', 16, 16);
 			game.load.spritesheet('points-hundrets', 'img/points-hundrets.png', 16, 16);
 			game.load.spritesheet('bonuses', 'img/bonuses.png', 16, 16);
-			game.load.spritesheet('destroy-big-anim', 'img/destroy-big-anim.png', 32, 32);
-			game.load.spritesheet('destroy-small-anim', 'img/destroy-small-anim.png', 16, 16);
+			game.load.spritesheet('destroy-anim-big', 'img/destroy-anim-big.png', 32, 32);
+			game.load.spritesheet('destroy-anim-small', 'img/destroy-anim-small.png', 16, 16);
 
 			game.load.audio('tank-wait', 'sfx/tank-wait.mp3');
 			game.load.audio('tank-move', 'sfx/tank-move.mp3');
@@ -69,6 +71,7 @@ angular
 			game.load.audio('new-bonus', 'sfx/new-bonus.mp3');
 			game.load.audio('get-bonus', 'sfx/get-bonus.mp3');
 			game.load.audio('menu-move', 'sfx/menu-move.mp3');
+			game.load.audio('tank-destroy', 'sfx/tank-destroy.mp3');
 
 			game.load.start();
 

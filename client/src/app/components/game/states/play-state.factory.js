@@ -1,6 +1,6 @@
 angular
   	.module('app.components.game.states')
-  	.factory('PlayState', function($http, $q, $log, gameService, Map, BeforePlayScreen) {
+  	.factory('PlayState', function($http, $q, $log, gameService, Map, BeforePlayScreen, PlayerTank) {
   		var FACTOR = 16;
   		var GAME_REFRESH_MS = 1000;
 
@@ -12,7 +12,6 @@ angular
 			this._lastUpdateTime = 0;
 
 			this.gameInfo = undefined;
-			this.playground = undefined;
 			this.map = undefined;
 			this.updatingMap = false;
 		}
@@ -55,18 +54,45 @@ angular
 		PlayState.prototype._runTheGame = function() {
 			this._gameRunning = true;
 			this._beforePlayScreen.hide();
+
+			var fx = this.game.add.audio('start-game');
+			fx.allowMultiple = true;
+			fx.play();
 		};
 
 		PlayState.prototype._createGameMap = function() {
 			this.map = new Map(this.game, 
 				this.mapWidth, this.mapHeight, this.gameInfo.map);
 
+			this.playerTank = new PlayerTank(this.game, {
+				x: 0, 
+				y: 0, 
+				direction: 'up',
+				color: "0x00FF00",
+				level: 3
+			});
+
+			var those = this;
+			setTimeout(function() {
+				// those.playerTank.update({
+				// 	x: 11,
+				// 	y: 0,
+				// 	direction: 'right'
+				// });
+
+				those.playerTank.kill();
+			}, 3000);
+
+			var grp = this.game.add.group();
+			grp.add(this.playerTank.sprite);
+
 			// group all together
 			this.group = this.game.add.group();
 			this.group.add(this.map.group);
-			
-			this.group.x = this.game.world.width/2 - this.mapRealWidth/2;
-			this.group.y = this.game.world.height/2 - this.mapRealHeight/2;
+			this.group.add(grp);
+
+			this.group.x = parseInt(this.game.world.width/2 - this.mapRealWidth/2);
+			this.group.y = parseInt(this.game.world.height/2 - this.mapRealHeight/2);
 		};
 
 		PlayState.prototype._updateMap = function() {

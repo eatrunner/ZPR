@@ -11,7 +11,6 @@ angular
 		}
 
 		BeforePlayScreen.prototype.hide = function(onHideCallback) {
-			// this.initScreenTween.onComplete.add(onHideCallback);
 			this.initScreenTween.start();
 		};
 
@@ -65,11 +64,6 @@ angular
 				.to(tweenProps, 250, Phaser.Easing.Linear.None, false, 1000);
 
 			return initScreenTween;
-
-			// this.initScreenTween.onComplete.add(onHideCallback);
-			// var fx = this.game.add.audio('start-game');
-			// fx.allowMultiple = true;
-			// fx.play();
 		};
 
 		return BeforePlayScreen;

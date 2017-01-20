@@ -34,7 +34,8 @@ function stopGameHandle(req, res, next) {
 function getMapHandle(req, res, next) {
 	terrain = [];
 	for(var i = 0; i < mapSize[0]*mapSize[1]; ++i)
-		terrain.push(terrainsTags[Math.floor(Math.random()*terrainsTags.length)]);
+		terrain.push(terrainsTags[Math.floor(Math.random()*terrainsTags.length)])
+		//terrain.push('');
 
 	res.setHeader("Content-Type", "application/json");
 	res.end(JSON.stringify({
@@ -61,6 +62,22 @@ function getGameInfoHandle(req, res, next) {
 			map: terrain,
 			gameFps: 1
 		}
+	}));
+}
+
+function getTanksHandle(req, res, next) {
+	res.setHeader("Content-Type", "application/json");
+	res.end(JSON.stringify({
+		"tanks": 
+		[
+			{
+				"id": 0, 
+				"dir": "up",
+				"x": 3,
+				"y": 3
+			}
+		], 
+		"error": ""
 	}));
 }
 

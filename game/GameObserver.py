@@ -4,13 +4,14 @@ from Bullet import Bullet
 class GameObserver(object):
 	def __init__(self):
 		super(GameObserver, self).__init__()
-		tanks_ = []
-		bullets_ = []
-		game_map_= []
-		bonuses_ = []
-		map_size_ = 0
-		score_ = 0
-		game_status_ = "stop"
+
+	tanks_ = []
+	bullets_ = []
+	game_map_= []
+	bonuses_ = []
+	map_size_ = 0
+	score_ = 0
+	game_status_ = "stop"
 
 		
 	def updateTankPosition(self, id, pos, dir):
@@ -33,7 +34,7 @@ class GameObserver(object):
 		self.game_map_=new_map
 		return 1
 
-	def updateMapSize(self, new_size)
+	def updateMapSize(self, new_size):
 		self.map_size_=new_size
 
 	def updateScore(self, new_score):
@@ -42,8 +43,8 @@ class GameObserver(object):
 	def updateGameStatus(self, new_status):
 		self.game_status_=new_status
 
-	def addTank(self, id, pos, dir):
-		self.tanks_.append({'id':id, 'pos':pos, 'dir':dir})
+	def addTank(self, tank_id, pos, dir):
+		self.tanks_.append({'id':tank_id, 'pos':pos, 'dir':dir})
 	
 	def removeTank(self, id):
 		for i in xrange(len(self.tanks_)):

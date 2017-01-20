@@ -30,9 +30,9 @@ def ajax(request, module, function):
     try:
         if getattr(globals()["game"], 'views') ==    getattr(globals()[str(module)], 'views'):
             fun = getattr(globals()["contr"], str(function))
-            if fun == getattr( globals()["contr"], "startgame"):
+            """if fun == getattr( globals()["contr"], "startgame"):
                 data = json.dumps( contr.startgame())
-                return django.http.HttpResponse(data, content_type='application/json')
+                return django.http.HttpResponse(data, content_type='application/json')"""
             data = json.dumps( fun(request.GET ))
             return django.http.HttpResponse(data, content_type='application/json')
         fun = getattr(getattr(globals()[str(module)], 'views'), str(function))

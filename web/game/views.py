@@ -11,24 +11,27 @@ from GameThread import GameThread
 
 # import models
 import thread
+						
 
-		
 # Create your views here.
-class Controller():
+class Controller(object):
 	"""docstring for Controller"""
+		
+	def __init__(self,):
+		super(Controller, self).__init__()
+
 
 	game_threads_=[]
 	observers_ = []
 
-	def __init__(self):
-		super(Controller, self).__init__()
+	
 
 	"""game handling functions"""
 
-	def creategame(self):
+	def creategame(self, params):
 		self.game_threads_.append({"thread":GameThread(1,13), "gameid":len(self.game_threads_)})
 		self.observers_.append({"observ": GameObserver(), "gameid":len(self.game_threads_)-1})
-		self.game_threads_[len(self.game_threads_)-1].addObserver(self.observers_[len(self.observers_)-1])
+		self.game_threads_[len(self.game_threads_)-1]["thread"].addObserver(self.observers_[len(self.observers_)-1]["observ"])
 		return {
 			"gameid":len(self.game_threads_)-1,
 			"error":""
@@ -41,9 +44,9 @@ class Controller():
 			}
 
 		for i in xrange(len(self.game_threads_)):
-			if self.game_threads_[i]['gameid'] == params["gameid"]:			
-				if not self.game_threads_[i].is_alive():
-					self.game_threads_[len(self.game_threads_)-1].start()
+			if int(self.game_threads_[i]['gameid']) == int(params['gameid']):			
+				if not self.game_threads_[i]["thread"].is_alive():
+					self.game_threads_[len(self.game_threads_)-1]["thread"].start()
 					return {
 						"playerid": 0,
 						"error":""
@@ -66,11 +69,11 @@ class Controller():
 			}
 		else:
 			for i in xrange(len(self.game_threads_)):
-				if self.game_threads_[i]['gameid'] == params["gameid"]:
-					self.game_threads_[i].kill()
+				if int(self.game_threads_[i]['gameid']) == int(params['gameid']):
+					self.game_threads_[i]["thread"].kill()
 					self.game_threads_.pop(i)
 					for i in xrange(len(self.observers_)):
-						if self.observers_[i]['gameid'] == params["gameid"]:
+						if self.observers_[i]['gameid'] == params['gameid']:
 							self.observers_.pop(i)
 						return {
 							"error": ""
@@ -87,8 +90,8 @@ class Controller():
 			}
 		else:
 			for i in xrange(len(self.game_threads_)):
-				if self.game_threads_[i]['gameid'] == params["gameid"]:
-					self.game_threads_[i].pause()
+				if int(self.game_threads_[i]['gameid']) == int(params['gameid']):
+					self.game_threads_[i]["thread"].pause()
 					return {
 						"error": ""
 					}
@@ -105,8 +108,8 @@ class Controller():
 			}
 		else:
 			for i in xrange(len(self.game_threads_)):
-				if self.game_threads_[i]['gameid'] == params["gameid"]:
-					self.game_threads_[i].resume()
+				if int(self.game_threads_[i]['gameid']) == int(params['gameid']):
+					self.game_threads_[i]["thread"].resume()
 					return {
 						"error": ""
 					}
@@ -122,8 +125,8 @@ class Controller():
 			}
 		else:
 			for i in xrange(len(self.game_threads_)):
-				if self.game_threads_[i]['gameid'] == params["gameid"]:
-					self.game_threads_[i].continue()
+				if int(self.game_threads_[i]['gameid']) == int(params['gameid']):
+					self.game_threads_[i]["thread"].continueGame()
 					return {
 						"error": ""
 					}
@@ -145,11 +148,11 @@ class Controller():
 			}
 		else:
 			for i in xrange(len(self.observers_)):
-				if self.observers_[i]['gameid'] == params["gameid"]:
+				if int(self.observers_[i]['gameid']) == int(params['gameid']):
 					return {
-						'map':self.observers_[i].getMap(),
-						"mapWidth":self.observers_[i].getMapSize(),
-						"mapHeight":self.observers_[i].getMapSize(),
+						'map':self.observers_[i]["observ"].getMap(),
+						"mapWidth":self.observers_[i]["observ"].getMapSize(),
+						"mapHeight":self.observers_[i]["observ"].getMapSize(),
 						'error':""
 					}
 		return {
@@ -165,14 +168,14 @@ class Controller():
 			}
 		else:
 			for i in xrange(len(self.observers_)):
-				if self.observers_[i]['gameid'] == params["gameid"]:
+				if int(self.observers_[i]['gameid']) == int(params['gameid']):
 					return {
-						'map':self.observers_[i].getMap(),
-						"tanks":tmp_tanks = self.observers_[i].getTanks(),
-						"bullets":self.observers_[i].getBullets(),
-						"bonuses": self.observers_[i].getBonuses(),
-						"status": self.observers_[i].getStatus(),
-						"score": self.observers_[i].getScore(),
+						'map':self.observers_[i]["observ"].getMap(),
+						"tanks":self.observers_[i]["observ"].getTanks(),
+						"bullets":self.observers_[i]["observ"].getBullets(),
+						"bonuses": self.observers_[i]["observ"].getBonuses(),
+						"status": self.observers_[i]["observ"].getStatus(),
+						"score": self.observers_[i]["observ"].getScore(),
 						'error':""
 					}
 		return {
@@ -187,9 +190,9 @@ class Controller():
 			}
 		else:
 			for i in xrange(len(self.observers_)):
-				if self.observers_[i]['gameid'] == params["gameid"]:
+				if int(self.observers_[i]['gameid']) == int(params['gameid']):
 					return {
-						"score": self.observers_[i].getScore(),
+						"score": self.observers_[i]["observ"].getScore(),
 						'error':""
 					}
 		return {
@@ -205,23 +208,15 @@ class Controller():
 			}
 		else:
 			for i in xrange(len(self.game_threads_)):
-				if self.game_threads_[i]['gameid'] == params["gameid"]:
-					self.game_threads_[i].moveTank()
+				if int(self.game_threads_[i]['gameid']) == int(params['gameid']):
+					self.game_threads_[i]["thread"].moveTank(0, params['dir'])
 					return {
 						"error": ""
 					}
 		return {
 			"error": "game with given gameid does not exist"
 		}
-			try:
-				self.game_threads_[int(params['game_id'])].moveTank(int(params['id']), params['dir'])
-				return {
-				"error": ""
-				}
-			except IndexError:
-				return {
-					"error":"IndexError"
-				}
+			
 			
 
 	def playershoot(self,params):
@@ -232,8 +227,8 @@ class Controller():
 			}
 		else:
 			for i in xrange(len(self.game_threads_)):
-				if self.game_threads_[i]['gameid'] == params["gameid"]:
-					self.game_threads_[i].fireBullet()
+				if int(self.game_threads_[i]['gameid']) == int(params['gameid']):
+					self.game_threads_[i]["thread"].shoot(0)
 					return {
 						"error": ""
 					}

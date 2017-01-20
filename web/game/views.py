@@ -48,7 +48,6 @@ class Controller(object):
 				if not self.game_threads_[i]["thread"].is_alive():
 					self.game_threads_[len(self.game_threads_)-1]["thread"].start()
 					return {
-						"playerid": 0,
 						"error":""
 					}
 				else:
@@ -136,10 +135,23 @@ class Controller(object):
 
 
 	def getavalmaps(self,params):
-		return {
-			"error":"function not ready"
-		}
+		if self.game_threads_ == []:
+			return {
+				"error":"no existing game"
 
+			}
+		else:
+			for i in xrange(len(self.game_threads_)):
+				if int(self.game_threads_[i]['gameid']) == int(params['gameid']):
+					self.game_threads_[i]["thread"].getAvalMaps()
+					return {
+						"avalmaps":	self.game_threads_[i]["thread"].getAvalMaps(),
+						"error": ""
+					}
+		return {
+			"error": "game with given gameid does not exist"
+		}
+		
 	def getgameinfo(self,params):
 		if self.game_threads_ == []:
 			return {
@@ -153,6 +165,7 @@ class Controller(object):
 						'map':self.observers_[i]["observ"].getMap(),
 						"mapWidth":self.observers_[i]["observ"].getMapSize(),
 						"mapHeight":self.observers_[i]["observ"].getMapSize(),
+						"playerid": 0,
 						'error':""
 					}
 		return {

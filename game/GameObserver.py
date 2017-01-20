@@ -22,7 +22,8 @@ class GameObserver(object):
 		print "Removed tank ", id
 
 	def addBullet(self, id, pos , dir):
-		print "Added bullet ", id
+		x,y = pos
+		print "Added bullet ", id, "position ", x,y
 
 	def removeBullet(self,id):
 		print "Removed bullet ", id

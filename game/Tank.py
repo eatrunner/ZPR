@@ -17,8 +17,10 @@ class Tank:
 		self.currPos = pos
 		self.prevPos = pos
 		self.map = map
-		self.bullet = None
+		
 		self.faceDirection = "up"
+		self.maxBullets = 1
+		self.bullets = []
 
 	#Returns False if a collision occured or direction is not proper
 	def move(self, direction):
@@ -45,15 +47,33 @@ class Tank:
 		return self.currPos
 
 	def createBullet(self):
-		self.bullet = Bullet(self.id, self.map, self.currPos[0], self.currPos[1], self.faceDirection)
+		bullet = Bullet(self.id*2 + len(self.bullets), self.map, self.currPos[0], self.currPos[1], self.faceDirection)
+		self.bullets.append(bullet)
+		return bullet
 
-	def moveBullet(self):
-		if (self.bullet != None):
+	def moveBullet(self, bullet):
+		"""if (self.bullet != None):
 			if (self.bullet.move() == False):
 				return False
 			return True
-		return False
+		return False"""
 
-	def removeBullet(self):
-		if (self.bullet!=None):
-			self.bullet = None
+		if (self.bullets != []):
+			for currBullet in self.bullets:
+				if(currBullet == bullet):
+
+					if bullet.move() == False:
+						return False
+					return True
+			return False
+
+
+	def removeBullet(self, bullet):
+		if(self.bullets != []):
+			self.bullets.remove(bullet)
+
+	def setMaxBullets(self, maxBullets):
+		self.maxBullets = maxBullets
+
+	def getMaxBullets(self):
+		return self.maxBullets

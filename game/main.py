@@ -36,6 +36,6 @@ while i < 20:
 
 	game.processGame()
 
-	time.sleep(currentTime + SEC_PER_FRAME - time.time())
+	#time.sleep(currentTime + SEC_PER_FRAME - time.time())
 
 game.removeTank(game.playerTank)

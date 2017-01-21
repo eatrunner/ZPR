@@ -17,7 +17,7 @@ class GameObserver(object):
 	def updateTankPosition(self, id, pos, dir):
 		for i in xrange(len(self.tanks_)):
 			if self.tanks_[i]['id'] == id:
-				self.tanks[_i]['pos'] = pos
+				self.tanks_[i]['pos'] = pos
 				self.tanks_[i]['dir'] = dir
 				return 1
 		return 0	
@@ -31,6 +31,7 @@ class GameObserver(object):
 		return 0
 
 	def updateMap(self, new_map):
+		print new_map
 		self.game_map_=new_map
 		return 1
 
@@ -73,7 +74,7 @@ class GameObserver(object):
 	def getMap(self):
 		return self.game_map_
 
-	def  getMapSize(self):
+	def getMapSize(self):
 		return self.map_size_
 
 	def getBonuses(self):

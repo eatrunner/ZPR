@@ -81,6 +81,7 @@ class Game:
 			if(tank.bullets != []):
 				for bullet in tank.bullets:
 					observer.addBullet(bullet.id, bullet.currPos, bullet.direction)
+		observer.updateMap(self.map.array)
 
 	def processGame(self):
 		for tank in self.tanks:
@@ -91,6 +92,3 @@ class Game:
 					else:
 						self.notifyRemoveBullet(bullet)
 						tank.removeBullet(bullet)
-
-from Map import Map
-game = Game(Map(0,13))

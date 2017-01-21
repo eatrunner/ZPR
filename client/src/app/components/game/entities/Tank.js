@@ -13,6 +13,8 @@ angular
 
 			this.sprite.anchor.setTo(0.5, 0.5);
 			this.sprite.animations.add('move', null, 10, true);
+			this._x = opts.x;
+			this._y = opts.y;
 
 			this._setDirection(opts.direction);
 		}
@@ -20,6 +22,15 @@ angular
 		Tank.prototype.game = null;
 		Tank.prototype.sprite = null;
 		Tank.prototype._direction = null;
+		Tank.prototype._x = null;
+		Tank.prototype._y = null;
+
+		Tank.prototype.Direction = Object.freeze({
+			UP: 'up',
+			DOWN: 'down',
+			RIGHT: 'right',
+			LEFT: 'left'
+		});
 
 		Tank.prototype.kill = function() {
 			this.sprite.loadTexture('destroy-anim-small');
@@ -33,12 +44,21 @@ angular
 			this.sprite.lifespan = DESTROY_DURATION;
 		};
 
-		Tank.prototype.Direction = Object.freeze({
-			UP: 'up',
-			DOWN: 'down',
-			RIGHT: 'right',
-			LEFT: 'left'
-		});
+		Tank.prototype.update = function(opts) {
+			// check, if coordinates has changed
+			var xChanged = (this._x != opts.x);
+			var yChanged = (this._y != opts.y);
+			var posChanged = xChanged || yChanged;
+			var directionChanged = (this._direction != opts.direction);
+
+			if(posChanged && directionChanged)
+				this._moveTankWithRotation(opts.x, opts.y, opts.direction);
+			else if(posChanged)
+				this._moveTank(opts.x, opts.y);
+
+			// may occur situation, when only direction changes? 
+			
+		};
 
 		Tank.prototype._setDirection = function(direction) {
 			this.sprite.angle = this._directionToAngle(direction);
@@ -67,22 +87,6 @@ angular
 			}
 
 			return angle;
-		};
-
-		Tank.prototype.update = function(opts) {
-			// check, if coordinates has changed
-			var xChanged = (this.sprite.x != opts.x);
-			var yChanged = (this.sprite.y != opts.y);
-			var posChanged = xChanged || yChanged;
-			var directionChanged = (this._direction != opts.direction);
-
-			if(posChanged && directionChanged)
-				this._moveTankWithRotation(opts.x, opts.y, opts.direction);
-			else if(posChanged)
-				this._moveTank(opts.x, opts.y);
-
-			// may occur situation, when only direction changes? 
-			
 		};
 
 		Tank.prototype._moveTankWithRotation = function(x, y, direction) {

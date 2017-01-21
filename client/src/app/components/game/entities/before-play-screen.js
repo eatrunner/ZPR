@@ -15,7 +15,6 @@ angular
 		};
 
 		var createInitScreenGroup = function(game, gameInfo) {
-			console.log(gameInfo);
 			var stageNumber = gameInfo.mapId;
 			var initScreenGroup = game.add.group();
 

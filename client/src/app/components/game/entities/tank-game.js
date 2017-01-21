@@ -25,6 +25,7 @@ angular
 
 		TankGame.prototype.updateState = function(newState) {
 			console.log('New state: ', newState);
+			this._tanksGroup.updateTanks(newState.tanks);
 		};
 
 		return TankGame;

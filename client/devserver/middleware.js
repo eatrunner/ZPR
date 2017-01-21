@@ -11,7 +11,7 @@ for(var i = 0; i < mapSize[0]*mapSize[1]; ++i)
 var tanks = [
  {
   "id": 0,
-  "playerId": 1,
+  "playerId": 0,
   "x": 10, "y": 1,
   "direction": "down",
   "bonus": ""
@@ -65,7 +65,7 @@ function getGameInfoHandle(req, res, next) {
 		mapWidth: mapSize[0],
 		mapHeight: mapSize[1],
 		map: terrain,
-		playerId: 1,
+		playerId: 0,
 		mapId: 1
 	}));
 }

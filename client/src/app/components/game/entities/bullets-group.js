@@ -9,17 +9,30 @@ angular
 		}
 
 		BulletsGroup.prototype.update = function(bulletsData) {
+			var oldBulletsMap = this._bulletsMap;
+			this._bulletsMap = {};
+
 			for(var i in bulletsData) {
 				var bulletData = bulletsData[i];
 				var id = bulletData.id;
-				var bulletsMapContainsId = (this._bulletsMap.hasOwnProperty(id));
-				if(bulletsMapContainsId) {
-					this._bulletsMap[id].update(bulletData);
+
+				var bullet = oldBulletsMap[id];
+				var wasBullet = (bullet !== undefined)
+				if(wasBullet) {
+					bullet.update(bulletData);
+
+					delete oldBulletsMap[id];
+					this._bulletsMap[id] = bullet;
 				} else {
-					var bullet = new Bullet(this._game, bulletData);
+					bullet = new Bullet(this._game, bulletData);
 					this._bulletsMap[id] = bullet;
 					this.group.add(bullet.sprite);
 				}
+			}
+
+			for(var id in oldBulletsMap) {			
+			    var bullet = oldBulletsMap[id];
+			    bullet.kill();
 			}
 		}
 

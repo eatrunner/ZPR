@@ -43,6 +43,7 @@ var bullets = [
  }
 ];
 var nextBulletId = 2;
+var nextTankId = 2;
 
 function getStateHandle(req, res, next) {
 	if(Math.random() <= 0.25) {
@@ -73,6 +74,20 @@ function getStateHandle(req, res, next) {
 
 		if(bullets[i].x < 0 || bullets[i].x >= mapWidth || bullets[i].y < 0 || bullets[i].y >= mapHeight)
 			bullets.splice(i, 1);
+	}
+
+	if(Math.random() <= 0.25) {
+		tanks.push({
+			"id": nextTankId++,
+			"x": Math.floor(Math.random() * mapWidth) , "y": Math.floor(Math.random() * mapHeight) ,
+			"direction": directions[Math.floor(Math.random() * directions.length)] ,
+			"ownerId": 1,
+			"playerId": Math.floor(Math.random() * 2)
+		});
+	}
+
+	if(Math.random() <= 0.25) {
+		tanks.splice(Math.floor(Math.random() * tanks.length), 1);
 	}
 
 	for(var i in tanks) {

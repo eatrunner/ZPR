@@ -26,12 +26,12 @@ angular
 				.startGame(this._gameId)
 				.then(startGameCallback, startGameError);
 
-			var those = this;
+			var self = this;
 			function startGameCallback(response) {
 				if(response.errors)
 					$log.warn(response.errors);
 				else
-					those._runTheGame();
+					self._runTheGame();
 			}
 
 			function startGameError(reason) {
@@ -54,12 +54,12 @@ angular
 					.finally(getStateEnds);
 			}
 
-			var those = this;
+			var self = this;
 			function getStateCallback(response) {
 				if(response.errors) {
 					$log.warn(response.errors);
 				} else {
-					those._tankGame.updateState(response);
+					self._tankGame.updateState(response);
 				}
 			}
 
@@ -68,7 +68,7 @@ angular
 			}
 
 			function getStateEnds() {
-				those._updatingState = false;
+				self._updatingState = false;
 			}
 		}
 
@@ -76,8 +76,10 @@ angular
 			if(!this._gameRunning)
 				return;
 
-			if(Date.now() - this._lastUpdateTime > GAME_REFRESH_MS) {
-				this._lastUpdateTime = Date.now();
+			var now = Date.now();
+			var timeDiff = now - this._lastUpdateTime;
+			if(timeDiff > GAME_REFRESH_MS) {
+				this._lastUpdateTime = now;
 				this._updateState();
 			}
 		};

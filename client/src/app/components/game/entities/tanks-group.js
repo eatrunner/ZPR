@@ -5,23 +5,35 @@ angular
 			this.group = game.add.group();
 
 			this._game = game;
-			this._playerId = playerId;
 			this._tanksMap = {};
 			this._tanksFactory = new TanksFactory(game, playerId);
 		}
-
+		
 		TanksGroup.prototype.update = function(tanksData) {
-			for(var i = 0; i < tanksData.length; ++i) {
+			var oldTanksMap = this._tanksMap;
+			this._tanksMap = {};
+
+			for(var i in tanksData) {
 				var tankData = tanksData[i];
 				var id = tankData.id;
-				var tanksMapContainsId = (this._tanksMap.hasOwnProperty(id));
-				if(tanksMapContainsId) {
-					this._tanksMap[id].update(tankData);
+
+				var tank = oldTanksMap[id];
+				var wasTank = (tank !== undefined)
+				if(wasTank) {
+					tank.update(tankData);
+
+					delete oldTanksMap[id];
+					this._tanksMap[id] = tank;
 				} else {
-					var tank = this._tanksFactory.createTank(tankData);
+					tank = this._tanksFactory.createTank(tankData);
 					this._tanksMap[id] = tank;
 					this.group.add(tank.sprite);
 				}
+			}
+
+			for(var id in oldTanksMap) {			
+			    var tank = oldTanksMap[id];
+			    tank.kill();
 			}
 		}
 

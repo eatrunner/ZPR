@@ -1,145 +1,74 @@
 angular
 	.module('app.components.game.entities')
-	.factory('Tank', function($log) {
+	.factory('Tank', function($log, Item, Movable, Rotatable) {
 		var FACTOR = 16;
 		var GAME_FPS = 1;
 
+		Tank.prototype = Object.create(Item.prototype);
+		Tank.prototype.constructor = Tank;
+		Tank.prototype._itemParent = Item.prototype;
+
+		angular.extend(Tank, Movable.prototype);
+		Tank.prototype._movableParent = Movable.prototype;
+
+		angular.extend(Tank, Rotatable.prototype);
+		Tank.prototype._rotatableParent = Rotatable.prototype;
+
+		// a Tank is: Item, Rotatable(Directionable) and Movable
 		function Tank(game, spriteName, opts) {
-			this.game = game;
-			
-			this.sprite = game.add.sprite(
-				FACTOR * opts.x + FACTOR/2, FACTOR * opts.y + FACTOR/2,
-				spriteName);
+			var x = opts.x;
+			var y = opts.y;
+			var direction = opts.direction;
 
-			this.sprite.anchor.setTo(0.5, 0.5);
-			this.sprite.animations.add('move', null, 10, true);
-			this._x = opts.x;
-			this._y = opts.y;
+			Item.call(this, game, spriteName, x, y);
+			Movable.call(this, game, this.sprite, x, y);
+			Rotatable.call(this, game, this.sprite, direction);
 
-			this._setDirection(opts.direction);
+			this._tankDestroyAudio = game.add.audio('tank-destroy');
 		}
 
-		Tank.prototype.game = null;
-		Tank.prototype.sprite = null;
-		Tank.prototype._direction = null;
-		Tank.prototype._x = null;
-		Tank.prototype._y = null;
-
-		Tank.prototype.Direction = Object.freeze({
-			UP: 'up',
-			DOWN: 'down',
-			RIGHT: 'right',
-			LEFT: 'left'
-		});
+		Tank.prototype._sprite = null;
 
 		Tank.prototype.kill = function() {
 			this.sprite.loadTexture('destroy-anim-small');
 			this.sprite.animations.add('destroy', null, 10, true);
 			this.sprite.animations.play('destroy');
 
-			var tankDestroyAudio = this.game.add.audio('tank-destroy');
-			tankDestroyAudio.play();
+			this._tankDestroyAudio.play();
 
 			var DESTROY_DURATION = 1000;
 			this.sprite.lifespan = DESTROY_DURATION;
 		};
 
 		Tank.prototype.update = function(opts) {
-			// check, if coordinates has changed
+			//check, if coordinates has changed
 			var xChanged = (this._x != opts.x);
 			var yChanged = (this._y != opts.y);
 			var posChanged = xChanged || yChanged;
 			var directionChanged = (this._direction != opts.direction);
 
-			if(posChanged && directionChanged)
-				this._moveTankWithRotation(opts.x, opts.y, opts.direction);
-			else if(posChanged)
-				this._moveTank(opts.x, opts.y);
+			if(posChanged && directionChanged) {
+				var rotateDuration = 300;
+				var afterRotateSignal = this._rotatableParent.rotate.call(this, 
+					opts.direction, rotateDuration);
 
-			// may occur situation, when only direction changes? 
-			
-		};
+				afterRotateSignal.addOnce(
+					Tank.prototype.afterRotateCallback, 
+					this, 
+					null,
+					opts.x, opts.y);
 
-		Tank.prototype._setDirection = function(direction) {
-			this.sprite.angle = this._directionToAngle(direction);
-			this._direction = direction;
-		};
-
-		Tank.prototype._directionToAngle = function(direction) {
-			var angle;
-			// sprite should be positioned into UP direction
-			switch(direction) {
-				case this.Direction.UP: 
-					angle = 0;
-					break;
-				case this.Direction.RIGHT:
-					angle = 90;
-					break;
-				case this.Direction.DOWN:
-					angle = 180;
-					break;
-				case this.Direction.LEFT:
-					angle = -90;
-					break;
-				default:
-					$log.warn('Unsuported direction: ', direction);
-					// TODO: throw an exception?
+			} else if(posChanged) {
+				var onlyMoveDuration = 1000;
+				var afterMoveSignal = this._movableParent.move.call(this, 
+					opts.x, opts.y, onlyMoveDuration);
 			}
-
-			return angle;
 		};
 
-		Tank.prototype._moveTankWithRotation = function(x, y, direction) {
-			// 1/2 of time spend on rotating and 1/2 on moving
-			var TWEEN_DURATION = (1000 / GAME_FPS) / 2;
-
-			var newAngle = this._directionToAngle(direction);
-			var rotateTween = this.game.add
-				.tween(this.sprite)
-				.to({angle: newAngle},
-					TWEEN_DURATION,
-					Phaser.Easing.Quadratic.None, 
-					true);
-
-			var newPosition = {
-				x: x * FACTOR + FACTOR/2,
-				y: y * FACTOR + FACTOR/2
-			};
-			var moveTween = this.game.add
-				.tween(this.sprite)
-				.to(newPosition,
-					TWEEN_DURATION,
-					Phaser.Easing.Quadratic.Out, 
-					false);
-
-			rotateTween.chain(moveTween);			
-
-			moveTween.onComplete.add(this._moveTankComplete, this);
-			this.sprite.animations.play('move');
-			this._direction = direction;
-		};
-
-		Tank.prototype._moveTank = function(x, y) {
-			// whole time between frames reserved for moving
-			var TWEEN_DURATION = 1000 / GAME_FPS;
-
-			var newPosition = {
-				x: x * FACTOR + FACTOR/2,
-				y: y * FACTOR + FACTOR/2
-			};
-			var moveTween = this.game.add
-				.tween(this.sprite)
-				.to(newPosition,
-					TWEEN_DURATION,
-					Phaser.Easing.Quadratic.Out, 
-					true);
-			moveTween.onComplete.add(this._moveTankComplete, this);
-
-			this.sprite.animations.play('move');
-		};
-
-		Tank.prototype._moveTankComplete = function(x, y) {
-			this.sprite.animations.stop('move');
+		Tank.prototype.afterRotateCallback = function(sprite, tween, x, y, t) {
+			var afterRotateMoveDuration = 700;
+			this._movableParent.move.call(this, 
+				x, y, afterRotateMoveDuration);
 		};
 
 		return Tank;

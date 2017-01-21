@@ -1,18 +1,28 @@
 angular
 	.module('app.components.game.entities')
-	.factory('Bullet', function(TanksFactory) {
+	.factory('Bullet', function(Item, Movable, Directionable) {
 		var GAME_FPS = 1;
 		var FACTOR = 16;
 
-		function Bullet(game, bulletData) {
-			this._game = game;
-			this.sprite = game.add.sprite(
-				FACTOR * bulletData.x, 
-				FACTOR * bulletData.y,
-				'bullet');
+		// Bullet is movable, directionable
+		Bullet.prototype = Object.create(Item.prototype);
+		Bullet.prototype.constructor = Bullet;
+		Bullet.prototype._itemParent = Item.prototype;
 
-			this._x = bulletData.x;
-			this._y = bulletData.y;
+		angular.extend(Bullet, Movable.prototype);
+		Bullet.prototype._movableParent = Movable.prototype;
+
+		angular.extend(Bullet, Directionable.prototype);
+		Bullet.prototype._directionableParent = Directionable.prototype;
+
+		function Bullet(game, bulletData) {
+			var x = bulletData.x;
+			var y = bulletData.y;
+			var direction = bulletData.direction;
+
+			Item.call(this, game, 'bullet', x, y);
+			Movable.call(this, game, this.sprite, x, y);
+			Directionable.call(this, this.sprite, direction);
 
 			var fx = this._game.add.audio('fire');
 			fx.allowMultiple = true;
@@ -23,24 +33,11 @@ angular
 			var xChanged = (this._x != bulletData.x);
 			var yChanged = (this._y != bulletData.y);
 			var posChanged = xChanged || yChanged;
-			if(posChanged)
-				this._moveBullet(bulletData.x, bulletData.y);
-		};
-
-		Bullet.prototype._moveBullet = function(x, y) {
-			var TWEEN_DURATION = 1000 / GAME_FPS;
-
-			// anchor is positioned at top left
-			var newPosition = {
-				x: x * FACTOR, 
-				y: y * FACTOR
-			};
-			var moveTween = this._game.add
-				.tween(this.sprite)
-				.to(newPosition,
-					TWEEN_DURATION,
-					Phaser.Easing.Linear.None, 
-					true);
+			if(posChanged) {
+				var moveDuration = 1000;
+				this._movableParent.move.call(this, 
+					bulletData.x, bulletData.y, moveDuration);
+			}
 		};
 
 		Bullet.prototype.kill = function() {

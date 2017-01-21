@@ -10,7 +10,7 @@ angular
 			this._tanksFactory = new TanksFactory(game, playerId);
 		}
 
-		TanksGroup.prototype.updateTanks = function(tanksData) {
+		TanksGroup.prototype.update = function(tanksData) {
 			for(var i = 0; i < tanksData.length; ++i) {
 				var tankData = tanksData[i];
 				var id = tankData.id;

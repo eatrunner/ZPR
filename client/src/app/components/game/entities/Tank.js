@@ -122,9 +122,14 @@ angular
 		Tank.prototype._moveTank = function(x, y) {
 			// whole time between frames reserved for moving
 			var TWEEN_DURATION = 1000 / GAME_FPS;
+
+			var newPosition = {
+				x: x * FACTOR + FACTOR/2,
+				y: y * FACTOR + FACTOR/2
+			};
 			var moveTween = this.game.add
 				.tween(this.sprite)
-				.to({ x: x * FACTOR, y: y * FACTOR },
+				.to(newPosition,
 					TWEEN_DURATION,
 					Phaser.Easing.Quadratic.Out, 
 					true);

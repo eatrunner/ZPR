@@ -16,7 +16,6 @@ class GameThread(threading.Thread, Game):
         self.pauseFlag = False
         self.i = 0
         self.init = True
-        self.status = "stop"
 
     def kill(self):
         self.killFlag = True
@@ -35,12 +34,13 @@ class GameThread(threading.Thread, Game):
 
     def run(self):
         if(self.init == True):
-            self.status == "run"
+            self.status = "run"
             self.notifyGameStatus("run")
             self.init = False
 
         while (not self.killFlag):
-            if(self.pauseFlag or self.status == "stop"):
+            #print "run"
+            if(self.pauseFlag == True or self.status == "stop"):
                 continue
             currentTime = time.time()
             self.processGame()

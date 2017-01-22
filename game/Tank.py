@@ -36,7 +36,7 @@ class Tank:
             self.currPos[d > 2] += (d - (1 if d < 3 else 4))
 
             for tank in self.map.tanks:
-                if tank.currPos == self.currPos:
+                if tank != self and tank.currPos == self.currPos:
                     return False
 
             for bonus in self.map.bonuses:
@@ -87,3 +87,6 @@ class Tank:
 
     def addBonus(self, bonus):
         self.bonuses.append(bonus)
+
+    def removeBonus(self, bonus):
+        self.bonuses.remove(bonus)

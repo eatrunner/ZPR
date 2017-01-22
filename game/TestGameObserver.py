@@ -39,11 +39,10 @@ class TestGameObserver(GameObserver):
 
     def removeBonus(self, id, pos, name):
         x, y = pos
-        print "Added bonus ", id, ", position", x, y, name
+        print "Removed bonus ", id, ", position", x, y, name
 
     def updateMapSize(self, new_size):
         print "MapSize: ", new_size
 
     def updateGameStatus(self, new_status):
         print "GameStatus: ", new_status
-        

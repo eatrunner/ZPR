@@ -11,8 +11,14 @@ class Bonus(object):
         self.name = ""
         self.timeToLive = 10
 
-    def upgradeTankParameters():
+    def upgradeTank():
         raise NotImplementedError()
 
-    def degradeTankParameters():
+    def downgradeTank():
         raise NotImplementedError()
+
+    def expire(self):
+        self.timeToLive -= 1
+
+    def getTimeToLive(self):
+        return self.timeToLive

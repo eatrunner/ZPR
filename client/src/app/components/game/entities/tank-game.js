@@ -12,6 +12,13 @@ angular
 			this._bulletsGroup = new BulletsGroup(game, gameInfo.playerId);
 			// this._bonusesGroup = new BonusesGroup(game, gameInfo.playerId);
 
+			this._group = game.add.group();
+			this._group.add(this._map.group);
+			this._group.add(this._tanksGroup.group);
+			this._group.add(this._bulletsGroup.group);
+			this._group.x = 4*16;
+			this._group.y = 2*16;
+			
 			game.world.bringToTop(this._beforePlayScreen.group);
 		}
 

@@ -10,6 +10,13 @@ angular
 			loadAssets(this.game);
 			configureGame(this.game);
 		};
+
+		BootState.prototype.init = function() {
+			this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+			this.game.scale.pageAlignHorizontally = true;
+			this.game.scale.pageAlignVeritcally = true;
+			this.game.scale.refresh();
+		};
 		
 		function configureGame(game) {
 			game.physics.startSystem(Phaser.Physics.ARCADE);

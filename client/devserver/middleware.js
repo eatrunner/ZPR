@@ -2,7 +2,7 @@
 
 const PREFIX = '/tank-game/ajax/game';
 
-var mapSize = [12, 12];
+var mapSize = [16, 16];
 var mapWidth = mapSize[0];
 var mapHeight = mapSize[1];
 var directions = ["up", "down", "left", "right"];

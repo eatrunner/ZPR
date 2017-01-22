@@ -65,6 +65,17 @@ class ServerGameObserver(GameObserver):
 				return self.bullets_.pop(i)		
 		return None
 
+	def addBonus(self, id, pos ):
+		self.bonuses_.append({'id':id, 'pos':pos})
+		x,y = pos
+		print "Added bonus ", id, "position ", x,y
+
+	def removeBonus(self,id):
+		for i in xrange(len(self.bonuses_)):
+			if self.bonuses_[i]['id']==id:
+				return self.bonuses_.pop(i)		
+		return None
+
 	def getTanks(self):
 		return self.tanks_
 

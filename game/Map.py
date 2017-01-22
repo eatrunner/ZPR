@@ -10,6 +10,8 @@ class Map(object):
         self.array = ['E' for i in range(size * size)]
         self.bullets = []
         self.tanks = []
+        self.bonuses = []
+        self.bonusSpawnTime = 5
 
         # just a map example
         for i in range(4, 9):
@@ -41,17 +43,14 @@ class Map(object):
         for i in range(self.size * self.size):
             print(self.array[i]),
 
+    def getTank(self, x, y):
+        for tank in self.tanks:
+            if tank.currPos == [x, y]:
+                return tank
+        return None
 
-"""
-    def addTank(self, tank):
-        self.tanks.append(tank)
-
-    def addBullet(self, bullet):
-        self.bullets.append(bullet)
-
-    def removeTank(self, tank):
-        self.tanks.remove(tank)
-
-    def removeBullet(self, bullet):
-        self.bullets.remove(bullet)
-"""
+    def getBonus(self, x, y):
+        for bonus in self.bonuses:
+            if bonus.pos == [x, y]:
+                return bonus
+        return None

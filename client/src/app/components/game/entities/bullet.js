@@ -20,7 +20,7 @@ angular
 			var y = bulletData.y;
 			var direction = bulletData.direction;
 
-			Item.call(this, game, 'bullet', x, y);
+			Item.call(this, game, 'bullet', x, y, bulletData.id);
 			Movable.call(this, game, this.sprite, x, y);
 			Directionable.call(this, this.sprite, direction);
 

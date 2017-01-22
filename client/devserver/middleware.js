@@ -11,47 +11,35 @@ var terrain = [];
 for(var i = 0; i < mapSize[0]*mapSize[1]; ++i)
 	terrain.push(terrainsTags[Math.floor(Math.random()*2)]);
 
-var tanks = [
- {
+var playerTank =  {
   "id": 0,
   "playerId": 0,
   "x": 10, "y": 1,
   "direction": "down",
   "bonus": ""
- },
- {
-  "id": 1,
-  "playerId": 0,
-  "x": 1, "y": 3,
-  "direction": "right",
-  "bonus": "armor"
- }
+ };
+
+var tanks = [
+	playerTank
 ];
 
 var bullets = [
- {
-  "id": 0,
-  "x": 1, "y": 2,
-  "direction": "up",
-  "ownerId": 0
- },
- {
-  "id": 1,
-  "x": 4, "y": 3,
-  "direction": "right",
-  "ownerId": 1
- }
 ];
 var nextBulletId = 2;
 var nextTankId = 2;
 
 function getStateHandle(req, res, next) {
 	if(Math.random() <= 0.25) {
+		tanks.splice(Math.floor(Math.random() * tanks.length), 1);
+	}
+
+	if(tanks.length > 0 && Math.random() <= 0.25) {
+		var tank = tanks[Math.floor(Math.random() * tanks.length)];
 		bullets.push( {
 			"id": nextBulletId++,
-			"x": Math.floor(Math.random() * mapWidth) , "y": Math.floor(Math.random() * mapHeight) ,
-			"direction": directions[Math.floor(Math.random() * directions.length)] ,
-			"ownerId": 1
+			"x": tank.x , "y": tank.y ,
+			"direction": tank.direction ,
+			"ownerId": tank.id
 		});
 	}
 
@@ -82,12 +70,8 @@ function getStateHandle(req, res, next) {
 			"x": Math.floor(Math.random() * mapWidth) , "y": Math.floor(Math.random() * mapHeight) ,
 			"direction": directions[Math.floor(Math.random() * directions.length)] ,
 			"ownerId": 1,
-			"playerId": Math.floor(Math.random() * 2)
+			"playerId": 1
 		});
-	}
-
-	if(Math.random() <= 0.25) {
-		tanks.splice(Math.floor(Math.random() * tanks.length), 1);
 	}
 
 	for(var i in tanks) {
@@ -125,7 +109,7 @@ function getStateHandle(req, res, next) {
 	res.end(JSON.stringify({
 		errors: "",
 		map: terrain,
-		tanks: tanks,
+		tanks: tanks.concat(playerTank),
 		bullets: bullets
 	}));
 }
@@ -166,6 +150,54 @@ function getGameInfoHandle(req, res, next) {
 	}));
 }
 
+function movePlayerHandle(req, res, next) {
+	var changeX = Math.random() >= 0.5;
+	var increment = Math.random() >= 0.5;
+	var tank = playerTank;
+	if(changeX) {
+		if(increment) {
+			if(tank.x <= mapWidth - 2) {
+				tank.x++;
+				tank.direction = "right";
+			}
+		} else { // !increment
+			if(tank.x > 0) {
+				tank.x--;
+				tank.direction = "left";
+			}
+		}
+	} else { // !changeX
+		if(increment) {
+			if(tank.y <= mapHeight - 2) {
+				tank.y++;
+				tank.direction = "down";
+			}
+		} else { // !increment
+			if(tank.y > 0) {
+				tank.y--;
+				tank.direction = "up";
+			}
+		}
+	}
+	res.setHeader("Content-Type", "application/json");
+	res.end(JSON.stringify({
+		errors: ""
+	}));
+}
+
+function playerShootHandle(req, res, next) {
+	var tank = playerTank;
+	bullets.push( {
+		"id": nextBulletId++,
+		"x": tank.x , "y": tank.y ,
+		"direction": tank.direction ,
+		"ownerId": tank.id
+	});
+	res.setHeader("Content-Type", "application/json");
+	res.end(JSON.stringify({
+		errors: ""
+	}));
+}
 
 export const middleware = [
 	{
@@ -187,6 +219,14 @@ export const middleware = [
 	{
 		route: (PREFIX + '/getstate'),
 		handle: getStateHandle
+	},
+	{
+		route: (PREFIX + '/moveplayer'),
+		handle: movePlayerHandle
+	},
+	{
+		route: (PREFIX + '/playershoot'),
+		handle: playerShootHandle
 	}
 ];
 

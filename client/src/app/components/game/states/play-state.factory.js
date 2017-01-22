@@ -3,9 +3,8 @@ angular
   	.factory('PlayState', function($http, $q, $log, gameService, TankGame) {
   		var GAME_REFRESH_MS = 1000;
 
-		function PlayState(game, gameId) {
+		function PlayState(game) {
 			this._game = game;
-			this._gameId = gameId;
 			this._gameRunning = false;
 			this._lastUpdateTime = 0;
 			this._updatingState = false;
@@ -23,7 +22,7 @@ angular
 
 		PlayState.prototype._startTheGame = function() {
 			gameService
-				.startGame(this._gameId)
+				.startGame()
 				.then(startGameCallback, startGameError);
 
 			var self = this;
@@ -49,7 +48,7 @@ angular
 				this._updatingState = true;
 
 				gameService
-					.getState(this._gameId)
+					.getState()
 					.then(getStateCallback, getStateError)
 					.finally(getStateEnds);
 			}

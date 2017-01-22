@@ -1,16 +1,15 @@
 angular
   	.module('app.components.game.states')
   	.factory('LoadState', function($http, $q, gameService, $log) {
-		function LoadState(game, gameId) {
+		function LoadState(game) {
 			this._game = game;
-			this._gameId = gameId;
 		}
 
 		LoadState.prototype.create = function() {
 			this._showLoadingScreen();
 
 			gameService
-				.getGameInfo(this._gameId)
+				.getGameInfo()
 				.then(getGameInfoCallback, getGameInfoError);
 
 			var those = this;

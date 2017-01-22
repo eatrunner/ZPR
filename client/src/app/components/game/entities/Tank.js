@@ -20,7 +20,7 @@ angular
 			var y = opts.y;
 			var direction = opts.direction;
 
-			Item.call(this, game, spriteName, x, y);
+			Item.call(this, game, spriteName, x, y, opts.id);
 			Movable.call(this, game, this.sprite, x, y);
 			Rotatable.call(this, game, this.sprite, direction);
 

@@ -8,7 +8,6 @@ angular
 
 		TanksFactory.prototype.createTank = function(tankData) {
 			var playerId = tankData.playerId;
-			// delete tankData.playerId; right, or not????
 
 			if(playerId === this._playerId) {
 				return new PlayerTank(this._game, tankData);

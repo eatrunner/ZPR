@@ -1,40 +1,57 @@
 from MapBlock import MapBlock
 
-class Map:
-	def __init__(self,id, size):
-		self.id = id
-		self.matrix = [['E' for j in range(size)] for i in range(size)]
-		self.size = size
-		self.playerPos = [3,3]
-		self.array = ['E' for i in range(size*size)]
 
-		#just a map example
-		for i in range(4,9):
-			self.setMapBlock(i,6,'B')
+class Map(object):
+    def __init__(self, id, size):
+        self.id = id
+        self.matrix = [['E' for j in range(size)] for i in range(size)]
+        self.size = size
+        self.playerPos = [3, 3]
+        self.array = ['E' for i in range(size * size)]
+        self.bullets = []
+        self.tanks = []
 
-		for i in range(4,9):
-			self.setMapBlock(6,i,'B')
+        # just a map example
+        for i in range(4, 9):
+            self.setMapBlock(i, 6, 'B')
 
-	def getMatrix(self):
-		return self.matrix
+        for i in range(4, 9):
+            self.setMapBlock(6, i, 'B')
 
-	def printMap(self):
-		for i in range(self.size):
-			for j in range(self.size):
-				print(self.matrix[i][j]),
-			print("")
+    def getMatrix(self):
+        return self.matrix
 
-	def setMapBlock(self, x, y, id):
-		self.matrix[x][y] = id
-		self.array[self.size*x + y] = id
+    def printMap(self):
+        for i in range(self.size):
+            for j in range(self.size):
+                print(self.matrix[i][j]),
+            print("")
 
-	def getMapSize(self):
-		return self.size
+    def setMapBlock(self, x, y, id):
+        self.matrix[x][y] = id
+        self.array[self.size * x + y] = id
 
-	def getMapArray(self):
-		return self.array
+    def getMapSize(self):
+        return self.size
 
-	def printMapArray(self):
-		for i in range(self.size * self.size):
-				print(self.array[i]),
-				
+    def getMapArray(self):
+        return self.array
+
+    def printMapArray(self):
+        for i in range(self.size * self.size):
+            print(self.array[i]),
+
+
+"""
+    def addTank(self, tank):
+        self.tanks.append(tank)
+
+    def addBullet(self, bullet):
+        self.bullets.append(bullet)
+
+    def removeTank(self, tank):
+        self.tanks.remove(tank)
+
+    def removeBullet(self, bullet):
+        self.bullets.remove(bullet)
+"""

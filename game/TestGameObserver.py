@@ -43,3 +43,7 @@ class TestGameObserver(GameObserver):
 
     def updateMapSize(self, new_size):
         print "MapSize: ", new_size
+
+    def updateGameStatus(self, new_status):
+        print "GameStatus: ", new_status
+        

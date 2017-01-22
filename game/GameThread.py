@@ -18,12 +18,18 @@ class GameThread(threading.Thread, Game):
 
     def kill(self):
         self.killFlag = True
+        self.status = "stop"
+        self.notifyGameStatus("stop")
 
     def pause(self):
         self.pauseFlag = True
+        self.status = "pause"
+        self.notifyGameStatus("pause")
 
     def resume(self):
         self.pauseFlag = False
+        self.status = "run"
+        self.notifyGameStatus("run")
 
     def run(self):
         while (not self.killFlag):

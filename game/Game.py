@@ -12,6 +12,7 @@ class Game(Map):
 
     def __init__(self, mapId, mapSize):
         super(Game, self).__init__(mapId, mapSize)
+        self.status = "run"
         self.observers = []
         self.playerTank = Tank(0, self.playerPos, self)
         self.tanks.append(self.playerTank)
@@ -66,6 +67,10 @@ class Game(Map):
     def notifyRemoveBonus(self, bonus):
         for observer in self.observers:
             observer.removeBonus(bonus.id, bonus.x, bonus.y, bonus.name)
+
+    def notifyGameStatus(self, status):
+        for observer in self.observers:
+            observer.updateGameStatus(status)
 
     def getTank(self, id):
         for tank in self.tanks:
@@ -137,6 +142,8 @@ class Game(Map):
                         bullet.id, bullet.currPos, bullet.direction)
         observer.updateMap(self.array)
         observer.updateMapSize(self.size)
+        observer.updateGameStatus(self.status)
+
 
     def processGame(self):
         """if self.timeToNextBonus == 0:

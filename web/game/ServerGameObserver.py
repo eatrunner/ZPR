@@ -18,7 +18,7 @@ class ServerGameObserver(GameObserver):
 	def updateTankPosition(self, id, pos, dir):
 		for i in xrange(len(self.tanks_)):
 			if self.tanks_[i]['id'] == id:
-				self.tanks[_i]['pos'] = pos
+				self.tanks_[i]['pos'] = pos
 				self.tanks_[i]['dir'] = dir
 				return 1
 		return 0	

@@ -12,7 +12,7 @@ class Game(Map):
 
     def __init__(self, mapId, mapSize):
         super(Game, self).__init__(mapId, mapSize)
-        self.status = "run"
+        self.status = "stop"
         self.observers = []
         self.playerTank = Tank(0, self.playerPos, self)
         self.tanks.append(self.playerTank)

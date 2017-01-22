@@ -139,22 +139,12 @@ class Controller(object):
 
 
 	def getavalmaps(self,params):
-		if self.game_threads_ == []:
-			return {
-				"error":"no existing game"
-
-			}
-		else:
-			for i in xrange(len(self.game_threads_)):
-				if int(self.game_threads_[i]['game_id']) == int(params['game_id']):
-					self.game_threads_[i]["thread"].getAvalMaps()
-					return {
-						"avalmaps":	self.game_threads_[i]["thread"].getAvalMaps(),
-						"error": ""
-					}
+		tmp=GameThread(1,13)
 		return {
-			"error": "game with given game_id does not exist"
+			"maps":tmp.getAvalMaps(),
+			"error":""
 		}
+
 		
 	def getgameinfo(self,params):
 		if self.game_threads_ == []:

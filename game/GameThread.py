@@ -5,29 +5,30 @@ import threading
 import time
 
 FPS = 1
-SEC_PER_FRAME = 1.0/FPS
+SEC_PER_FRAME = 1.0 / FPS
+
 
 class GameThread(threading.Thread, Game):
-	def __init__(self, mapID, mapSize):
-		threading.Thread.__init__(self)
-		Game.__init__(self, Map(mapID,mapSize))
-		self.killFlag = False
-		self.pauseFlag = False
-		self.i = 0;
+    def __init__(self, mapID, mapSize):
+        threading.Thread.__init__(self)
+        Game.__init__(self, mapID, mapSize)
+        self.killFlag = False
+        self.pauseFlag = False
+        self.i = 0
 
-	def kill(self):
-		self.killFlag = True
+    def kill(self):
+        self.killFlag = True
 
-	def pause(self):
-		self.pauseFlag = True
+    def pause(self):
+        self.pauseFlag = True
 
-	def resume(self):
-		self.pauseFlag = False
+    def resume(self):
+        self.pauseFlag = False
 
-	def run(self):
-		while (not self.killFlag):
-			if(self.pauseFlag):
-				continue
-			currentTime = time.time()
-			self.processGame()
-			time.sleep(currentTime + SEC_PER_FRAME - time.time())
+    def run(self):
+        while (not self.killFlag):
+            if(self.pauseFlag):
+                continue
+            currentTime = time.time()
+            self.processGame()
+            time.sleep(currentTime + SEC_PER_FRAME - time.time())

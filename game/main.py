@@ -3,6 +3,7 @@ from Map import Map
 from GameObserver import GameObserver
 from TestGameObserver import TestGameObserver
 from Tank import Tank
+from GameThread import GameThread
 import time
 FPS = 1
 SEC_PER_FRAME = 1.0 / FPS
@@ -13,8 +14,11 @@ game = Game(0, 13)
 gameO = TestGameObserver()
 game.addObserver(gameO)
 
-game.addTank(Tank(1, [9,9], game))
+game.addTank(Tank(1, [9, 9], game))
 game.addTank(Tank(2, [8, 3], game))
+tmp = GameThread(0, 13)
+
+print game.getAvalMaps()
 
 lastFrameTime = time.time()
 

@@ -22,6 +22,7 @@ class Tank:
         self.faceDirection = "up"
         self.maxBullets = 1
         self.bullets = []
+        self.bonuses = []
 
     # Returns False if a collision occured or direction is not proper
     def move(self, direction):
@@ -33,6 +34,17 @@ class Tank:
             d = self.CTRLS.index(direction)
             self.prevPos = self.currPos[:]
             self.currPos[d > 2] += (d - (1 if d < 3 else 4))
+
+            for tank in self.map.tanks:
+                if tank.currPos == self.currPos:
+                    return False
+
+            for bonus in self.map.bonuses:
+                if bonus.pos == self.currPos:
+                    self.addBonus(bonus)
+                    self.map.removeBonus(bonus)
+                    bonus.upgradeTank(self)
+                    bonus.timeToLive = 10
 
             # Check collisions
             if not((-1 < self.currPos[0] < self.map.size) and (-1 < self.currPos[1] < self.map.size) and self.map.matrix[self.currPos[0]][self.currPos[1]] == 'E'):
@@ -72,3 +84,6 @@ class Tank:
 
     def getMaxBullets(self):
         return self.maxBullets
+
+    def addBonus(self, bonus):
+        self.bonuses.append(bonus)

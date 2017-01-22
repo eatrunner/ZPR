@@ -17,7 +17,8 @@ class TestGameObserver(GameObserver):
         print "Bullet no", id, ", position: ", x, " ", y, ", direction: ", dir
 
     def addTank(self, id, pos, dir):
-        print "Added tank ", id
+        x, y = pos
+        print "Added tank ", id, "Position: ", x, y
 
     def removeTank(self, id):
         print "Removed tank ", id
@@ -31,3 +32,14 @@ class TestGameObserver(GameObserver):
 
     def updateMap(self, map):
         print map
+
+    def addBonus(self, id, pos, name):
+        x, y = pos
+        print "Added bonus ", id, ", position", x, y, name
+
+    def removeBonus(self, id, pos, name):
+        x, y = pos
+        print "Added bonus ", id, ", position", x, y, name
+
+    def updateMapSize(self, new_size):
+        print "MapSize: ", new_size

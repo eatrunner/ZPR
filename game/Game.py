@@ -62,11 +62,11 @@ class Game(Map):
 
     def notifyAddBonus(self, bonus):
         for observer in self.observers:
-            observer.addBonus(bonus.id, bonus.pos, bonus.name)
+            observer.addBonus(bonus.id, bonus.pos)
 
     def notifyRemoveBonus(self, bonus):
         for observer in self.observers:
-            observer.removeBonus(bonus.id, bonus.pos, bonus.name)
+            observer.removeBonus(bonus.id)
 
     def notifyGameStatus(self, status):
         for observer in self.observers:
@@ -110,6 +110,7 @@ class Game(Map):
 
     def removeBonus(self, bonus):
         self.bonuses.remove(bonus)
+        print "notify"
         self.notifyRemoveBonus(bonus)
 
     def shoot(self, id):
@@ -129,7 +130,9 @@ class Game(Map):
     def expireBonuses(self):
         for bonus in self.bonuses:
             bonus.expire()
+            print bonus.getTimeToLive()
             if bonus.getTimeToLive() == 0:
+                print bonus.getTimeToLive()
                 self.removeBonus(bonus)
         for tank in self.tanks:
             for bonus in tank.bonuses:
@@ -154,7 +157,7 @@ class Game(Map):
 
     def processGame(self):
         self.expireBonuses()
-        self.bonusSpawner.process()
+        #self.bonusSpawner.process()
         for tank in self.tanks:
             if (tank.bullets != []):
                 bulletsToRemove = []

@@ -33,26 +33,36 @@ class Tank:
                 self.faceDirection = direction
             d = self.CTRLS.index(direction)
             self.prevPos = self.currPos[:]
-            self.currPos[d > 2] += (d - (1 if d < 3 else 4))
+            tmpPos = self.currPos[:]
+            tmpPos[d > 2] += (d - (1 if d < 3 else 4))
 
             for tank in self.map.tanks:
-                if tank != self and tank.currPos == self.currPos:
+                if tank != self and tank.currPos == tmpPos:
+                    self.currPos = self.prevPos
                     return False
 
             for bonus in self.map.bonuses:
-                if bonus.pos == self.currPos:
+                if bonus.pos == tmpPos:
                     self.addBonus(bonus)
                     self.map.removeBonus(bonus)
                     bonus.upgradeTank(self)
                     bonus.timeToLive = 10
 
             # Check collisions
+            """
             if not((-1 < self.currPos[0] < self.map.size) and (-1 < self.currPos[1] < self.map.size) and self.map.matrix[self.currPos[0]][self.currPos[1]] == 'E'):
-                self.currPos = self.prevPos[:]
+                self.currPos = self.prevPos
                 if flag:
                     return True
                 else:
                     return False
+            """
+            if tmpPos[0] < 0 or tmpPos[0] > (self.map.size - 1) or tmpPos[1] < 0 or tmpPos[1] > (self.map.size - 1) or self.map.matrix[tmpPos[0]][tmpPos[1]] != 'E':
+                if flag:
+                    return True
+                else:
+                    return False
+            self.currPos = tmpPos[:]
             return True
         return False
 

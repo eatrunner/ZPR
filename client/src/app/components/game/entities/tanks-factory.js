@@ -7,9 +7,9 @@ angular
 		}
 
 		TanksFactory.prototype.createTank = function(tankData) {
-			var playerId = tankData.playerId;
-
-			if(playerId === this._playerId) {
+			var id = tankData.id;
+			var PLAYER_ID = 0;
+			if(id === 0) {
 				return new PlayerTank(this._game, tankData);
 			} else {
 				return new EnemyTank(this._game, tankData);

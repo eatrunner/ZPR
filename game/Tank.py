@@ -67,12 +67,12 @@ class Tank:
         bulletPos = self.currPos[:]
         d = self.CTRLS.index(self.faceDirection)
         bulletPos[d > 2] += (d - (1 if d < 3 else 4))
+
         bullet = Bullet(self.map.currentBulletId, self.id, self.map,
                         bulletPos[0], bulletPos[1], self.faceDirection)
         self.map.currentBulletId += 1
-        print "bullet", bullet.currPos
-        print "tank", self.currPos
         self.bullets.append(bullet)
+
         return bullet
 
     def moveBullet(self, bullet):

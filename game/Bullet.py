@@ -8,6 +8,7 @@ class Bullet(MovingMapObject):
         self.id = id
         self.tankId = tankId
         self.direction = direction
+        self.justCreated = True
 
     # returns False if a collision occured
     def move(self):
@@ -23,7 +24,6 @@ class Bullet(MovingMapObject):
 
             for bullet in self.map.bullets:
                 if ((bullet.currPos == self.currPos) and (bullet.id != self.id)):
-                    self.map.removeBullet(bullet)
                     return False
 
             # TODO: change collision detection for MapBlocks

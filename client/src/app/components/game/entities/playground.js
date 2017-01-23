@@ -1,14 +1,14 @@
 angular
 	.module('app.components.game.entities')
-	.factory('Playground', function(Map, TanksGroup, BulletsGroup, GameState) {
+	.factory('Playground', function(Map, GameState, BonusesGroup, TanksGroup, BulletsGroup) {
 
 		function Playground(game, gameInfo, gameState) {
 			this._game = game;
 
 			this._map = new Map(game, gameInfo.mapWidth, gameInfo.mapHeight, gameInfo.map);
-			this._tanksGroup = new TanksGroup(game, gameInfo.playerId);
-			this._bulletsGroup = new BulletsGroup(game, gameInfo.playerId);
-			// this._bonusesGroup = new BonusesGroup(game, gameInfo.playerId);
+			this._tanksGroup = new TanksGroup(game);
+			this._bulletsGroup = new BulletsGroup(game);
+			this._bonusesGroup = new BonusesGroup(game);
 
 			this.group = game.add.group();
 			this.group.add(this._map.group);
@@ -26,6 +26,7 @@ angular
 				this._map.update(gameStateData.map);
 				this._tanksGroup.update(gameStateData.tanks);
 				this._bulletsGroup.update(gameStateData.bullets);
+				this._bonusesGroup.update(gameStateData.bonuses);
 			}
 		};
 

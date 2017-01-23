@@ -4,7 +4,6 @@ angular
 		var GAME_FPS = 1;
 		var FACTOR = 16;
 
-		// Bullet is movable, directionable
 		Bullet.prototype = Object.create(Item.prototype);
 		Bullet.prototype.constructor = Bullet;
 		Bullet.prototype._itemParent = Item.prototype;

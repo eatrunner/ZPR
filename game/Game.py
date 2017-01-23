@@ -64,7 +64,7 @@ class Game(Map):
 
     def notifyAddBonus(self, bonus):
         for observer in self.observers:
-            observer.addBonus(bonus.id, bonus.pos)
+            observer.addBonus(bonus.id, bonus.pos, bonus.name)
 
     def notifyRemoveBonus(self, bonus):
         for observer in self.observers:
@@ -84,8 +84,7 @@ class Game(Map):
     def moveTank(self, id, direction):
         for tank in self.tanks:
             if tank.id == id:
-                if (tank.move(direction)):
-                    self.notifyTankPosition(tank)
+                tank.moveDir = direction
 
     def addTank(self, tank):
         self.tanks.append(tank)
@@ -117,9 +116,7 @@ class Game(Map):
     def shoot(self, id):
         for tank in self.tanks:
             if tank.id == id:
-                if (len(tank.bullets) < tank.maxBullets):
-                    bullet = tank.createBullet()
-                    self.addBullet(bullet)
+                tank.shootFlag = True
 
     def getFreeCoords(self):
         while(True):
@@ -152,10 +149,31 @@ class Game(Map):
         observer.updateMapSize(self.size)
         observer.updateGameStatus(self.status)
 
+    def moveBullets(self):
+        for tank in self.tanks:
+            if (tank.bullets != []):
+                bulletsToRemove = []
+                for bullet in tank.bullets:
+                    i = 0
+                    while i < 3:
+                        if(tank.moveBullet(bullet) == True):
+                            self.notifyBulletPosition(bullet)
+                        else:
+                            bulletsToRemove.append(bullet)
+                            break
+                for bullet in bulletsToRemove:
+                    self.removeBullet(bullet)
+
     def processGame(self):
         self.expireBonuses()
         self.bonusSpawner.process()
         self.enemySpawner.process()
+        for tank in self.tanks:
+            if tank.moveDir != "":
+                if (tank.move(tank.moveDir) == True):
+                    self.notifyTankPosition(tank)
+                tank.moveDir = ""
+
         for tank in self.tanks:
             if (tank.bullets != []):
                 bulletsToRemove = []
@@ -166,3 +184,10 @@ class Game(Map):
                         bulletsToRemove.append(bullet)
                 for bullet in bulletsToRemove:
                     self.removeBullet(bullet)
+
+        for tank in self.tanks:
+            if tank.shootFlag == True:
+                if (len(tank.bullets) < tank.maxBullets):
+                    bullet = tank.createBullet()
+                    self.addBullet(bullet)
+                tank.shootFlag = False

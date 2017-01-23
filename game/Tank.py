@@ -23,6 +23,8 @@ class Tank:
         self.maxBullets = 1
         self.bullets = []
         self.bonuses = []
+        self.moveDir = ""
+        self.shootFlag = False
 
     # Returns False if a collision occured or direction is not proper
     def move(self, direction):
@@ -62,8 +64,14 @@ class Tank:
         return self.currPos
 
     def createBullet(self):
-        bullet = Bullet(self.id * 2 + len(self.bullets), self.id, self.map,
-                        self.currPos[0], self.currPos[1], self.faceDirection)
+        bulletPos = self.currPos[:]
+        d = self.CTRLS.index(self.faceDirection)
+        bulletPos[d > 2] += (d - (1 if d < 3 else 4))
+        bullet = Bullet(self.map.currentBulletId, self.id, self.map,
+                        bulletPos[0], bulletPos[1], self.faceDirection)
+        self.map.currentBulletId += 1
+        print "bullet", bullet.currPos
+        print "tank", self.currPos
         self.bullets.append(bullet)
         return bullet
 

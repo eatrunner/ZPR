@@ -16,17 +16,21 @@ class ServerGameObserver(GameObserver):
 
 		
 	def updateTankPosition(self, id, pos, dir):
+		x,y=pos
 		for i in xrange(len(self.tanks_)):
 			if self.tanks_[i]['id'] == id:
-				self.tanks_[i]['pos'] = pos
+				self.tanks_[i]['x'] = x
+				self.tanks_[i]['y'] = y
 				self.tanks_[i]['dir'] = dir
 				return 1
 		return 0	
 
 	def updateBulletPosition(self, id, pos, dir):
+		x,y=pos
 		for i in xrange(len(self.bullets_)):
 			if self.bullets_[i]['id'] == id:
-				self.bullets_[i]['pos'] = pos
+				self.bullets_[i]['x'] = x
+				self.bullets_[i]['y'] = y
 				self.bullets_[i]['dir'] = dir
 				return 1
 		return 0
@@ -45,7 +49,8 @@ class ServerGameObserver(GameObserver):
 		self.game_status_=new_status
 
 	def addTank(self, tank_id, pos, dir):
-		self.tanks_.append({'id':tank_id, 'pos':pos, 'dir':dir})
+		x,y=pos
+		self.tanks_.append({'id':tank_id, 'x':x, 'y':y, 'dir':dir})
 	
 	def removeTank(self, id):
 		for i in xrange(len(self.tanks_)):
@@ -55,8 +60,8 @@ class ServerGameObserver(GameObserver):
 
 
 	def addBullet(self, id, pos , dir):
-		self.bullets_.append({'id':id, 'pos':pos, 'dir':dir})
-		x,y = pos
+		x,y=pos
+		self.bullets_.append({'id':id, 'x':x, 'y':y, 'dir':dir})
 		print "Added bullet ", id, "position ", x,y
 
 	def removeBullet(self,id):
@@ -66,8 +71,8 @@ class ServerGameObserver(GameObserver):
 		return None
 
 	def addBonus(self, id, pos ):
-		self.bonuses_.append({'id':id, 'pos':pos})
 		x,y = pos
+		self.bonuses_.append({'id':id, 'x':x, 'y':y})
 		print "Added bonus ", id, "position ", x,y
 
 	def removeBonus(self,id):

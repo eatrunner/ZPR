@@ -4,6 +4,8 @@ sys.path.append(sys.path[0] + '/../game/')
 # for tests
 sys.path.append(sys.path[0] + '/../../game/')
 
+sys.path.append(sys.path[0] + '/calcAIpy/')
+
 from ServerGameObserver import ServerGameObserver
 from GameThread import GameThread
 
@@ -11,6 +13,8 @@ from GameThread import GameThread
 
 # import models
 import thread
+import hello
+
 						
 
 # Create your views here.
@@ -140,9 +144,11 @@ class Controller(object):
 
 	def getavalmaps(self,params):
 		tmp=GameThread(1,13)
+		planet = hello.World()
+		planet.set(str(tmp.getAvalMaps()))
 		return {
 			"maps":tmp.getAvalMaps(),
-			"error":""
+			"error":planet.greet()
 		}
 
 		

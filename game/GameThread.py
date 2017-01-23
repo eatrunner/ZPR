@@ -41,6 +41,7 @@ class GameThread(threading.Thread, Game):
         while (not self.killFlag):
             #print "run"
             if(self.pauseFlag == True or self.status == "stop"):
+                time.sleep(SEC_PER_FRAME)
                 continue
             currentTime = time.time()
             self.processGame()

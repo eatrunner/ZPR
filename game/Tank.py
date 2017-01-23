@@ -38,7 +38,7 @@ class Tank:
 
             for tank in self.map.tanks:
                 if tank != self and tank.currPos == tmpPos:
-                    self.currPos = self.prevPos
+                    #self.currPos = self.prevPos
                     return False
 
             for bonus in self.map.bonuses:
@@ -49,14 +49,6 @@ class Tank:
                     bonus.timeToLive = 10
 
             # Check collisions
-            """
-            if not((-1 < self.currPos[0] < self.map.size) and (-1 < self.currPos[1] < self.map.size) and self.map.matrix[self.currPos[0]][self.currPos[1]] == 'E'):
-                self.currPos = self.prevPos
-                if flag:
-                    return True
-                else:
-                    return False
-            """
             if tmpPos[0] < 0 or tmpPos[0] > (self.map.size - 1) or tmpPos[1] < 0 or tmpPos[1] > (self.map.size - 1) or self.map.matrix[tmpPos[0]][tmpPos[1]] != 'E':
                 if flag:
                     return True
@@ -96,6 +88,9 @@ class Tank:
         return self.maxBullets
 
     def addBonus(self, bonus):
+        for b in self.bonuses:
+            if b.name == bonus.name:
+                self.removeBonus(b)
         self.bonuses.append(bonus)
 
     def removeBonus(self, bonus):

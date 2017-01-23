@@ -11,7 +11,10 @@ class Map(object):
         self.bullets = []
         self.tanks = []
         self.bonuses = []
-        self.bonusSpawnTime = 5
+        self.bonusSpawnTime = 7
+        self.enemySpawnTime = 5
+        self.maxNoOfEnemies = 5
+        self.maxNoOfBonuses = 5
 
         # just a map example
         for i in range(4, 9):

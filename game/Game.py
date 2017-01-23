@@ -4,6 +4,7 @@ from Map import Map
 from Bonus import Bonus
 from WeaponBonus import WeaponBonus
 from BonusSpawner import BonusSpawner
+from EnemySpawner import EnemySpawner
 
 
 class Game(Map):
@@ -21,6 +22,7 @@ class Game(Map):
         self.timeToNextBonus = 5
         self.currentBonusId = 0
         self.bonusSpawner = BonusSpawner(self, self.bonusSpawnTime)
+        self.enemySpawner = EnemySpawner(self, self.enemySpawnTime)
 
     # Returns a list of available maps' id numbers
     def getAvalMaps(self):
@@ -110,7 +112,6 @@ class Game(Map):
 
     def removeBonus(self, bonus):
         self.bonuses.remove(bonus)
-        print "notify"
         self.notifyRemoveBonus(bonus)
 
     def shoot(self, id):
@@ -130,15 +131,12 @@ class Game(Map):
     def expireBonuses(self):
         for bonus in self.bonuses:
             bonus.expire()
-            print bonus.getTimeToLive()
             if bonus.getTimeToLive() == 0:
-                print bonus.getTimeToLive()
                 self.removeBonus(bonus)
         for tank in self.tanks:
             for bonus in tank.bonuses:
                 bonus.expire()
                 if bonus.getTimeToLive() == 0:
-                    print "test"
                     bonus.downgradeTank(tank)
                     tank.removeBonus(bonus)
 
@@ -154,10 +152,10 @@ class Game(Map):
         observer.updateMapSize(self.size)
         observer.updateGameStatus(self.status)
 
-
     def processGame(self):
         self.expireBonuses()
-        #self.bonusSpawner.process()
+        self.bonusSpawner.process()
+        self.enemySpawner.process()
         for tank in self.tanks:
             if (tank.bullets != []):
                 bulletsToRemove = []

@@ -18,14 +18,15 @@ class BonusSpawner():
 
     def process(self):
         if(self.timer == 0):
-            bonus = None
-            rand = randint(0, len(self.BONUSES) - 1)
-            if(rand == 0):
-                bonus = WeaponBonus(self.currBonusId, self.map.getFreeCoords())
-            if(rand == 1):
-                bonus = VestBonus(self.currBonusId, self.map.getFreeCoords())
-            self.currBonusId += 1
-            self.timer = self.timeToSpawn
-            self.map.addBonus(bonus)
+            if(len(self.map.bonuses) < self.map.maxNoOfBonuses):
+                bonus = None
+                rand = randint(0, len(self.BONUSES) - 1)
+                if(rand == 0):
+                    bonus = WeaponBonus(self.currBonusId, self.map.getFreeCoords())
+                if(rand == 1):
+                    bonus = VestBonus(self.currBonusId, self.map.getFreeCoords())
+                self.currBonusId += 1
+                self.timer = self.timeToSpawn
+                self.map.addBonus(bonus)
         else:
             self.timer -= 1

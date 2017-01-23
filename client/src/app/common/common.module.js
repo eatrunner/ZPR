@@ -4,8 +4,6 @@
  * @ngdoc module
  * @name common
  *
- * @requires ui.router
- * @requires angular-loading-bar
  *
  * @description
  *
@@ -14,5 +12,4 @@
  **/
 angular
   .module('app.common', [
-  	'app.common.topbar'
   ])

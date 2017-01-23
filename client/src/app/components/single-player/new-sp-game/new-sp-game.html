@@ -6,16 +6,16 @@
 		<div class="form-group">
 			<label for="map-id" class="col-sm-6 control-label">Game map:</label>
 			<div class="col-sm-3">
-				<ui-select ng-model="$ctrl.selected.value">
+				<ui-select ng-model="$ctrl.selected">
 					<ui-select-match>
-						<span ng-bind="$select.selected.name"></span>
+						<span ng-bind="$select.selected"></span>
 					</ui-select-match>
 					<ui-select-choices repeat="item in $ctrl.itemArray">
-						<span ng-bind="item.name"></span>
+						<span ng-bind="item"></span>
 					</ui-select-choices>
 				</ui-select>
 			</div>
 		</div>
-		<a ui-sref="single-player.create-sp-game({mapId: $ctrl.selected.value.id})" class="btn btn-success">Create the game!</a>
+		<a ui-sref="single-player.create-sp-game({mapId: $ctrl.selected})" class="btn btn-success">Create the game!</a>
 	</form>
 </div>

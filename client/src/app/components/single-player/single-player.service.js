@@ -1,18 +1,40 @@
 function singlePlayerService($http, $q) {
 	var service = {
-		createGame: createGame
+		createGame: createGame,
+		getAvailableMaps: getAvailableMaps
 	};
 
 	var API_GAME_PREFIX = '/tank-game/ajax/game';
 
-	function createGame(gameOptions) {
+	function createGame(mapId) {
 		return $q(function(resolve, reject) {
 			$http.get(API_GAME_PREFIX + '/creategame', {
-				params: gameOptions
+				params: {
+					map_id: mapId
+				}
 			}).then(createGameCallback, reject);
 
 			function createGameCallback(response) {
-				resolve(response.data);
+				if(response.error)
+					reject(response.error);
+				else
+					resolve(response.data.game_id);
+			}
+		});
+	}
+
+	function getAvailableMaps() {
+		return $q(function(resolve, reject) {
+			$http.get(API_GAME_PREFIX + '/getavalmaps')
+				.then(getAvailableMapsCallback, reject);
+
+			function getAvailableMapsCallback(response) {
+				if(response.error)
+					reject(response.error);
+				else {
+					console.log(response.data.maps);
+					resolve(response.data.maps);
+				}
 			}
 		});
 	}

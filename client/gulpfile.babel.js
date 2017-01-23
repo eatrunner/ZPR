@@ -100,7 +100,7 @@ gulp.task('scripts', ['modules'], () => {
 
 gulp.task('serve', () => {
   console.log('serve');
-  var proxyOptions = url.parse('http://127.0.0.1:9000/');
+  var proxyOptions = url.parse('http://127.0.0.1:9000/tank-game');
   proxyOptions.route = '/tank-game';
 
   return server.init({

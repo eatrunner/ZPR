@@ -1,14 +1,9 @@
-function NewSpGameController($scope) {
+function NewSpGameController() {
   var $ctrl = this;
-  	$ctrl.itemArray = [
-        {id: 1, name: '1'},
-        {id: 2, name: '2'},
-        {id: 3, name: '3'},
-        {id: 4, name: '4'},
-        {id: 5, name: '5'},
-    ];
-
-    $ctrl.selected = { value: $ctrl.itemArray[0] };
+  $ctrl.$onInit = function() {
+  	$ctrl.itemArray = $ctrl.availableMaps;
+    $ctrl.selected = $ctrl.itemArray[0];
+  };
 }
 
 /*

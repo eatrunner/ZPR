@@ -143,7 +143,7 @@ function createGameHandle(req, res, next) {
 
 	res.end(JSON.stringify({
 		errors: "",
-		gameId: 123
+		game_id: 123
 	}));
 }
 
@@ -208,10 +208,23 @@ function playerShootHandle(req, res, next) {
 	}));
 }
 
+function getAvailMapsHandle(req, res, next) {
+	res.setHeader("Content-Type", "application/json");
+	res.end(JSON.stringify({
+		errors: "",
+		maps: [1]
+	}));
+}
+
+
 export const middleware = [
 	{
 		route: (PREFIX + '/creategame'),
 		handle: createGameHandle
+	},
+	{
+		route: (PREFIX + '/getavalmaps'),
+		handle: getAvailMapsHandle
 	},
 	{
 		route: (PREFIX + '/startgame'),

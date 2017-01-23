@@ -26,21 +26,24 @@ angular
 		    })
 		    .state('single-player.new-sp-game', {
 		    	url: '/new',
-		    	component: 'newSpGame'
+		    	component: 'newSpGame',
+		    	resolve: {
+		    		availableMaps: function(singlePlayerService) {
+		    			return singlePlayerService.getAvailableMaps();
+		    		}
+		    	}
 		    })
 		    .state('single-player.create-sp-game', {
 		    	url: '/create/:mapId',
 		    	template: '<h3>Game was created successfully!</h3>',
-		    	controller: function($state, createGamePromise) {
+		    	controller: function($state, gameId) {
 		    		$state.go('game', {
-		    			gameId: createGamePromise.gameId
+		    			gameId: gameId
 		    		});
 		    	},
 		    	resolve: {
-		    		createGamePromise: function(singlePlayerService, $stateParams, $q) {
-		    			return singlePlayerService.createGame({
-		    				mapId: $stateParams.mapId
-		    			});
+		    		gameId: function(singlePlayerService, $stateParams) {
+		    			return singlePlayerService.createGame($stateParams.mapId);
 		    		}
 		    	}
 		    });

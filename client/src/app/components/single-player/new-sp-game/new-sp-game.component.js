@@ -1,6 +1,9 @@
 var newSpGame = {
   controller: 'NewSpGameController',
-  templateUrl: './new-sp-game.html'
+  templateUrl: './new-sp-game.html',
+  bindings: {
+  	availableMaps: '<'
+  }
 };
 
 angular

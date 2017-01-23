@@ -16,11 +16,13 @@ angular
 			this._game = game;
 		}
 
+		Rotatable.prototype._lastAngle = null;
 		Rotatable.prototype._sprite = null;
 		Rotatable.prototype._game = null;
 
 		Rotatable.prototype.rotate = function(direction, rotateDuration) {
 			var newAngle = Directionable.directionToAngle(direction);
+
 			var rotateTween = this._game.add.tween(this._sprite)
 				.to({angle: newAngle},
 					rotateDuration,

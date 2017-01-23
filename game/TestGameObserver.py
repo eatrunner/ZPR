@@ -33,9 +33,9 @@ class TestGameObserver(GameObserver):
     def updateMap(self, map):
         print map
 
-    def addBonus(self, id, pos):
+    def addBonus(self, id, pos, type):
         x, y = pos
-        print "Added bonus ", id, ", position", x, y
+        print "Added bonus ", id, ", position", x, y, type
 
     def removeBonus(self, id):
         print "Removed bonus ", id

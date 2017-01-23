@@ -15,6 +15,7 @@ class Map(object):
         self.enemySpawnTime = 5
         self.maxNoOfEnemies = 5
         self.maxNoOfBonuses = 5
+        self.currentBulletId = 0
 
         # just a map example
         for i in range(4, 9):

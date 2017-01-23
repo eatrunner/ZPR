@@ -7,7 +7,7 @@ angular
 			this._gameState = gameState;
 			this.group = game.add.group();
 
-			this._createBeginScreen(gameInfo.mapId);
+			this._createBeginScreen(gameInfo.map_id);
 			this._createDeactivateTween();
     		this._startGameKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 			this._startGameKey.onDown.add(this._startGameKeyPressed, this);
@@ -88,6 +88,8 @@ angular
 				'Press [SPACE] to start', 
 				label2Opts,
 				this.group);
+
+			label.anchor.setTo(0.5, 0.5);
 			label2.anchor.setTo(0.5, 0.5);
 		};
 

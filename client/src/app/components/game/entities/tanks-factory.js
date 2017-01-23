@@ -1,15 +1,16 @@
 angular
 	.module('app.components.game.entities')
 	.factory('TanksFactory', function(PlayerTank, EnemyTank) {
-		function TanksFactory(game, playerId) {
+		
+		function TanksFactory(game) {
 			this._game = game;
-			this._playerId = playerId;
 		}
 
-		TanksFactory.prototype.createTank = function(tankData) {
+		TanksFactory.PLAYER_ID = 0;
+
+		TanksFactory.prototype.create = function(tankData) {
 			var id = tankData.id;
-			var PLAYER_ID = 0;
-			if(id === 0) {
+			if(id === TanksFactory.PLAYER_ID) {
 				return new PlayerTank(this._game, tankData);
 			} else {
 				return new EnemyTank(this._game, tankData);

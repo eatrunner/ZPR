@@ -34,7 +34,7 @@ class GameObserver(object):
     def removeBullet(self, id):
         raise NotImplementedError()
 
-    def addBonus(self, id, pos):
+    def addBonus(self, id, pos, type):
         raise NotImplementedError()
 
     def removeBonus(self, id):

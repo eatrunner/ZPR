@@ -1,85 +1,36 @@
 angular
   	.module('app.components.game.states')
-  	.factory('PlayState', function($http, $q, $log, gameService, TankGame) {
+  	.factory('PlayState', function(GameState, Playground, BeginMenu, PauseMenu, Gui) {
   		var GAME_REFRESH_MS = 1000;
 
 		function PlayState(game) {
 			this._game = game;
-			this._gameRunning = false;
-			this._lastUpdateTime = 0;
-			this._updatingState = false;
-			this._gameInfo = {};
 		}
+
+		PlayState.prototype._gameInfo = null;
+		PlayState.prototype._gameState = null;
+		PlayState.prototype._world = null;
+		PlayState.prototype._timer = null;
 
 		PlayState.prototype.init = function(gameInfo) {
 			this._gameInfo = gameInfo;
 		}
 
 		PlayState.prototype.create = function() {
-			this._tankGame = new TankGame(this._game, this._gameInfo);
-			this._startTheGame();
+			this._gameState = new GameState();
+			this._playground = new Playground(this._game, this._gameInfo, this._gameState);
+			this._beginMenu = new BeginMenu(this._game, this._gameInfo, this._gameState);
+			this._gui = new Gui(this._game, this._gameInfo, this._gameState);
+			this._pauseMenu = new PauseMenu(this._game, this._gameInfo, this._gameState);
+
+			this._timer = Date.now();
 		};
-
-		PlayState.prototype._startTheGame = function() {
-			gameService
-				.startGame()
-				.then(startGameCallback, startGameError);
-
-			var self = this;
-			function startGameCallback(response) {
-				if(response.errors)
-					$log.warn(response.errors);
-				else
-					self._runTheGame();
-			}
-
-			function startGameError(reason) {
-				$log.error(reason);
-			}
-		};
-
-		PlayState.prototype._runTheGame = function() {
-			this._gameRunning = true;
-			this._tankGame.startGame();
-		};
-
-		PlayState.prototype._updateState = function() {
-			if(!this._updatingState) {
-				this._updatingState = true;
-
-				gameService
-					.getState()
-					.then(getStateCallback, getStateError)
-					.finally(getStateEnds);
-			}
-
-			var self = this;
-			function getStateCallback(response) {
-				if(response.errors) {
-					$log.warn(response.errors);
-				} else {
-					self._tankGame.updateState(response);
-				}
-			}
-
-			function getStateError(reason) {
-				$log.error(reason);
-			}
-
-			function getStateEnds() {
-				self._updatingState = false;
-			}
-		}
 
 		PlayState.prototype.update = function() {
-			if(!this._gameRunning)
-				return;
-
 			var now = Date.now();
-			var timeDiff = now - this._lastUpdateTime;
-			if(timeDiff > GAME_REFRESH_MS) {
-				this._lastUpdateTime = now;
-				this._updateState();
+			if(now - this._timer > GAME_REFRESH_MS) {
+				this._gameState.update();
+				this._timer = now;
 			}
 		};
 

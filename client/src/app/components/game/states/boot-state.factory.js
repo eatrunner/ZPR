@@ -87,6 +87,7 @@ angular
 			game.load.audio('menu-move', 'sfx/menu-move.mp3');
 			game.load.audio('tank-destroy', 'sfx/tank-destroy.mp3');
 			game.load.audio('bullet-damage', 'sfx/bullet-damage.mp3');
+			game.load.audio('pause', 'sfx/pause.mp3');
 			
 			game.load.start();
 

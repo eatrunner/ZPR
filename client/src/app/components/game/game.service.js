@@ -5,6 +5,8 @@ function gameService($http, $q, gameSession) {
 		getGameInfo: getGameInfo,
 		getState: getState,
 		movePlayer: movePlayer,
+		resumeGame: resumeGame,
+		pauseGame: pauseGame,
 		playerShoot: playerShoot
 	};
 
@@ -32,6 +34,14 @@ function gameService($http, $q, gameSession) {
 		return makeGET('/stopgame');
 	}
 
+	function pauseGame() {
+		return makeGET('/pausegame');
+	}
+
+	function resumeGame() {
+		return makeGET('/resumegame');
+	}
+
 	function getGameInfo() {
 		return makeGET('/getgameinfo');
 	}
@@ -40,9 +50,8 @@ function gameService($http, $q, gameSession) {
 		return makeGET('/getstate');
 	}
 
-	function movePlayer(playerId, direction) {
+	function movePlayer(direction) {
 		return makeGET('/moveplayer', {
-			id: playerId,
 			dir: direction
 		});
 	}

@@ -19,14 +19,12 @@ var playerTank =  {
   "bonus": ""
  };
 
-var tanks = [
-	playerTank
-];
-
-var bullets = [
-];
+var tanks = [ playerTank ];
+var bullets = [];
 var nextBulletId = 2;
 var nextTankId = 2;
+
+var status = "stop"
 
 function getStateHandle(req, res, next) {
 	if(Math.random() <= 0.25) {
@@ -108,6 +106,7 @@ function getStateHandle(req, res, next) {
 	res.setHeader("Content-Type", "application/json");
 	res.end(JSON.stringify({
 		errors: "",
+		status: status,
 		map: terrain,
 		tanks: tanks.concat(playerTank),
 		bullets: bullets
@@ -120,13 +119,23 @@ function startGameHandle(req, res, next) {
 		errors: "",
 		mapId: 123
 	}));
+	status = "run";
 }
 
-function stopGameHandle(req, res, next) {
+function pauseGameHandle(req, res, next) {
 	res.setHeader("Content-Type", "application/json");
 	res.end(JSON.stringify({
 		errors: ""
 	}));
+	status = "pause";
+}
+
+function resumeGameHandle(req, res, next) {
+	res.setHeader("Content-Type", "application/json");
+	res.end(JSON.stringify({
+		errors: ""
+	}));
+	status = "run";
 }
 
 function createGameHandle(req, res, next) {
@@ -209,8 +218,12 @@ export const middleware = [
 		handle: startGameHandle
 	},
 	{
-		route: (PREFIX + '/stopgame'),
-		handle: stopGameHandle
+		route: (PREFIX + '/pausegame'),
+		handle: pauseGameHandle
+	},
+	{
+		route: (PREFIX + '/resumegame'),
+		handle: resumeGameHandle
 	},
 	{
 		route: (PREFIX + '/getgameinfo'),

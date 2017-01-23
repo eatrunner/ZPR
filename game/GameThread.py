@@ -45,3 +45,4 @@ class GameThread(threading.Thread, Game):
             currentTime = time.time()
             self.processGame()
             time.sleep(currentTime + SEC_PER_FRAME - time.time())
+

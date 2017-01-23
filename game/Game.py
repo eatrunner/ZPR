@@ -5,6 +5,7 @@ from Bonus import Bonus
 from WeaponBonus import WeaponBonus
 from BonusSpawner import BonusSpawner
 from EnemySpawner import EnemySpawner
+from BotMovement import BotMovement
 
 
 class Game(Map):
@@ -27,6 +28,7 @@ class Game(Map):
         self.tanksToRemove = []
         self.points = 0
         self.gameOver = False
+        self.botMovement = BotMovement(1)
 
     # Returns a list of available maps' id numbers
     def getAvalMaps(self):
@@ -174,7 +176,6 @@ class Game(Map):
     def moveBullets(self):
         for tank in self.tanks:
             if (tank.bullets != []):
-                bulletsToRemove = []
                 for bullet in tank.bullets:
                     moveFlag = True
                     if(bullet.justCreated == True):
@@ -186,6 +187,8 @@ class Game(Map):
                                 if(bullet.tankId == 0):
                                     self.addPoints(10)
                                     self.enemiesToKill -= 1
+                                if(tankinner.id == 0):
+                                    self.gameOver = True
                                 moveFlag = False
                                 break
                     if(moveFlag == True):
@@ -197,8 +200,7 @@ class Game(Map):
                             else:
                                 self.bulletsToRemove.append(bullet)
                                 break
-                """for bullet in bulletsToRemove:
-                    self.removeBullet(bullet)"""
+
 
     def cleanTanks(self):
         for tank in self.tanksToRemove:
@@ -207,8 +209,9 @@ class Game(Map):
 
     def cleanBullets(self):
         for bullet in self.bulletsToRemove:
+            print "remove bullet", bullet.id,"pos:", bullet.currPos
             self.removeBullet(bullet)
-            self.bulletsToRemove.remove(bullet)
+        self.bulletsToRemove = []
 
     def checkWinConditions(self):
         if self.enemiesToKill == 0:
@@ -249,13 +252,18 @@ class Game(Map):
         self.bulletsToRemove = []
         self.tanksToRemove = []
 
+    def moveBots(self):
+        for tank in self.tanks:
+            if tank.id != 0:
+                self.botMovement.move(tank)
+
     def processGame(self):
-        self.checkLoseConditions()
         self.cleanBullets()
         self.cleanTanks()
+        self.checkLoseConditions()
         self.checkWinConditions()
         self.expireBonuses()
-
+        self.moveBots()
         for tank in self.tanks:
             if tank.moveDir != "":
                 if (tank.move(tank.moveDir) == True):
@@ -265,26 +273,7 @@ class Game(Map):
         self.bonusSpawner.process()
         self.enemySpawner.process()
         self.moveBullets()
-        """
-        for tank in self.tanks:
-            if (tank.bullets != []):
-                bulletsToRemove = []
-                for bullet in tank.bullets:
-                    if(bullet.justCreated == True):
-                        bullet.justCreated = False
-                        for tankinner in self.tanks:
-                            if tankinner.currPos == bullet.currPos:
-                                self.removeTank(tankinner)
-                                bulletsToRemove.append(bullet)
-                                break
 
-                    if(tank.moveBullet(bullet) == True):
-                        self.notifyBulletPosition(bullet)
-                    else:
-                        bulletsToRemove.append(bullet)
-                for bullet in bulletsToRemove:
-                    self.removeBullet(bullet)
-"""
         for tank in self.tanks:
             if tank.shootFlag == True:
                 if (len(tank.bullets) < tank.maxBullets):

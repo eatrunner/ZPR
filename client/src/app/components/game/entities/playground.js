@@ -20,8 +20,8 @@ angular
 			this.group.add(this._bulletsGroup.group);
 			this.group.add(this._bonusesGroup.group);
 
-			this.group.x = FACTOR * (GAME_MARGIN_LEFT - 1 + (GAME_MAX_WIDTH - gameInfo.mapWidth)/2);
-			this.group.y = FACTOR * GAME_MARGIN_TOP;
+			this.group.x = game.world.width/2 - gameInfo.mapWidth*FACTOR/2;
+			this.group.y = game.world.height/2 - gameInfo.mapHeight*FACTOR/2;
 
 			gameState.onUpdate.add(this._update, this);
 		}

@@ -10,15 +10,11 @@ angular
 
 			gameState.onUpdate.add(this._update, this);
 			this._scoreCaption = game.add.text(
-				FACTOR * (GAME_MARGIN_WIDTH - 1), 
+				game.world.width / 2, 
 				FACTOR / 2, 
-				"Score: ", { font: "16px Press Start 2P", fill: "#000", align: "left" });
-			this._scorePoints = game.add.text(
-				FACTOR * (GAME_MARGIN_WIDTH - 1 + GAME_MAX_WIDTH),
-				FACTOR / 2,
-				this._getPaddedScore(this._score),
-				{ font: "16px Press Start 2P", fill: "#000", align: "right", fontWeight: 'bold' });
-			this._scorePoints.anchor.setTo(1, 0);
+				"Score: " + this._getPaddedScore(this._score), 
+				{ font: "16px Press Start 2P", fill: "#000", align: "left" });
+			this._scoreCaption.anchor.setTo(0.5, 0);
 		}
 
 		ScoreBoard.prototype._update = function(gameStateData) {

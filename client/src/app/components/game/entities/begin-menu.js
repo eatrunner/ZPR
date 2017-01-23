@@ -85,7 +85,7 @@ angular
 			var label2 = this._game.add.text(
 				this._game.world.width / 2, 
 				this._game.world.height / 1.5, 
-				'Press [SPACE] to start' + stageNumber, 
+				'Press [SPACE] to start', 
 				label2Opts,
 				this.group);
 			label2.anchor.setTo(0.5, 0.5);

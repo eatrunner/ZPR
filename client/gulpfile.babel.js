@@ -31,8 +31,6 @@ const paths = {
   templates: `${root}/app/**/*.html`,
   modules: [
 	'angular/angular.js',
-	'angular-sanitize/angular-sanitize.js',
-	'angular-ui-bootstrap/dist/ui-bootstrap.js',
 	'ui-select/dist/select.js',
 	'angular-ui-router/release/angular-ui-router.js',
 	'angular-translate/dist/angular-translate.js',

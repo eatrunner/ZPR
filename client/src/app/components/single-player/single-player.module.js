@@ -14,8 +14,7 @@
  **/
 angular
 	.module('app.components.single-player', [
-		'ui.select',
-		'ngSanitize',
+		'ui.select'
 	])
 	.config(function($stateProvider) {
 		$stateProvider

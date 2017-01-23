@@ -1,6 +1,10 @@
 angular
 	.module('app.components.game.entities')
 	.factory('Playground', function(Map, GameState, BonusesGroup, TanksGroup, BulletsGroup) {
+		var FACTOR = 16;
+		var GAME_MAX_WIDTH = 16;
+		var GAME_MARGIN_LEFT = 4;
+		var GAME_MARGIN_TOP = 2;
 
 		function Playground(game, gameInfo, gameState) {
 			this._game = game;
@@ -16,8 +20,8 @@ angular
 			this.group.add(this._bulletsGroup.group);
 			this.group.add(this._bonusesGroup.group);
 
-			this.group.x = this._game.world.width/2 - this.group.width/2;
-			this.group.y = this._game.world.height/2 - this.group.height/2;
+			this.group.x = FACTOR * (GAME_MARGIN_LEFT - 1 + (GAME_MAX_WIDTH - gameInfo.mapWidth)/2);
+			this.group.y = FACTOR * GAME_MARGIN_TOP;
 
 			gameState.onUpdate.add(this._update, this);
 		}

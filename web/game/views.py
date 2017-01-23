@@ -160,6 +160,7 @@ class Controller(object):
 						"mapHeight":self.observers_[i]["observ"].getMapSize(),
 						"map_id":self.observers_[i]["observ"].getMapId(),
 						"playerid": 0,
+						"status": self.observers_[i]["observ"].getStatus(),
 						'error':""
 					}
 		return {

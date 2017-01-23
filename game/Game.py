@@ -166,18 +166,28 @@ class Game(Map):
 
     def processGame(self):
         self.expireBonuses()
-        self.bonusSpawner.process()
-        self.enemySpawner.process()
+
         for tank in self.tanks:
             if tank.moveDir != "":
                 if (tank.move(tank.moveDir) == True):
                     self.notifyTankPosition(tank)
                 tank.moveDir = ""
 
+        self.bonusSpawner.process()
+        self.enemySpawner.process()
+
         for tank in self.tanks:
             if (tank.bullets != []):
                 bulletsToRemove = []
                 for bullet in tank.bullets:
+                    if(bullet.justCreated == True):
+                        bullet.justCreated = False
+                        for tankinner in self.tanks:
+                            if tankinner.currPos == bullet.currPos:
+                                self.removeTank(tankinner)
+                                bulletsToRemove.append(bullet)
+                                break
+
                     if(tank.moveBullet(bullet) == True):
                         self.notifyBulletPosition(bullet)
                     else:

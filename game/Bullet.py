@@ -18,8 +18,13 @@ class Bullet(MovingMapObject):
             self.currPos[d > 2] += (d - (1 if d < 3 else 4))
 
             for tank in self.map.tanks:
-                if tank.currPos == self.currPos:
+                if tank.currPos == self.currPos and tank.id != self.tankId:
                     self.map.tanksToRemove.append(tank)
+                    if(tank.id == 0):
+                        self.map.gameOver = True
+                    if(self.tankId == 0):
+                        self.map.addPoints(10)
+                        self.map.enemiesToKill -= 1
                     return False
             """
             for bullet in self.map.bullets:

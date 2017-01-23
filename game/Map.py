@@ -16,6 +16,7 @@ class Map(object):
         self.maxNoOfEnemies = 5
         self.maxNoOfBonuses = 5
         self.currentBulletId = 0
+        self.enemiesToKill = 2
 
         # just a map example
         for i in range(4, 9):
@@ -58,3 +59,26 @@ class Map(object):
             if bonus.pos == [x, y]:
                 return bonus
         return None
+
+    def loadMap(self, id, size):
+        self.id = id
+        self.matrix = [['E' for j in range(size)] for i in range(size)]
+        self.size = size
+        self.playerPos = [3, 3]
+        self.array = ['E' for i in range(size * size)]
+        self.bullets = []
+        self.tanks = []
+        self.bonuses = []
+        self.bonusSpawnTime = 7
+        self.enemySpawnTime = 5
+        self.maxNoOfEnemies = 5
+        self.maxNoOfBonuses = 5
+        self.currentBulletId = 0
+        self.enemiesToKill = 5
+
+        # just a map example
+        for i in range(3, 9):
+            self.setMapBlock(i, 6, 'B')
+
+        for i in range(3, 9):
+            self.setMapBlock(6, i, 'B')

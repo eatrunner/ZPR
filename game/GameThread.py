@@ -27,7 +27,7 @@ class GameThread(threading.Thread, Game):
         self.status = "pause"
         self.notifyGameStatus("pause")
 
-    def resume(self):
+    def continueGame(self):
         self.pauseFlag = False
         self.status = "run"
         self.notifyGameStatus("run")
@@ -39,8 +39,7 @@ class GameThread(threading.Thread, Game):
             self.init = False
 
         while (not self.killFlag):
-            #print "run"
-            if(self.pauseFlag == True or self.status == "stop"):
+            if(self.pauseFlag == True or self.status == "stop" or self.status == "win" or self.status == "lose"):
                 time.sleep(SEC_PER_FRAME)
                 continue
             currentTime = time.time()

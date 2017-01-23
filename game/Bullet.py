@@ -19,13 +19,13 @@ class Bullet(MovingMapObject):
 
             for tank in self.map.tanks:
                 if tank.currPos == self.currPos:
-                    self.map.removeTank(tank)
+                    self.map.tanksToRemove.append(tank)
                     return False
-
+            """
             for bullet in self.map.bullets:
                 if ((bullet.currPos == self.currPos) and (bullet.id != self.id)):
                     return False
-
+            """
             # TODO: change collision detection for MapBlocks
             if not((-1 < self.currPos[0] < self.map.size) and (-1 < self.currPos[1] < self.map.size) and self.map.matrix[self.currPos[0]][self.currPos[1]] == 'E'):
                 self.currPos = self.prevPos[:]

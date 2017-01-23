@@ -2,12 +2,18 @@ angular
 	.module('app.components.game.entities')
 	.factory('Gui', function(GameState, gameService) {
 		var GAME_REFRESH_MS = 1000;
-
+		var FACTOR = 16;
 		function Gui(game, gameInfo, gameState) {
 			this._game = game;
 			this._running = false;
 
 			gameState.onUpdate.add(this._update, this);
+
+			this._helpText = game.add.text(
+				game.world.width / 2,
+				game.world.height - FACTOR, 
+				"Use <ARROWS> to move, <SPACE> to shoot,\n<ESC> to pause/resume", { font: "6px Press Start 2P", fill: "#000", align: "center" });
+			this._helpText.anchor.setTo(0.5, 0.5);
 
     		this._spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     		this._cursorKeys = game.input.keyboard.createCursorKeys();

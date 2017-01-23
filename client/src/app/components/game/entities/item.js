@@ -14,5 +14,11 @@ angular
 			this.id = id;
 		}
 
+		Item.prototype.update = function(itemData) {};
+
+		Item.prototype.kill = function() {
+			this.sprite.kill();
+		};
+
 		return Item;
 	});

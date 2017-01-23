@@ -5,7 +5,7 @@ angular
 		Weapon.prototype = Object.create(Bonus.prototype);
 		Weapon.prototype.constructor = Weapon;
 		Weapon.prototype._itemParent = Bonus.prototype;
-		function Weapon(game, spriteName, opts) {
+		function Weapon(game, opts) {
 			Bonus.call(this, game, 'weapon', opts);
 		}
 

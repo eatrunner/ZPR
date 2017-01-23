@@ -71,9 +71,11 @@ angular
 
 			game.load.spritesheet('bullet', 'img/bullet.png', 16, 16);
 
+			game.load.spritesheet('weapon', 'img/weapon.png', 16, 16);
+			game.load.spritesheet('vest', 'img/vest.png', 16, 16);
+
 			game.load.spritesheet('tank-powerup-anim', 'img/tank-powerup-anim.png', 16, 16);
 			game.load.spritesheet('points-hundrets', 'img/points-hundrets.png', 16, 16);
-			game.load.spritesheet('bonuses', 'img/bonuses.png', 16, 16);
 			game.load.spritesheet('destroy-anim-big', 'img/destroy-anim-big.png', 32, 32);
 			game.load.spritesheet('destroy-anim-small', 'img/destroy-anim-small.png', 16, 16);
 

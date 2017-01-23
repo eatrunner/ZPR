@@ -13,12 +13,13 @@ angular
 
 		BonusesFactory.prototype.create = function(bonusData) {
 			var bonus;
+			console.log(bonusData);
 			switch(bonusData.type) {
 				case BonusesFactory.Types.VEST:
-					bonus = new Vest(bonusData);
+					bonus = new Vest(this._game, bonusData);
 					break;
 				case BonusesFactory.Types.WEAPON:
-					bonus = new Weapon(bonusData);
+					bonus = new Weapon(this._game, bonusData);
 					break;
 				default:
 					$log.error('Undefined bonus type: ', bonusData.type);

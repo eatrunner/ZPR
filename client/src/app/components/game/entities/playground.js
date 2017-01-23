@@ -14,6 +14,7 @@ angular
 			this.group.add(this._map.group);
 			this.group.add(this._tanksGroup.group);
 			this.group.add(this._bulletsGroup.group);
+			this.group.add(this._bonusesGroup.group);
 
 			this.group.x = this._game.world.width/2 - this.group.width/2;
 			this.group.y = this._game.world.height/2 - this.group.height/2;

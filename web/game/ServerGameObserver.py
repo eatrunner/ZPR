@@ -2,9 +2,11 @@ from Tank import Tank
 from Bullet import Bullet
 from GameObserver import GameObserver
 
+
 class ServerGameObserver(GameObserver):
-	def __init__(self):
+	def __init__(self, new_map_id):
 		super(ServerGameObserver, self).__init__()
+		self.map_id_=new_map_id
 
 	tanks_ = []
 	bullets_ = []
@@ -13,6 +15,7 @@ class ServerGameObserver(GameObserver):
 	map_size_ = 0
 	score_ = 0
 	game_status_ = "stop"
+	map_id_=0
 
 		
 	def updateTankPosition(self, id, pos, dir):
@@ -47,6 +50,9 @@ class ServerGameObserver(GameObserver):
 
 	def updateGameStatus(self, new_status):
 		self.game_status_=new_status
+
+	def updateMapId(self, new_map_id):
+		self.map_id_=new_map_id
 
 	def addTank(self, tank_id, pos, dir):
 		x,y=pos
@@ -101,3 +107,6 @@ class ServerGameObserver(GameObserver):
 
 	def getScore(self):
 		return self.score_
+
+	def getMapId(self):
+		return self.map_id_

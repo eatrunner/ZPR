@@ -8,7 +8,6 @@ from ServerGameObserver import ServerGameObserver
 from GameThread import GameThread
 
 
-
 # import models
 import thread
 						
@@ -34,7 +33,7 @@ class Controller(object):
 				"error":"no map_id"
 			}
 		self.game_threads_.append({"thread":GameThread(int(params['map_id']),13), "game_id":len(self.game_threads_)})
-		self.observers_.append({"observ": ServerGameObserver(), "game_id":len(self.game_threads_)-1})
+		self.observers_.append({"observ": ServerGameObserver(params['map_id']), "game_id":len(self.game_threads_)-1})
 		self.game_threads_[len(self.game_threads_)-1]["thread"].addObserver(self.observers_[len(self.observers_)-1]["observ"])
 		return {
 			"game_id":len(self.game_threads_)-1,
@@ -159,6 +158,7 @@ class Controller(object):
 						'map':self.observers_[i]["observ"].getMap(),
 						"mapWidth":self.observers_[i]["observ"].getMapSize(),
 						"mapHeight":self.observers_[i]["observ"].getMapSize(),
+						"map_id":self.observers_[i]["observ"].getMapId(),
 						"playerid": 0,
 						'error':""
 					}

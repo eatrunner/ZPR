@@ -12,7 +12,7 @@ class Game(Map):
 
     def __init__(self, mapId, mapSize):
         super(Game, self).__init__(mapId, mapSize)
-        self.status = "run"
+        self.status = "stop"
         self.observers = []
         self.playerTank = Tank(0, self.playerPos, self)
         self.tanks.append(self.playerTank)
@@ -62,11 +62,11 @@ class Game(Map):
 
     def notifyAddBonus(self, bonus):
         for observer in self.observers:
-            observer.addBonus(bonus.id, bonus.pos, bonus.name)
+            observer.addBonus(bonus.id, bonus.pos)
 
     def notifyRemoveBonus(self, bonus):
         for observer in self.observers:
-            observer.removeBonus(bonus.id, bonus.x, bonus.y, bonus.name)
+            observer.removeBonus(bonus.id)
 
     def notifyGameStatus(self, status):
         for observer in self.observers:
@@ -104,18 +104,13 @@ class Game(Map):
         if(tank != None):
             tank.removeBullet(bullet)
 
-    def createBonus(self, id, pos, name):
-        [x, y] = pos
-        bonus = WeaponBonus(id, x, y)
-        self.bonuses.append(bonus)
-        self.notifyAddBonus(bonus)
-
     def addBonus(self, bonus):
         self.bonuses.append(bonus)
         self.notifyAddBonus(bonus)
 
     def removeBonus(self, bonus):
         self.bonuses.remove(bonus)
+        print "notify"
         self.notifyRemoveBonus(bonus)
 
     def shoot(self, id):
@@ -132,6 +127,21 @@ class Game(Map):
             if self.matrix[x][y] == 'E' and self.getTank([x, y]) == None and self.getBonus(x, y) == None:
                 return [x, y]
 
+    def expireBonuses(self):
+        for bonus in self.bonuses:
+            bonus.expire()
+            print bonus.getTimeToLive()
+            if bonus.getTimeToLive() == 0:
+                print bonus.getTimeToLive()
+                self.removeBonus(bonus)
+        for tank in self.tanks:
+            for bonus in tank.bonuses:
+                bonus.expire()
+                if bonus.getTimeToLive() == 0:
+                    print "test"
+                    bonus.downgradeTank(tank)
+                    tank.removeBonus(bonus)
+
     def addObserver(self, observer):
         self.observers.append(observer)
         for tank in self.tanks:
@@ -146,15 +156,8 @@ class Game(Map):
 
 
     def processGame(self):
-        """if self.timeToNextBonus == 0:
-            self.timeToNextBonus = 5
-            self.createBonus(self.currentBonusId,
-                             self.getFreeCoords(), "weapon")
-            self.currentBonusId += 1
-        else:
-            self.timeToNextBonus = self.timeToNextBonus - 1
-"""
-        self.bonusSpawner.process()
+        self.expireBonuses()
+        #self.bonusSpawner.process()
         for tank in self.tanks:
             if (tank.bullets != []):
                 bulletsToRemove = []

@@ -5,6 +5,7 @@ from TestGameObserver import TestGameObserver
 from Tank import Tank
 from GameThread import GameThread
 import time
+from WeaponBonus import WeaponBonus
 FPS = 1
 SEC_PER_FRAME = 1.0 / FPS
 
@@ -14,9 +15,12 @@ game = Game(0, 13)
 gameO = TestGameObserver()
 game.addObserver(gameO)
 
-game.addTank(Tank(1, [9, 9], game))
-game.addTank(Tank(2, [8, 3], game))
+game.addTank(Tank(1, [0, 0], game))
+#game.addTank(Tank(2, [8, 3], game))
 tmp = GameThread(0, 13)
+bonus = WeaponBonus(999, [5, 3])
+
+game.addBonus(bonus)
 
 print game.getAvalMaps()
 
@@ -31,8 +35,11 @@ while i < 20:
     # Action example
     if(i == 3):
         game.moveTank(0, "right")
+        game.shoot(0)
+        game.moveTank(1, "left")
 
     if(i == 6):
+        game.moveTank(0, "right")
         game.shoot(0)
 
     if(i == 8):

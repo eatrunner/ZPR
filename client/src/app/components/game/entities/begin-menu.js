@@ -64,7 +64,7 @@ angular
 				initScreenBmd);
 
 			var labelOpts = {
-				font: '32px Press Start 2P',
+				font: '20px Press Start 2P',
 				fill: '#000',
 				align: 'center'
 			};
@@ -75,7 +75,20 @@ angular
 				'STAGE #' + stageNumber, 
 				labelOpts,
 				this.group);
-			label.anchor.setTo(0.5, 0.5);
+
+			var label2Opts = {
+				font: '16px Press Start 2P',
+				fill: '#000',
+				align: 'center'
+			};
+
+			var label2 = this._game.add.text(
+				this._game.world.width / 2, 
+				this._game.world.height / 1.5, 
+				'Press [SPACE] to start' + stageNumber, 
+				label2Opts,
+				this.group);
+			label2.anchor.setTo(0.5, 0.5);
 		};
 
 		BeginMenu.prototype._createDeactivateTween = function() {

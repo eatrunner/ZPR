@@ -5,17 +5,17 @@ angular
 			this.game = game;
 		}
 
-		BootState.prototype.create = function() {
-			showLoader(this.game);
-			loadAssets(this.game);
-			configureGame(this.game);
-		};
-
 		BootState.prototype.init = function() {
 			this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 			this.game.scale.pageAlignHorizontally = true;
 			this.game.scale.pageAlignVeritcally = true;
 			this.game.scale.refresh();
+		};
+		
+		BootState.prototype.create = function() {
+			showLoader(this.game);
+			loadAssets(this.game);
+			configureGame(this.game);
 		};
 		
 		function configureGame(game) {

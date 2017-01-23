@@ -76,9 +76,9 @@ class ServerGameObserver(GameObserver):
 				return self.bullets_.pop(i)		
 		return None
 
-	def addBonus(self, id, pos ):
+	def addBonus(self, id, pos, type ):
 		x,y = pos
-		self.bonuses_.append({'id':id, 'x':x, 'y':y})
+		self.bonuses_.append({'id':id, 'x':x, 'y':y, 'type':type})
 		print "Added bonus ", id, "position ", x,y
 
 	def removeBonus(self,id):

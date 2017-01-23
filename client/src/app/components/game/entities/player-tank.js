@@ -1,6 +1,6 @@
 angular
 	.module('app.components.game.entities')
-	.factory('PlayerTank', function($log, Tank, Directionable, gameService) {
+	.factory('PlayerTank', function($log, Tank, gameService) {
 		var FACTOR = 16;
 
 		PlayerTank.prototype = Object.create(Tank.prototype);
@@ -17,14 +17,6 @@ angular
 
 		PlayerTank.prototype._colourTank = function() {
 			this.sprite.tint = "0xffbb00";
-		};
-
-		PlayerTank.prototype.update = function(opts) {
-			this._parent.update.call(this, opts);
-		};
-
-		PlayerTank.prototype.kill = function() {
-			this._parent.kill.call(this);
 		};
 
 		return PlayerTank;

@@ -1,6 +1,8 @@
 angular
 	.module('app.components.game.entities')
 	.factory('Gui', function(GameState, gameService) {
+		var GAME_REFRESH_MS = 1000;
+
 		function Gui(game, gameInfo, gameState) {
 			this._game = game;
 			this._running = false;
@@ -15,6 +17,12 @@ angular
     		this._cursorKeys.down.onDown.add(this._movePlayer, this, null, "down");
     		this._cursorKeys.right.onDown.add(this._movePlayer, this, null, "right");
     		this._cursorKeys.left.onDown.add(this._movePlayer, this, null, "left");
+
+    		for(var it in this._cursorKeys) {
+    			var key = this._cursorKeys[it];
+	    		key.onHoldCallback = this._onKeyHoldCallback;
+	    		key.onHoldContext = this;
+	    	}
 		}
 
 		Gui.prototype._update = function(gameStateData) {
@@ -22,6 +30,13 @@ angular
 				this._running = true;
 			} else {
 				this._running = false;
+			}
+		};
+
+		Gui.prototype._onKeyHoldCallback = function(key) {
+			if(!key.downDuration(GAME_REFRESH_MS)) {
+				var doHardReset = false;
+				key.reset(doHardReset);
 			}
 		};
 

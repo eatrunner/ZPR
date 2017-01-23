@@ -13,13 +13,5 @@ angular
 		EnemyTank.prototype.constructor = Tank;
 		EnemyTank.prototype._parent = Tank.prototype;
 
-		EnemyTank.prototype.update = function(opts) {
-			this._parent.update.call(this, opts);
-		};
-
-		EnemyTank.prototype.kill = function() {
-			this._parent.kill.call(this);
-		};
-
 		return EnemyTank;
 	});

@@ -70,7 +70,7 @@ def addToLD(path):
         os.environ["LD_LIBRARY_PATH"]= os.path.abspath(path)
 
 if env['r'] == 'n':
-    os.system('USE_PROXY=true SRV_HOST={srvHost} SRV_PORT={srvPort} CLIENT_HOST={clientHost} CLIENT_PORT={clientPort} node client/server.js'.format(srvHost=WEB_SRV_HOST, srvPort=WEB_SRV_PORT, clientHost=WEB_CLIENT_HOST, clientPort=WEB_CLIENT_PORT))
+    os.system('cd client; USE_PROXY=true SRV_HOST={srvHost} SRV_PORT={srvPort} CLIENT_HOST={clientHost} CLIENT_PORT={clientPort} gulp &'.format(srvHost=WEB_SRV_HOST, srvPort=WEB_SRV_PORT, clientHost=WEB_CLIENT_HOST, clientPort=WEB_CLIENT_PORT))
 
     if platform.system() == "Linux":
         os.system('gunicorn --chdir build_web --timeout 0 --workers 1 --bind \'{addr}:{port}\' wsgi:application'.format(addr=WEB_SRV_HOST, port=WEB_SRV_PORT))

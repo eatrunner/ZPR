@@ -9,8 +9,11 @@ angular
 
 		PlayState.prototype._gameInfo = null;
 		PlayState.prototype._gameState = null;
-		PlayState.prototype._world = null;
+		PlayState.prototype._playground = null;
 		PlayState.prototype._timer = null;
+		PlayState.prototype._gui = null;
+		PlayState.prototype._beginMenu = null;
+		PlayState.prototype._pauseMenu = null;
 
 		PlayState.prototype.init = function(gameInfo) {
 			this._gameInfo = gameInfo;
@@ -28,9 +31,11 @@ angular
 
 		PlayState.prototype.update = function() {
 			var now = Date.now();
-			if(now - this._timer > GAME_REFRESH_MS) {
+			var diff = now - this._timer;
+			if(diff > GAME_REFRESH_MS) {
 				this._gameState.update();
-				this._timer = now;
+				var lateTime = (diff - GAME_REFRESH_MS);
+				this._timer = now + lateTime;
 			}
 		};
 

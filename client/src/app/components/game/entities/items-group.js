@@ -32,7 +32,7 @@ angular
 				var itemData = itemsDataMap[id];
 				var item = this._itemFactory.create(itemData);
 				this._itemsMap[id] = item;
-				this.group.add(item);
+				this.group.add(item.sprite);
 			}
 		};
 

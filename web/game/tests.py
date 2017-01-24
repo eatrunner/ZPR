@@ -9,61 +9,239 @@ class GameViewTestCase(TestCase):
 		contr = Controller()
 
 	"""test game functions"""
-	def test01getmap(self):
-		"""checks if getmap returns proper size of matrix"""
+	def test01getavalmaps(self):
+		"""checks if getavalmaps returns proper message"""
+		
 		contr = Controller()
-		msg = contr.getmap()
-		size = msg["size"]
-		map = msg["map"]
-		self.assertEqual( len(map),size[0] )
-		self.assertEqual( len(map[1]),size[1])
+		msg = contr.getavalmaps({1})
+	
+		self.assertEqual( msg['error'], "" )
 
-	def test01gettanks(self):
-		"""checks if msg is list of 2 elements"""
+	def test02creategame(self):
+		"""checks if creategame returns proper message"""
+		
 		contr = Controller()
-		msg = contr.gettanks()
-		self.assertEqual( len(msg), 2)
 
-	def test02gettanks(self):
-		"""checks if tanks position is vector with 2 elements"""
+		msg = contr.creategame({'map_id':1})
+		self.assertEqual( msg['error'], "" )
+		self.assertEqual( msg['game_id'], 0 )
+
+		msg = contr.creategame({'map_id':1})
+		self.assertEqual( msg['error'], "" )
+		self.assertEqual( msg['game_id'], 1 )
+
+		msg_2 = contr.deletegame({'game_id':1})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.deletegame({'game_id':0})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg = contr.creategame({'map_id':-1})
+		self.assertEqual( msg['error'], "wrong map_id" )
+
+	def test03startgame(self):
+		"""checks if startgame returns proper message"""
+		
 		contr = Controller()
-		msg = contr.gettanks()
-		tanks = msg['tanks']
-		for x in xrange(len(tanks)):
-			self.assertEqual( len(tanks[x]['pos']), 2)
 
-	def test03gettanks(self):
-		"""checks if there are tanks with same id"""
+		msg = contr.creategame({'map_id':1})
+		msg_start = contr.startgame({'game_id':msg['game_id']})
+		self.assertEqual( msg_start['error'], "" )
+
+		msg_start = contr.startgame({'game_id':msg['game_id']})
+		self.assertEqual( msg_start['error'], "game_is_running" )
+
+		contr.deletegame({'game_id':msg['game_id']})
+
+		msg = contr.creategame({'map_id':1})
+		msg_start = contr.startgame({'game_id':msg['game_id']+1})
+		self.assertEqual( msg_start['error'], "game with given game_id does not exist" )
+
+		contr.deletegame({'game_id':msg['game_id']})
+
+	def test04deletegame(self):
+		"""checks if deletegame returns proper message"""
+		
 		contr = Controller()
-		msg = contr.gettanks()
-		tanks = msg['tanks']
-		for x in xrange(len(tanks)-1):
-			for y in xrange(x+1,len(tanks)):
-				self.assertNotEqual(tanks[x]['id'], tanks[y]['id'] )
 
+		msg = contr.creategame({'map_id':1})
+		msg_2 = contr.startgame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
 
-	def test01getbullets(self):
-		"""checks if msg is list of 2 elements"""
+		msg_2 = contr.deletegame({'game_id':msg['game_id']+1})
+		self.assertEqual( msg_2['error'], "game with given game_id does not exist" )
+
+		msg_2 = contr.deletegame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+	def test05pause_resume_continuegame(self):
+		"""checks if pausegame, resumegame and continuegame returns proper message"""
+		
 		contr = Controller()
-		msg = contr.gettanks()
-		self.assertEqual( len(msg), 2)
 
-	def test02getbullets(self):
-		"""checks if tanks position is vector with 2 elements"""
-		contr = Controller()
-		msg = contr.getbullets()
-		bullets = msg['bullets']
-		for x in xrange(len(bullets)):
-			self.assertEqual( len(bullets[x]['pos']), 2)
+		msg = contr.creategame({'map_id':1})
+		msg_2 = contr.startgame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
 
-	def test03gettanks(self):
-		"""checks if there are tanks with same id"""
+		msg_2 = contr.pausegame({'game_id':msg['game_id']+1})
+		self.assertEqual( msg_2['error'], "game with given game_id does not exist" )
+
+		msg_2 = contr.pausegame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.resumegame({'game_id':msg['game_id']+1})
+		self.assertEqual( msg_2['error'], "game with given game_id does not exist" )
+
+		msg_2 = contr.resumegame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.continuegame({'game_id':msg['game_id']+1})
+		self.assertEqual( msg_2['error'], "game with given game_id does not exist" )
+
+		msg_2 = contr.continuegame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.deletegame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+	def test06getgameinfo(self):
+		"""checks if getgameinfo returns proper message"""
+		
 		contr = Controller()
-		msg = contr.getbullets()
-		bullets = msg['bullets']
-		for x in xrange(len(bullets)-1):
-			for y in xrange(x+1,len(bullets)):
-				self.assertNotEqual(bullets[x]['id'], bullets[y]['id'] )
+
+		msg = contr.creategame({'map_id':1})
+		msg_2 = contr.startgame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.getgameinfo({'game_id':msg['game_id']+1})
+		self.assertEqual( msg_2['error'], "game with given game_id does not exist" )
+
+		msg_2 = contr.getgameinfo({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.deletegame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+	def test07getstate(self):
+		"""checks if getgstate returns proper message"""
+		
+		contr = Controller()
+
+		msg = contr.creategame({'map_id':1})
+		msg_2 = contr.startgame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.getstate({'game_id':msg['game_id']+1})
+		self.assertEqual( msg_2['error'], "game with given game_id does not exist" )
+
+		msg_2 = contr.getstate({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.deletegame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+	def test08getsummary(self):
+		"""checks if getgsummary returns proper message"""
+		
+		contr = Controller()
+
+		msg = contr.creategame({'map_id':1})
+		msg_2 = contr.startgame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.getsummary({'game_id':msg['game_id']+1})
+		self.assertEqual( msg_2['error'], "game with given game_id does not exist" )
+
+		msg_2 = contr.getsummary({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.deletegame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+	def test09moveplayer(self):
+		"""checks if moveplayer returns proper message and moves tank"""
+		
+		contr = Controller()
+
+		msg = contr.creategame({'map_id':1})
+		msg_2 = contr.startgame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.moveplayer({'game_id':msg['game_id']+1, 'dir':'up' })
+		self.assertEqual( msg_2['error'], "game with given game_id does not exist" )
+
+		msg_2 = contr.moveplayer({'game_id':msg['game_id'], 'dir':'up'})
+		self.assertEqual( msg_2['error'], "" )
+
+
+		msg_2 = contr.deletegame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+	def test10playershoot(self):
+		"""checks if playershoot returns proper message and moves tank"""
+		
+		contr = Controller()
+
+		msg = contr.creategame({'map_id':1})
+		msg_2 = contr.startgame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+		msg_2 = contr.playershoot({'game_id':msg['game_id']+1})
+		self.assertEqual( msg_2['error'], "game with given game_id does not exist" )
+
+		msg_2 = contr.playershoot({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+
+		msg_2 = contr.deletegame({'game_id':msg['game_id']})
+		self.assertEqual( msg_2['error'], "" )
+
+	# def test01gettanks(self):
+	# 	"""checks if msg is list of 2 elements"""
+	# 	contr = Controller()
+	# 	msg = contr.gettanks()
+	# 	self.assertEqual( len(msg), 2)
+
+	# def test02gettanks(self):
+	# 	"""checks if tanks position is vector with 2 elements"""
+	# 	contr = Controller()
+	# 	msg = contr.gettanks()
+	# 	tanks = msg['tanks']
+	# 	for x in xrange(len(tanks)):
+	# 		self.assertEqual( len(tanks[x]['pos']), 2)
+
+	# def test03gettanks(self):
+	# 	"""checks if there are tanks with same id"""
+	# 	contr = Controller()
+	# 	msg = contr.gettanks()
+	# 	tanks = msg['tanks']
+	# 	for x in xrange(len(tanks)-1):
+	# 		for y in xrange(x+1,len(tanks)):
+	# 			self.assertNotEqual(tanks[x]['id'], tanks[y]['id'] )
+
+
+	# def test01getbullets(self):
+	# 	"""checks if msg is list of 2 elements"""
+	# 	contr = Controller()
+	# 	msg = contr.gettanks()
+	# 	self.assertEqual( len(msg), 2)
+
+	# def test02getbullets(self):
+	# 	"""checks if tanks position is vector with 2 elements"""
+	# 	contr = Controller()
+	# 	msg = contr.getbullets()
+	# 	bullets = msg['bullets']
+	# 	for x in xrange(len(bullets)):
+	# 		self.assertEqual( len(bullets[x]['pos']), 2)
+
+	# def test03gettanks(self):
+	# 	"""checks if there are tanks with same id"""
+	# 	contr = Controller()
+	# 	msg = contr.getbullets()
+	# 	bullets = msg['bullets']
+	# 	for x in xrange(len(bullets)-1):
+	# 		for y in xrange(x+1,len(bullets)):
+	# 			self.assertNotEqual(bullets[x]['id'], bullets[y]['id'] )
 
 	
 

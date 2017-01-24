@@ -32,13 +32,20 @@ class Controller(object):
 			return {
 				"error":"no map_id"
 			}
-		self.game_threads_.append({"thread":GameThread(int(params['map_id']),13), "game_id":len(self.game_threads_)})
-		self.observers_.append({"observ": ServerGameObserver(params['map_id']), "game_id":len(self.game_threads_)-1})
-		self.game_threads_[len(self.game_threads_)-1]["thread"].addObserver(self.observers_[len(self.observers_)-1]["observ"])
+		aval_maps=self.getavalmaps(0)
+		for i in xrange(len(aval_maps['maps'])):
+			if int(aval_maps['maps'][i])==int(params['map_id']):
+				self.game_threads_.append({"thread":GameThread(int(params['map_id']),13), "game_id":len(self.game_threads_)})
+				self.observers_.append({"observ": ServerGameObserver(params['map_id']), "game_id":int(len(self.game_threads_)-1)})
+				self.game_threads_[len(self.game_threads_)-1]["thread"].addObserver(self.observers_[len(self.observers_)-1]["observ"])
+				return {
+					"game_id":len(self.game_threads_)-1,
+					"error":""
+				}
 		return {
-			"game_id":len(self.game_threads_)-1,
-			"error":""
+			"error":"wrong map_id"
 		}
+
 
 	def startgame(self,params):
 		if self.game_threads_==[]:
@@ -75,14 +82,14 @@ class Controller(object):
 					self.game_threads_[i]["thread"].kill()
 					self.game_threads_.pop(i)
 					for i in xrange(len(self.observers_)):
-						if self.observers_[i]['game_id'] == params['game_id']:
+						if int(self.observers_[i]['game_id']) == int(params['game_id']):
 							self.observers_.pop(i)
-						return {
-							"error": ""
-						}
-		return {
-			"error": "game with given game_id does not exist"
-		}
+							return {
+								"error": ""
+							}
+			return {
+				"error": "game with given game_id does not exist"
+			}
 
 	def pausegame(self, params):
 		if self.game_threads_ == []:
@@ -97,9 +104,9 @@ class Controller(object):
 					return {
 						"error": ""
 					}
-		return {
-			"error": "game with given game_id does not exist"
-		}
+			return {
+				"error": "game with given game_id does not exist"
+			}
 
 
 	def resumegame(self,params):
@@ -111,13 +118,13 @@ class Controller(object):
 		else:
 			for i in xrange(len(self.game_threads_)):
 				if int(self.game_threads_[i]['game_id']) == int(params['game_id']):
-					self.game_threads_[i]["thread"].resume()
+					self.game_threads_[i]["thread"].continueGame()
 					return {
 						"error": ""
 					}
-		return {
-			"error": "game with given game_id does not exist"
-		}
+			return {
+				"error": "game with given game_id does not exist"
+			}
 
 	def continuegame(self,params):
 		if self.game_threads_ == []:
@@ -132,9 +139,9 @@ class Controller(object):
 					return {
 						"error": ""
 					}
-		return {
-			"error": "game with given game_id does not exist"
-		}
+			return {
+				"error": "game with given game_id does not exist"
+			}
 
 
 	def getavalmaps(self,params):
@@ -153,7 +160,7 @@ class Controller(object):
 			}
 		else:
 			for i in xrange(len(self.observers_)):
-				if int(self.observers_[i]['game_id']) == int(params['game_id']):
+				if int(self.observers_[i]['game_id']) == int(params['game_id']):	
 					return {
 						'map':self.observers_[i]["observ"].getMap(),
 						"mapWidth":self.observers_[i]["observ"].getMapSize(),
@@ -163,9 +170,9 @@ class Controller(object):
 						"status": self.observers_[i]["observ"].getStatus(),
 						'error':""
 					}
-		return {
-			"error": "game with given game_id does not exist"
-		}
+			return {
+				"error": "game with given game_id does not exist"
+			}
 
 	def getstate(self,params):
 		"""map table of content"""
@@ -186,9 +193,9 @@ class Controller(object):
 						"score": self.observers_[i]["observ"].getScore(),
 						'error':""
 					}
-		return {
-			"error": "game with given game_id does not exist"
-		}
+			return {
+				"error": "game with given game_id does not exist"
+			}
 
 	def getsummary(self,params):
 		if self.game_threads_ == []:
@@ -203,10 +210,10 @@ class Controller(object):
 						"score": self.observers_[i]["observ"].getScore(),
 						'error':""
 					}
-		return {
-			"error": "game with given game_id does not exist"
-		}
-	
+			return {
+				"error": "game with given game_id does not exist"
+			}
+		
 
 	def moveplayer(self,params):
 		if self.game_threads_ == []:

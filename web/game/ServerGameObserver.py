@@ -1,5 +1,4 @@
-from Tank import Tank
-from Bullet import Bullet
+
 from GameObserver import GameObserver
 
 

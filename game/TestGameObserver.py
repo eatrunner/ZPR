@@ -1,3 +1,7 @@
+"""@package docstring
+A sample GameObserver.
+"""
+
 from GameObserver import GameObserver
 
 from Tank import Tank
@@ -5,6 +9,7 @@ from Bullet import Bullet
 
 
 class TestGameObserver(GameObserver):
+    """A sample GameObserver, prints out the recieved values"""
     def __init__(self):
         super(TestGameObserver, self).__init__()
 

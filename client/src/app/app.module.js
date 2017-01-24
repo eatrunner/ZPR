@@ -2,6 +2,7 @@ angular
 	.module('app', [
 		'ui.router',
 		'ui.bootstrap',
+		'ui.select',
 		'app.common',
 		'app.components',
 		'app.templates',

@@ -15,12 +15,5 @@
 
 angular
 	.module('app.components.game', [
-		'ui.select'
-	])
-	.config(function($stateProvider) {
-		$stateProvider
-			.state('game', {
-				url: '/game',
-				template: '<div ui-view></div>'
-			});
-	});
+
+	]);

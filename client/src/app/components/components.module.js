@@ -16,6 +16,5 @@
 angular
 	.module('app.components', [
 		'app.components.menu',
-		'app.components.single-player',
 		'app.components.game'
 	]);

@@ -1,5 +1,4 @@
 var menu = {
-  // controller: 'menuController',
   templateUrl: './menu.html'
 };
 

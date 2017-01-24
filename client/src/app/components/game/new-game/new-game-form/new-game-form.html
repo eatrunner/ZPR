@@ -1,0 +1,29 @@
+<form name="newGameForm" novalidate ng-submit="$ctrl.submitForm();">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label class="control-label" for="parameterValue">Game map:</label>
+                    <div class="input-group col-sm-offset-4 col-sm-4">
+              			<ui-select ng-model="$ctrl.selected">
+						<ui-select-match>
+						<span ng-bind="$select.selected"></span>
+						</ui-select-match>
+						<ui-select-choices repeat="item in $ctrl.itemArray">
+						<span ng-bind="item"></span>
+						</ui-select-choices>
+						</ui-select>
+                    </div>                    
+                </div>
+             
+                <button type="submit" class="btn btn-default btn-primary">
+                	Create the game!
+                </button>
+
+                <div class="alert alert-danger" ng-if="$ctrl.error">
+                {{ $ctrl.error }}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -87,9 +87,9 @@ gulp.task('scripts', ['modules'], () => {
 	  ...paths.scripts,
 	  './templates.js'
 	])
-	// .pipe(jshint())
-	// .pipe(jshint.reporter('default'))
-	// .pipe(jshint.reporter('fail'))
+	.pipe(jshint())
+	.pipe(jshint.reporter('default'))
+	.pipe(jshint.reporter('fail'))
 	.pipe(wrap('(function(angular){\n\'use strict\';\n<%= contents %>})(window.angular);'))
 	.pipe(concat('bundle.js'))
 	.pipe(ngAnnotate())

@@ -1,22 +1,61 @@
-function gameService($http, $q, gameSession) {
+function GameService($http, $q) {
 	var service = {
+		createGame: createGame,
+		getAvailableMaps: getAvailableMaps,
+		getGameInfo: getGameInfo,
+		
 		startGame: startGame,
 		stopGame: stopGame,
-		getGameInfo: getGameInfo,
 		getState: getState,
 		movePlayer: movePlayer,
 		resumeGame: resumeGame,
 		pauseGame: pauseGame,
-		playerShoot: playerShoot
+		playerShoot: playerShoot,
 	};
 
 	var API_GAME_PREFIX = '/tank-game/ajax/game';
+	var gameId;
+
+	function createGame(mapId) {
+		return $q(function(resolve, reject) {
+			$http.get(API_GAME_PREFIX + '/creategame/', {
+				params: {
+					map_id: mapId
+				}
+			}).then(createGameCallback, reject);
+
+			function createGameCallback(response) {
+				if(response.error)
+					reject(response.error);
+				else {
+					gameId = (response.data.game_id);
+					resolve();
+				}
+			}
+		});
+	}
+
+	function getAvailableMaps() {
+		return $q(function(resolve, reject) {
+			$http.get(API_GAME_PREFIX + '/getavalmaps/')
+				.then(getAvailableMapsCallback, reject);
+
+			function getAvailableMapsCallback(response) {
+				if(response.error)
+					reject(response.error);
+				else {
+					console.log(response.data.maps);
+					resolve(response.data.maps);
+				}
+			}
+		});
+	}
 
 	function makeGET(query, params) {
 		return $q(function(resolve, reject) {
 			if(angular.isUndefined(params)) 
 				params = {};
-			params.game_id = gameSession.gameId;
+			params.game_id = gameId;
 			$http.get(API_GAME_PREFIX + query, { params: params })
 				.then(GETsuccess, reject);
 
@@ -27,19 +66,19 @@ function gameService($http, $q, gameSession) {
 	}
 
 	function startGame() {
-		return makeGET('/startgame');
+		return makeGET('/startgame/');
 	}
 
 	function stopGame() {
-		return makeGET('/stopgame');
+		return makeGET('/stopgame/');
 	}
 
 	function pauseGame() {
-		return makeGET('/pausegame');
+		return makeGET('/pausegame/');
 	}
 
 	function resumeGame() {
-		return makeGET('/resumegame');
+		return makeGET('/resumegame/');
 	}
 
 	function getGameInfo() {
@@ -47,19 +86,17 @@ function gameService($http, $q, gameSession) {
 	}
 
 	function getState() {
-		return makeGET('/getstate');
+		return makeGET('/getstate/');
 	}
 
 	function movePlayer(direction) {
-		return makeGET('/moveplayer', {
+		return makeGET('/moveplayer/', {
 			dir: direction
 		});
 	}
 
-	function playerShoot(playerId) {
-		return makeGET('/playershoot', {
-			id: playerId
-		});
+	function playerShoot() {
+		return makeGET('/playershoot/');
 	}
 
 	return service;
@@ -68,7 +105,7 @@ function gameService($http, $q, gameSession) {
 /*
  * @ngdoc type
  * @module app.game
- * @name gameService
+ * @name GameService
  *
  * @description
  *
@@ -78,4 +115,4 @@ function gameService($http, $q, gameSession) {
  */
 angular
   .module('app.components.game')
-  .factory('gameService', gameService);
+  .factory('GameService', GameService);

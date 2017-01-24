@@ -1,0 +1,10 @@
+<div class="text-center">
+	<h1>New game</h1>
+	<p>Please specify game options:</p>
+	<br/>
+	<new-game-form
+		error="{{ $ctrl.error }}"
+		available-maps="$ctrl.availableMaps"
+		on-submit="$ctrl.createGame(mapId);">
+	</new-game-form>
+</div>

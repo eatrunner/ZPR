@@ -1,33 +1,21 @@
 from MapBlock import MapBlock
 import sys
+import os
 
 
 class Map(object):
     def __init__(self, id, size):
-        self.loadMap(id,size)
+        self.path = "../game/maps/"
+        self.loadMap(id, size)
 
     def getMatrix(self):
         return self.matrix
-
-    def printMap(self):
-        for i in range(self.size):
-            for j in range(self.size):
-                print(self.matrix[i][j]),
-            print("")
-
-    def setMapBlock(self, x, y, id):
-        self.matrix[x][y] = id
-        self.array[self.size * x + y] = id
 
     def getMapSize(self):
         return self.size
 
     def getMapArray(self):
         return self.array
-
-    def printMapArray(self):
-        for i in range(self.size * self.size):
-            print(self.array[i]),
 
     def getTank(self, x, y):
         for tank in self.tanks:
@@ -42,7 +30,7 @@ class Map(object):
         return None
 
     def loadMap(self, id, size):
-        path = "../game/maps/" + str(id)
+        path = self.path + str(id)
         with open(path) as f:
             p1, p2, p3, p4, p5, p6, p7, p8, p9 = [
                 int(x) for x in next(f).split()]
@@ -55,7 +43,8 @@ class Map(object):
             self.maxNoOfBonuses = p7
             self.currentBulletId = p8
             self.enemiesToKill = p9
-            self.matrix = [['E' for j in range(self.size)] for i in range(self.size)]
+            self.matrix = [['E' for j in range(self.size)]
+                           for i in range(self.size)]
             self.matrix = [[x for x in line.split()] for line in f]
 
         self.array = ['E' for i in range(self.size * self.size)]

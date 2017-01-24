@@ -175,8 +175,10 @@ class Game(Map):
         self.points += ammount
         self.notifyPoints()
 
-    def moveBullets(self):
+    def getPoints(self):
+        return self.points
 
+    def moveBullets(self):
         for bullet in self.bullets:
             moveFlag = True
             if(bullet.justCreated == True):
@@ -288,5 +290,5 @@ class Game(Map):
                 if (len(tank.bullets) < tank.maxBullets):
                     bullet = tank.createBullet()
                     if(bullet != None):
-                    	self.addBullet(bullet)
+                        self.addBullet(bullet)
                 tank.shootFlag = False

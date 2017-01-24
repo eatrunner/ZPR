@@ -14,7 +14,6 @@ class GameThread(threading.Thread, Game):
         Game.__init__(self, mapID, mapSize)
         self.killFlag = False
         self.pauseFlag = False
-        self.i = 0
         self.init = True
 
     def kill(self):
@@ -45,4 +44,3 @@ class GameThread(threading.Thread, Game):
             currentTime = time.time()
             self.processGame()
             time.sleep(currentTime + SEC_PER_FRAME - time.time())
-

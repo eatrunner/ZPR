@@ -89,7 +89,9 @@ elif env['s'] == 'c':
 
 elif env['t'] == 'w':
     if(platform.system() == "Linux"):
-        os.system('cd build_web; python manage.py test game; cd..;')
+        os.system('cd build_web; python manage.py test game; cd ..;')
+	os.system('cd game/tests; python tests.py; cd ../..;')
+
     elif(platform.system() == "Windows"):
         os.system('python build_web\manage.py test game')
 
@@ -104,10 +106,12 @@ elif env['t'] == 'j':
 
 elif env['cov'] == 1:
     if(platform.system() == "Linux"):
-        os.system("cd build_web; coverage run manage.py test game")
+        os.system("cd build_web; coverage run manage.py test game; cd ..")
         print("\n")
         os.system("coverage report -m")
         print("\n")
+	print("\n")
+	os.system('cd game/tests; python coverage.py; cd ../..;')
 
 elif env['zip'] == 1:
     dir_name = os.path.split(os.getcwd())[-1]

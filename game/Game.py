@@ -1,6 +1,6 @@
-"""@package docstring
-A class that represents the Game.
-"""
+## @file Game.py
+#  @brief A class that represents the Game.
+
 
 from Tank import Tank
 from random import randint
@@ -13,6 +13,7 @@ from BotMovement import BotMovement
 
 
 class Game(Map):
+    """A class that represents the Game."""
     CONTROL = ["left", "right", "up", "down"]
     BONUSES = ["weapon", "vest"]
 

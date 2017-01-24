@@ -1,6 +1,6 @@
-"""@package docstring
-A sample GameObserver.
-"""
+## @file TestGameObserver.py
+#  @brief A sample GameObserver
+
 
 from GameObserver import GameObserver
 

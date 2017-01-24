@@ -1,6 +1,5 @@
-"""@package docstring
-A class representing the game's thread.
-"""
+## @file GameThread.py
+#  @brief A class representing the game's thread
 
 
 from Game import Game

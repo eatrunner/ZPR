@@ -1,6 +1,5 @@
-"""@package docstring
-A class that generates the movement for enemies.
-"""
+## @file BotMovement.py
+#  @brief A class that generates the movement for enemies.
 
 from Tank import Tank
 from random import randint

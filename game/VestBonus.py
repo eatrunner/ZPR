@@ -1,6 +1,6 @@
-"""
-A class representing a vest bonus. Inherits from Bonus.
-"""
+## @file VestBonus.py
+#  @brief A class representing a vest bonus.
+
 from Bonus import Bonus
 from Tank import Tank
 

@@ -1,6 +1,6 @@
-"""@package docstring
-A class that represents a map.
-"""
+## @file Map.py
+#  @brief A class that represents a map.
+
 from MapBlock import MapBlock
 import sys
 import os

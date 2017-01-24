@@ -1,6 +1,5 @@
-"""@package docstring
-A class that represents a bonus.
-"""
+## @file bonus.py
+#  @brief A class that represents a bonus.
 
 class Bonus(object):
     """A class that represents a bonus."""

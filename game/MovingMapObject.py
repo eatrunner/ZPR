@@ -1,12 +1,10 @@
-"""@package docstring
-A class that represents a moving map object.
-"""
+## @file MovingMapObject.py
+#  @brief A class that represents a moving map object.
 
 
 class MovingMapObject(object):
     """A class that represents a moving map object"""
 
-    """List of proper movement directions"""
     CTRLS = [
         "left",
         None,

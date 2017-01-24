@@ -1,6 +1,5 @@
-"""@package docstring
-A class that represents a bonus spawner.
-"""
+## @file BonusSpawner.py
+#  @brief A class that represents a bonus spawner.
 
 from Bonus import Bonus
 from WeaponBonus import WeaponBonus

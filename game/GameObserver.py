@@ -1,6 +1,6 @@
-"""@package docstring
-An abstract class that represents the gameObserver.
-"""
+## @file GameObserver.py
+#  @brief An abstract class that represents the gameObserver.
+
 
 from Tank import Tank
 from Bullet import Bullet

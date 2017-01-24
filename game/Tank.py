@@ -1,6 +1,5 @@
-"""@package docstring
-A class that represents a tank.
-"""
+## @file Tank.py
+#  @brief A class that represents a tank.
 
 from Map import Map
 from Bullet import Bullet

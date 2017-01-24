@@ -1,6 +1,6 @@
-"""@package docstring
-A class that spawns enemies.
-"""
+## @file EnemySpawner.py
+#  @brief A class that spawns enemies.
+
 
 from Tank import Tank
 

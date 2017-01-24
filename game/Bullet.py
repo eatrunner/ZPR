@@ -1,6 +1,6 @@
-"""@package docstring
-A class that represents a bullet.
-"""
+## @file Bullet.py
+#  @brief A class that represents a bullet.
+
 
 from MovingMapObject import MovingMapObject
 from Map import Map

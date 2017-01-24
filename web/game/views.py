@@ -251,8 +251,9 @@ class Controller(object):
 			"error": "game with given game_id does not exist"
 		}
 	def gethighscores(self,params):
-		f =open("build_web/game/1.txt", 'r')
+		f =open("/build_web/game/1.txt", 'r')
 		words = f.read().split()
+		f.close()
 		return {
 			'first_name': words[0],
 			'first_score':words[1],
@@ -266,3 +267,25 @@ class Controller(object):
 			'fifth_score':words[9],
 			'error': ""
 		}
+
+	def sethighscore(self,params):
+		f =open("/build_web/game/1.txt", 'r')
+		words = f.read().split()
+		f.close()
+		for i in range(len(words)/2):
+			if int(words[2*i+1]) <= int(params['score']):
+				words.insert(2*int(i), params['name'])
+				words.insert(2*int(i)+1, params['score'])
+				f =open("/build_web/game/1.txt", 'w')
+				for j in range((len(words)-2)/2):
+					f.write(words[2*j] + ' ' + words[2*j+1] + '\n')
+				f.close
+
+				return {
+					"error": ""
+				}
+		return {
+			"error": "too low score for highscores"
+		}
+					
+

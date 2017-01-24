@@ -12,8 +12,7 @@ import traceback
 #all modules should be imported here
 import version
 import version.views
-import current
-import current.views
+
 import game
 import game.views
 from game.views import Controller

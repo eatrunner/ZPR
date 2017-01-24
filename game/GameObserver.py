@@ -39,3 +39,9 @@ class GameObserver(object):
 
     def removeBonus(self, id):
         raise NotImplementedError()
+
+    def upadteScore(self, new_score):
+        raise NotImplementedError()
+
+    def updateMapId(self, new_map_id):
+        raise NotImplementedError()

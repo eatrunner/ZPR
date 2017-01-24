@@ -10,11 +10,12 @@ class EnemySpawner():
 
     def process(self):
         if(self.spawnTimer == 0):
-            if(len(self.map.tanks) < self.map.maxNoOfEnemies + 1):
+            if(len(self.map.tanks) < self.map.maxNoOfEnemies + 1 and len(self.map.tanks) < self.map.enemiesToKill + 1):
                 tank = Tank(self.currTankId,
                             self.map.getFreeCoords(), self.map)
                 self.currTankId += 1
                 self.map.addTank(tank)
+                self.map.tanks
                 self.spawnTimer = self.timeToSpawn
             else:
                 return

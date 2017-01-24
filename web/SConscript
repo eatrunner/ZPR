@@ -39,4 +39,9 @@ for root, dirs, files in os.walk(app_src):
 
 
 env.Clean('.',out_dir)
+if(platform.system() == "Linux"):
+        os.system('cp game/highscores.txt ../build_web/game/')
+elif(platform.system() == "Windows"):
+	os.system('copy game\highscores.txt ..\build_web\game\ ')
+
 

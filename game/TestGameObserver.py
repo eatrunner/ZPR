@@ -1,3 +1,7 @@
+## @file TestGameObserver.py
+#  @brief A sample GameObserver
+
+
 from GameObserver import GameObserver
 
 from Tank import Tank
@@ -5,6 +9,7 @@ from Bullet import Bullet
 
 
 class TestGameObserver(GameObserver):
+    """A sample GameObserver, prints out the recieved values"""
     def __init__(self):
         super(TestGameObserver, self).__init__()
 
@@ -45,3 +50,9 @@ class TestGameObserver(GameObserver):
 
     def updateGameStatus(self, new_status):
         print "GameStatus: ", new_status
+
+    def updateScore(self, new_score):
+        print "Score ", new_score
+
+    def updateMapId(self, new_id):
+        print "Id: ", new_id

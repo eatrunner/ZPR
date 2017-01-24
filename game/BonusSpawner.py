@@ -1,3 +1,6 @@
+## @file BonusSpawner.py
+#  @brief A class that represents a bonus spawner.
+
 from Bonus import Bonus
 from WeaponBonus import WeaponBonus
 from VestBonus import VestBonus
@@ -5,18 +8,22 @@ from random import randint
 
 
 class BonusSpawner():
+    """A class that represents a bonus spawner."""
     BONUSES = [
         "weapon",
         "vest"
     ]
 
     def __init__(self, map, timeToSpawn):
+        """The constructor"""
         self.timeToSpawn = timeToSpawn
         self.timer = timeToSpawn
         self.map = map
         self.currBonusId = 0
 
     def process(self):
+        """This method checks wether the number of bonuses on the map has not exceeded
+        the maximum number of bonuses allowed. If not it creates a new random one and adds it to the map."""
         if(self.timer == 0):
             if(len(self.map.bonuses) < self.map.maxNoOfBonuses):
                 bonus = None

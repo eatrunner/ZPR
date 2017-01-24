@@ -15,8 +15,8 @@ class MovingMapObject(object):
         self.map = map
 
     # Returns true if a collision occured
-    def checkCollision():
-        if not((-1 < self.currPos[0] < self.map.size) and (-1 < self.currPos[1] < self.map.size) and self.map.matrix[self.currPos[0]][self.currPos[1]].id == 0):
+    def checkCollision(self):
+        if not((-1 < self.currPos[0] < self.map.size) and (-1 < self.currPos[1] < self.map.size) and self.map.matrix[self.currPos[0]][self.currPos[1]] == 'E'):
             return True
         else:
             return False

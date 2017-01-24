@@ -70,10 +70,12 @@ class Tank:
 
         bullet = Bullet(self.map.currentBulletId, self.id, self.map,
                         bulletPos[0], bulletPos[1], self.faceDirection)
-        self.map.currentBulletId += 1
-        self.bullets.append(bullet)
-
-        return bullet
+        if(bullet.checkCollision() == True):
+        	return None
+        else:
+        	self.map.currentBulletId += 1
+        	self.bullets.append(bullet)
+        	return bullet
 
     def moveBullet(self, bullet):
         if (self.bullets != []):

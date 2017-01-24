@@ -203,7 +203,7 @@ class Game(Map):
     def cleanTanks(self):
         for tank in self.tanksToRemove:
             self.removeTank(tank)
-            self.tanksToRemove.remove(tank)
+        self.tanksToRemove = []
 
     def cleanBullets(self):
         for bullet in self.bulletsToRemove:
@@ -287,5 +287,6 @@ class Game(Map):
             if tank.shootFlag == True:
                 if (len(tank.bullets) < tank.maxBullets):
                     bullet = tank.createBullet()
-                    self.addBullet(bullet)
+                    if(bullet != None):
+                    	self.addBullet(bullet)
                 tank.shootFlag = False

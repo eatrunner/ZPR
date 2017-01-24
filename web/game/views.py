@@ -1,7 +1,9 @@
+## @file game/views.py
+#  @brief game server class for client
 from django.shortcuts import render
 import sys, os
 sys.path.append(sys.path[0] + '/../game/')
-# for tests
+
 sys.path.append(sys.path[0] + '/../../game/')
 
 from ServerGameObserver import ServerGameObserver
@@ -13,6 +15,9 @@ import thread
 						
 
 # Create your views here.
+
+##Controler
+#Handles gamethreads and client HTTPrequests
 class Controller(object):
 	"""docstring for Controller"""
 		
@@ -28,6 +33,7 @@ class Controller(object):
 	"""game handling functions"""
 
 	def creategame(self, params):
+		"""creategame function"""
 		if params == []:
 			return {
 				"error":"no map_id"
@@ -48,6 +54,7 @@ class Controller(object):
 
 
 	def startgame(self,params):
+		"""startgame function"""
 		if self.game_threads_==[]:
 			return {
 				"error":"none games created"
@@ -71,6 +78,7 @@ class Controller(object):
 
 
 	def deletegame(self,params):
+		"""deletegame function"""
 		if self.game_threads_ == []:
 			return {
 				"error":"no existing game"
@@ -92,6 +100,7 @@ class Controller(object):
 			}
 
 	def pausegame(self, params):
+		"""pausegame function"""
 		if self.game_threads_ == []:
 			return {
 				"error":"no existing game"
@@ -110,6 +119,7 @@ class Controller(object):
 
 
 	def resumegame(self,params):
+		"""resumegame function"""
 		if self.game_threads_ == []:
 			return {
 				"error":"no existing game"
@@ -127,6 +137,7 @@ class Controller(object):
 			}
 
 	def continuegame(self,params):
+		"""continuegame function"""
 		if self.game_threads_ == []:
 			return {
 				"error":"no existing game"
@@ -145,6 +156,7 @@ class Controller(object):
 
 
 	def getavalmaps(self,params):
+		"""getavalmaps function"""
 		tmp=GameThread(1,13)
 		return {
 			"maps":tmp.getAvalMaps(),
@@ -153,6 +165,7 @@ class Controller(object):
 
 		
 	def getgameinfo(self,params):
+		"""getgameinfo function"""
 		if self.game_threads_ == []:
 			return {
 				"error":"no existing game"
@@ -175,7 +188,7 @@ class Controller(object):
 			}
 
 	def getstate(self,params):
-		"""map table of content"""
+		"""getstate function"""
 		if self.game_threads_ == []:
 			return {
 				"error":"no existing game"
@@ -198,6 +211,7 @@ class Controller(object):
 			}
 
 	def getsummary(self,params):
+		"""getsummary function"""
 		if self.game_threads_ == []:
 			return {
 				"error":"no existing game"
@@ -216,6 +230,7 @@ class Controller(object):
 		
 
 	def moveplayer(self,params):
+		"""moveplayer function"""
 		if self.game_threads_ == []:
 			return {
 				"error":"no existing game"
@@ -235,6 +250,7 @@ class Controller(object):
 			
 
 	def playershoot(self,params):
+		"""playershoot function"""
 		if self.game_threads_ == []:
 			return {
 				"error":"no existing game"
@@ -251,6 +267,7 @@ class Controller(object):
 			"error": "game with given game_id does not exist"
 		}
 	def gethighscores(self,params):
+		"""gethighscores function"""
 		f =open("/build_web/game/1.txt", 'r')
 		words = f.read().split()
 		f.close()
@@ -269,6 +286,7 @@ class Controller(object):
 		}
 
 	def sethighscore(self,params):
+		"""sethoghscore function"""
 		f =open("/build_web/game/1.txt", 'r')
 		words = f.read().split()
 		f.close()

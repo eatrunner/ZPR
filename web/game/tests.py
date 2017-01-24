@@ -1,13 +1,15 @@
+## @file game/tests.py
+#  @brief game module unit testing
 from unittest import TestCase
 
 # Create your tests here.
 import views
 from views import Controller
 import sys, os
-# for tests
-sys.path.append(sys.path[0] + '/../../')
 
-class GameViewTestCase(TestCase):
+##GameServerTestCase
+#Unittests for Controller
+class GameServerTestCase(TestCase):
 	def setUp(self):
 		contr = Controller()
 

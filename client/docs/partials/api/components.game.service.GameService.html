@@ -1,0 +1,223 @@
+<h1><code ng:non-bindable="">GameService</code>
+<div><span class="hint">service in module <code ng:non-bindable="">components.game</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="components-game-service-page components-game-service-gameservice-page"><p>Provides HTTP connection with GameAPI. 
+It is also using to manage game session.</p>
+<p>It handles whole game creation/runtime process. </p>
+<h3 id="how-to-use-it" id="description_how-to-use-it">How to use it</h3>
+<ol>
+<li>Before you create a new game, you should obtain available maps list. 
+To do it, you should call <code>getAvailableMaps</code>.</li>
+<li>Using one of the following <code>map_id</code> from <code>getAvailableMaps</code> you can now create a new game.
+To do it, use <code>createGame</code> function with provided <code>map_id</code>.</li>
+<li>When game has been created, you can now call <code>startGame</code> to run it on server.</li>
+<li>After start, you can do:<ul>
+<li>Check game status, score and entities placement with <code>getState</code>. </li>
+<li>Control the game with <code>movePlayer</code> and <code>playerShoot</code></li>
+<li>Pause the game using <code>pauseGame</code> and then resume it with <code>resumeGame</code></li>
+</ul>
+</li>
+<li>If game ends:<ul>
+<li>if you won, start the next level with <code>continueGame</code> request</li>
+<li>if you lost, delete the game level with <code>deleteGame</code> request</li>
+</ul>
+</li>
+</ol>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="api/ng.$http">$http</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="api/ng.$q">$q</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="api/ng.$rootScope">$rootScope</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="api/GAME_EVENTS">GAME_EVENTS</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="api/GAME_DIRECTIONS">GAME_DIRECTIONS</a></code>
+</li>
+<li><code ng:non-bindable=""><a href="api/GAME_STATUSES">GAME_STATUSES</a></code>
+</li>
+</ul>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_creategame">createGame()</h3>
+<div class="creategame"><div class="creategame-page"><p>Creates particle game with providen <code>map_id</code>.
+If game is successfully created, it is in STOP state and 
+user have to send <code>startGame</code> request to play the game.</p>
+</div><h5 id="methods_creategame_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="creategame-page"><p>A promise representing game creation process.</p>
+<p><strong>Possible success values:</strong></p>
+<ul>
+<li><code>gameId</code> - created game ID.</li>
+</ul>
+<p><strong>Possible rejection values:</strong></p>
+<ul>
+<li><code>WrongMapIdError</code> - when choosen <code>map_id</code> is wrong,</li>
+<li><code>HttpError</code> - when error is caused by $http service</li>
+</ul>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_getavailablemaps">getAvailableMaps()</h3>
+<div class="getavailablemaps"><div class="getavailablemaps-page"><p>Fetches from server list of <code>map_id</code>values,
+that user can use in call to <code>startGame</code> request</p>
+</div><h5 id="methods_getavailablemaps_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="getavailablemaps-page"><p>A promise representing game creation process.</p>
+<p><strong>Possible success values:</strong></p>
+<ul>
+<li><code>Array&lt;Number&gt;</code> - contains <code>map_id</code> values, list of available maps.</li>
+</ul>
+<p><strong>Possible rejection values:</strong></p>
+<ul>
+<li><code>HttpError</code> - when error is caused by $http service</li>
+</ul>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_getgameinfo">getGameInfo()</h3>
+<div class="getgameinfo"><div class="getgameinfo-page"><p>Fetches from server general informations about the game
+Useful to run before <code>startGame</code> in order to check map size, starting map state, game status</p>
+</div><h5 id="methods_getgameinfo_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="getgameinfo-page"><p>A promise representing getting game information process.</p>
+<p><strong>Possible success values:</strong></p>
+<ul>
+<li><code>GameInfo</code> - object containing general information about the game. It has properties:<ul>
+<li><code>mapWidth</code>, <code>mapHeight</code> - numbers, map size</li>
+<li><code>map</code> - Array, beginning map content</li>
+<li><code>playerId</code> - a number, unique ID of the player (usually 0),</li>
+<li><code>status</code> - an enum, one of the values from <code>GameStatuses</code> </li>
+</ul>
+</li>
+</ul>
+<p><strong>Possible rejection values:</strong></p>
+<ul>
+<li><code>GameServerError</code> - internal error of game server</li>
+<li><code>HttpError</code> - when error is caused by $http service</li>
+</ul>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_getstate">getState()</h3>
+<div class="getstate"><div class="getstate-page"><p>Fetches from server current state of the game.</p>
+</div><h5 id="methods_getstate_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="getstate-page"><p>A promise representing getting game state process.</p>
+<p><strong>Possible success values:</strong></p>
+<ul>
+<li><code>GameState</code> - object containing current state of the game. Its properties:<ul>
+<li><code>status</code> - an enum, one of the values from <code>Statuses</code>,</li>
+<li><code>map</code> - Array, current map content,</li>
+<li><code>tanks</code> - Array of Tank objects, which contains:<ul>
+<li><code>x</code>, <code>y</code> - numbers, position of tank,</li>
+<li><code>dir</code> - an enum, direction of tank. One of the <code>Directions</code> values</li>
+<li><code>id</code> - a number</li>
+<li><code>bonus</code> - an enum, enhancement that this tank is owning. One of the <code>Bonuses</code> values</li>
+</ul>
+</li>
+<li><code>bullets</code> - Array of Bullets objects, which contains:<ul>
+<li><code>x</code>, <code>y</code> - numbers, position of bullet,</li>
+<li><code>dir</code> - an enum, direction of bullet. One of the <code>Direction</code> value</li>
+<li><code>id</code> - a number</li>
+</ul>
+</li>
+<li><code>bonuses</code> - Array of Bonus objects, which contains:<ul>
+<li><code>x</code>, <code>y</code> - numbers, positions of bonus,</li>
+<li><code>id</code> - a number,</li>
+<li><code>type</code> - an enum, type of bonus, one of the <code>Bonuses</code> value.</li>
+</ul>
+</li>
+<li><code>score</code> - a number - total user&#39;s scorepoints during game,</li>
+</ul>
+</li>
+</ul>
+<p><strong>Possible rejection values:</strong></p>
+<ul>
+<li><em>GameStateError</em> - when message from server contains errors.</li>
+<li><code>GameServerError</code> - internal error of game server</li>
+<li><code>HttpError</code> - when error is caused by $http service</li>
+</ul>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_isgamecreated">isGameCreated()</h3>
+<div class="isgamecreated"><div class="isgamecreated-page"><p>This method tells if there is created game.
+It can be useful inside router, that is checking this flag every transitionStart.</p>
+</div><h5 id="methods_isgamecreated_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="isgamecreated-page"><p>whether game is created or not</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_moveplayer">movePlayer(direction)</h3>
+<div class="moveplayer"><div class="moveplayer-page"><p>Sends to server a request in order to move player.</p>
+</div><h5 id="methods_moveplayer_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>direction</td><td><a href="" class="label type-hint type-hint-direction">Direction</a></td><td><div class="moveplayer-page"><p>direction, in which player&#39;s tank has to move</p>
+</div></td></tr></tbody></table><h5 id="methods_moveplayer_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="moveplayer-page"><p>A promise representing move player process.
+<strong>Possible success values:</strong></p>
+<ul>
+<li>Functions just returns on success</li>
+</ul>
+<p><strong>Possible rejection values:</strong></p>
+<ul>
+<li><code>BadDirectionError</code> - when user used wrong direction type</li>
+<li><code>GameServerError</code> - internal error of game server</li>
+<li><code>HttpError</code> - when error is caused by $http service</li>
+</ul>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_pausegame">pauseGame()</h3>
+<div class="pausegame"><div class="pausegame-page"><p>Sends to server request to pause the running game.
+Should be called only after <code>startGame</code> and before <code>resumeGame</code></p>
+</div><h5 id="methods_pausegame_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="pausegame-page"><p>A promise representing game pausing process.</p>
+<p><strong>Possible success values:</strong></p>
+<ul>
+<li>This function just resolves on success, without return value</li>
+</ul>
+<p><strong>Possible rejection values:</strong></p>
+<ul>
+<li><code>GameNotRunningError</code> - when game could not be paused -
+ when it is not in RUN state.</li>
+<li><code>GameServerError</code> - internal error of game server</li>
+<li><code>HttpError</code> - when error is caused by $http service</li>
+</ul>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_playershoot">playerShoot()</h3>
+<div class="playershoot"><div class="playershoot-page"><p>Sends to server a request informing, that player has shooted.</p>
+</div><h5 id="methods_playershoot_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="playershoot-page"><p>A promise representing shoot process.
+<strong>Possible success values:</strong></p>
+<ul>
+<li>Functions just returns on success</li>
+</ul>
+<p><strong>Possible rejection values:</strong></p>
+<ul>
+<li><code>GameServerError</code> - internal error of game server</li>
+<li><code>HttpError</code> - when error is caused by $http service</li>
+</ul>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_resumegame">resumeGame()</h3>
+<div class="resumegame"><div class="resumegame-page"><p>Sends to server request to resume the paused game.
+Should be called only after <code>startGame</code> and before <code>resumeGame</code></p>
+</div><h5 id="methods_resumegame_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="resumegame-page"><p>A promise representing game pausing process.</p>
+<p><strong>Possible success values:</strong></p>
+<ul>
+<li>This function just resolves on success, without return value</li>
+</ul>
+<p><strong>Possible rejection values:</strong></p>
+<ul>
+<li><code>GameNotPausedError</code> - when game could not be resumed -
+ when it is not in PAUSE state</li>
+<li><code>GameServerError</code> - internal error of game server</li>
+<li><code>HttpError</code> - when error is caused by $http service</li>
+</ul>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_startgame">startGame()</h3>
+<div class="startgame"><div class="startgame-page"><p>Sends to server request to start the not-running game.
+Should be called only after <code>createGame</code></p>
+</div><h5 id="methods_startgame_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-promise">Promise</a></td><td><div class="startgame-page"><p>A promise representing game starting process.</p>
+<p><strong>Possible success values:</strong></p>
+<ul>
+<li>This function just resolves on success, without return value</li>
+</ul>
+<p><strong>Possible rejection values:</strong></p>
+<ul>
+<li><code>GameArleadyRunningError</code> - when game is not in STOP state</li>
+<li><code>GameServerError</code> - internal error of game server</li>
+<li><code>HttpError</code> - when error is caused by $http service</li>
+</ul>
+</div></td></tr></table></div>
+</li>
+</ul>
+</div>
+</div>

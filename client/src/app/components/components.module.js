@@ -1,20 +1,15 @@
-
 /**
- *
- * @ngdoc module
- * @name components
- *
- * @requires components.contact
- * @requires components.auth
- *
- * @description
- *
- * This is the components module. It includes all of our components.
- *
- **/
-
+* @ngdoc overview
+* @name components
+* @requires components.menu
+* @requires components.game
+*
+* @description
+* # components
+* This is the components module. It includes all application modules.
+*/
 angular
-	.module('app.components', [
-		'app.components.menu',
-		'app.components.game'
+	.module('components', [
+		'components.menu',
+		'components.game'
 	]);

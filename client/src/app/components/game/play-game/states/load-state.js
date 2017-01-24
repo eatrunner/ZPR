@@ -1,5 +1,5 @@
 angular
-  	.module('app.components.game')
+  	.module('components.game')
   	.factory('LoadState', function(GameService, $log) {
 		function LoadState(game) {
 			this._game = game;
@@ -16,11 +16,7 @@ angular
 			function getGameInfoCallback(response) {
 				var gameInfo = response;
 
-				if(gameInfo.status === "stop") {
-					those._game.state.start('ready', true, false, gameInfo);
-				} else {
-					those._game.state.start('play', true, false, gameInfo);
-				}
+				those._game.state.start('ready', true, false, gameInfo);
 			}
 
 			function getGameInfoError(reason) {

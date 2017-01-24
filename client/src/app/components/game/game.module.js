@@ -1,20 +1,14 @@
-
 /**
- *
- * @ngdoc module
- * @name components
- *
- * @requires components.contact
- * @requires components.auth
- *
- * @description
- *
- * This is the components module. It includes all of our components.
- *
- **/
-
+* @ngdoc overview
+* @name components.game
+* @description
+* # components.game
+* This is the `components.game` module. 
+*
+* This is a route to the functions such as `new-game` and `play-game`
+*/
 angular
-	.module('app.components.game', [
+	.module('components.game', [
 		'ui.select'
 	])
 	.config(function($stateProvider) {

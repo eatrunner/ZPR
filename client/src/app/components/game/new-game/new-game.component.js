@@ -1,17 +1,12 @@
 /**
- *
- * @ngdoc module
- * @name components
- *
- * @requires components.contact
- * @requires components.auth
- *
- * @description
- *
- * This is the components module. It includes all of our components.
- *
- **/
-
+    * @ngdoc directive
+    * @name components.game.directive:newGame
+    * @restrict 'E'
+    * @element ANY 
+    * @param {Array<number>} availableMaps Array with numbers that contain `map_id`'s of maps. Can be obtained via {@link components.game.service:GameService GameService} 
+    * @description 
+    * `<new-game>` is a component, in which we can create a new game to play it.
+    */
 var newGame = {
 	templateUrl: './new-game.html',
 	controller: 'NewGameController',
@@ -21,7 +16,7 @@ var newGame = {
 };
 
 angular
-	.module('app.components.game')
+	.module('components.game')
 	.component('newGame', newGame)
 	.config(function($stateProvider) {
 		$stateProvider

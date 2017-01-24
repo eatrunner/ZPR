@@ -1,5 +1,5 @@
 angular
-	.module('app.components.game')
+	.module('components.game')
 	.factory('ItemsGroup', function() {
 		function ItemsGroup(game, itemFactory) {
 			this.group = game.add.group();

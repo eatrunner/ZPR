@@ -1,0 +1,47 @@
+<h1><code ng:non-bindable="">BootState</code>
+<div><span class="hint">service in module <code ng:non-bindable="">components.game</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="components-game-service-page components-game-service-bootstate-page"><p>First state of the game, invoked at the beginning. </p>
+<ul>
+<li>It configures game screen settings and loading assets (sprites, sounds),</li>
+<li>It shows &#39;GAME IS BOOTING&#39; text during load process</li>
+<li>When loading is complete, game is switching into <code>ReadyState</code></li>
+</ul>
+</div></div>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_bootstate">BootState(game)</h3>
+<div class="bootstate"><div class="bootstate-page"><p>Constructor for BootState.</p>
+</div><h5 id="methods_bootstate_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>game</td><td><a href="" class="label type-hint type-hint-phaser">Phaser.Game</a></td><td><div class="bootstate-page"><p>game instance</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods__loadassets">_loadAssets()</h3>
+<div class="_loadassets"><div class="-loadassets-page"><p>It loads all assets needed in game, all sounds and all sprites.
+At the end of loading, it will call <code>_loadComplete</code> method.</p>
+</div></div>
+</li>
+<li><h3 id="methods__loadcomplete">_loadComplete()</h3>
+<div class="_loadcomplete"><div class="-loadcomplete-page"><p>Callback method from Phaser.Game.load. Will be run after assets loading process.
+It starts next game state: <code>LoadState</code></p>
+</div></div>
+</li>
+<li><h3 id="methods__showloader">_showLoader()</h3>
+<div class="_showloader"><div class="-showloader-page"><p>Member function that draws booting screen with blinking text</p>
+</div></div>
+</li>
+<li><h3 id="methods_create">create()</h3>
+<div class="create"><div class="create-page"><ul>
+<li>It will create booting screen</li>
+<li>It will load assets</li>
+</ul>
+</div></div>
+</li>
+<li><h3 id="methods_init">init()</h3>
+<div class="init"><div class="init-page"><p>This will set up game screen and scalling settings</p>
+</div></div>
+</li>
+</ul>
+</div>
+</div>

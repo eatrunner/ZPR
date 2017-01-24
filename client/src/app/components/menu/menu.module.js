@@ -1,19 +1,15 @@
-
 /**
- *
- * @ngdoc module
- * @name components
- *
- * @requires components.contact
- * @requires components.auth
- *
- * @description
- *
- * This is the components module. It includes all of our components.
- *
- **/
+* @ngdoc overview
+* @name components.menu
+* @description
+* # components.menu
+* It contains `menu` component. 
+*
+* It's config function declares state `menu`.
+*/
 angular
-	.module('app.components.menu', [
+	.module('components.menu', [
+		'ui.router'
 	])
 	.config(function($stateProvider) {
 		$stateProvider

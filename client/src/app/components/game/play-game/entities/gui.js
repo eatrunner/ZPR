@@ -1,19 +1,23 @@
 angular
-	.module('app.components.game')
-	.factory('Gui', function(GameState, GameService, ScoreBoard, GameKeyboard, Direction) {
+	.module('components.game')
+	.factory('Gui', function(GameService, ScoreBoard, PauseScreen, Keyboard) {
 		var GAME_REFRESH_MS = 1000;
 		var FACTOR = 16;
 
-		function Gui(game, gameInfo, gameState) {
+		function Gui(game, gameInfo, scope) {
 			this._game = game;
 
-			gameState.onUpdate.add(this._update, this);
-			this._gameKeyboard = new GameKeyboard(game, gameInfo, gameState);
+			this._scoreBoard = new ScoreBoard(game, gameInfo, scope);
+			this._pauseScreen = new PauseScreen(game, gameInfo, scope);
+			this._keyboard = new Keyboard(game, gameInfo,scope);
+
 			this._createTipText();
 		}
-		
-		Gui.prototype._update = function(gameStateData) {
 
+		Gui.prototype.kill = function() {
+			this._scoreBoard.kill();
+			this._pauseScreen.kill();
+			this._keyboard.kill();
 		};
 
 		Gui.prototype._createTipText = function() {

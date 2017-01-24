@@ -1,5 +1,5 @@
 angular
-	.module('app.components.game')
+	.module('components.game')
 	.factory('Item', function() {
 		var FACTOR = 16;
 		var GAME_FPS = 1;

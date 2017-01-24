@@ -1,18 +1,15 @@
 angular
-	.module('app.components.game')
-	.factory('Playground', function(Map, GameState, BonusesGroup, TanksGroup, BulletsGroup) {
+	.module('components.game')
+	.factory('Playground', function(Map, BonusesGroup, TanksGroup, BulletsGroup) {
 		var FACTOR = 16;
-		var GAME_MAX_WIDTH = 16;
-		var GAME_MARGIN_LEFT = 4;
-		var GAME_MARGIN_TOP = 2;
 
-		function Playground(game, gameInfo, gameState) {
+		function Playground(game, gameInfo, scope) {
 			this._game = game;
 
-			this._map = new Map(game, gameInfo.mapWidth, gameInfo.mapHeight, gameInfo.map);
-			this._tanksGroup = new TanksGroup(game);
-			this._bulletsGroup = new BulletsGroup(game);
-			this._bonusesGroup = new BonusesGroup(game);
+			this._map = new Map(game, gameInfo, scope);
+			this._tanksGroup = new TanksGroup(game, gameInfo, scope);
+			this._bulletsGroup = new BulletsGroup(game, gameInfo, scope);
+			this._bonusesGroup = new BonusesGroup(game, gameInfo, scope);
 
 			this.group = game.add.group();
 			this.group.add(this._map.group);
@@ -22,17 +19,13 @@ angular
 
 			this.group.x = game.world.width/2 - gameInfo.mapWidth*FACTOR/2;
 			this.group.y = game.world.height/2 - gameInfo.mapHeight*FACTOR/2;
-
-			gameState.onUpdate.add(this._update, this);
 		}
 
-		Playground.prototype._update = function(gameStateData) {
-			if(gameStateData.status === GameState.Statuses.RUN) {
-				this._map.update(gameStateData.map);
-				this._tanksGroup.update(gameStateData.tanks);
-				this._bulletsGroup.update(gameStateData.bullets);
-				this._bonusesGroup.update(gameStateData.bonuses);
-			}
+		Playground.prototype.kill = function() {
+			this._map.kill();
+			this._tanksGroup.kill();
+			this._bulletsGroup.kill();
+			this._bonusesGroup.kill();
 		};
 
 		return Playground;

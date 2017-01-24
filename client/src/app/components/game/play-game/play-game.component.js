@@ -1,29 +1,30 @@
-
 /**
- *
- * @ngdoc module
- * @name components
- *
- * @requires components.contact
- * @requires components.auth
- *
- * @description
- *
- * This is the components module. It includes all of our components.
- *
- **/
+    * @ngdoc directive
+    * @name components.game.directive:playGame
+    * @restrict 'E'
+    * @element ANY 
+    * @description 
+    * `<play-game>` is a component, which holds `gameCanvas` directive.
+    */
 var playGame = {
 	templateUrl: './play-game.html',
-	controller: 'PlayGameController'
 };
 
 angular
-	.module('app.components.game')
+	.module('components.game')
+	.component('playGame', playGame)
 	.config(function($stateProvider) {
 		$stateProvider
 			.state('playGame', {
 				url: '/playGame',
-				template: '<div game-canvas></div>'
-				// component: 'playGame'
+				template: '<div style="height: 100%" game-canvas></div>',
 			});
-	});
+	})
+	.run(function($rootScope, $location, $state, GameService) {
+		$rootScope.$on( '$stateChangeStart', function(e,toState,toParam,fromState, fromParams) {
+		    console.log(toState);
+		    if(toState.name === "playGame") {
+		    	console.log(GameService.isGameCreated());
+		    }
+		});
+});

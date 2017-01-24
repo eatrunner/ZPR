@@ -57,8 +57,8 @@ gulp.task('templates', () => {
   return gulp.src(paths.templates)
 	.pipe(htmlmin({ collapseWhitespace: true }))
 	.pipe(templateCache({
-	  module: 'app.templates',
-	  root: 'app',
+	  // module: 'templates',
+	  root: 'root',
 	  standalone: true,
 	  transformUrl: function (url) {
 		return url.replace(path.dirname(url), '.');
@@ -166,4 +166,32 @@ gulp.task('copyDocs', () => {
 gulp.task('dgeni', ['cleanDocs', 'copyDocs'], () => {
 	var dgeni = new Dgeni([require('./docs/config')]);
 	return dgeni.generate();
+});
+
+gulp.task('ngdocs', [], function () {
+  var gulpDocs = require('gulp-ngdocs');
+  return gulp.src('src/**/*.js')
+    .pipe(gulpDocs.process())
+    .pipe(gulp.dest('./docs'));
+});
+
+gulp.task('watch-ngdocs', ['ngdocs'], () => {
+	gulp.watch([paths.scripts], ['ngdocs']);
+	var connect = require('gulp-connect');
+	connect.server({
+		root: 'docs',
+		livereload: false,
+		fallback: 'docs/index.html',
+		port: 8083
+	});
+});
+
+gulp.task('connect-ngdocs', function() {
+var connect = require('gulp-connect');
+  connect.server({
+    root: 'docs',
+    livereload: false,
+    fallback: 'docs/index.html',
+    port: 8083
+  });
 });

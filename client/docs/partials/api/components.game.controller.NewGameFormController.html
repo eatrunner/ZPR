@@ -1,0 +1,38 @@
+<h1><code ng:non-bindable="">NewGameFormController</code>
+<div><span class="hint">controller in module <code ng:non-bindable="">components.game</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="components-game-controller-page components-game-controller-newgameformcontroller-page"><p>Controller of component <code>newGameForm</code>. 
+It controls process of defining new game options (at the moment - selecting correct mapId).
+On submit, it sends chosen value of mapId to the parent.</p>
+</div></div>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_$oninit">$onInit()</h3>
+<div class="$oninit"><div class="-oninit-page"><p>Inits <code>selected</code> property as first of <code>availableMaps</code></p>
+</div></div>
+</li>
+<li><h3 id="methods_submitform">submitForm()</h3>
+<div class="submitform"><div class="submitform-page"><p>It calls parent&#39;s <code>onSubmit</code> function with <code>selected</code> as mapId.</p>
+</div><h4 id="methods_submitform_example">Example</h4>
+<div class="example"><div class="submitform-page"><pre class="prettyprint linenums">
+&lt;form novalidate ng-submit="$ctrl.submitForm();"&gt;
+  &lt;button type="submit"&gt;
+   Create the game!
+  &lt;/button&gt;
+&lt;/form&gt;
+</pre>
+</div></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="member property"><h2 id="properties">Properties</h2>
+<ul class="properties"><li><h3 id="properties_selected">selected</h3>
+<div class="selected"><div class="selected-page"><p>Holds selected <code>mapId</code></p>
+</div></div>
+</li>
+</ul>
+</div>
+</div>

@@ -1,6 +1,6 @@
 angular
-	.module('app.components.game')
-	.factory('WelcomeScreen', function(GameState, GameService, $log) {
+	.module('components.game')
+	.factory('WelcomeScreen', function(GameService, $log) {
 
 		function WelcomeScreen(game, gameInfo) {
 			this._game = game;

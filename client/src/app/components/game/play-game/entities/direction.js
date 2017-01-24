@@ -1,5 +1,5 @@
 angular
-	.module('app.components.game')
+	.module('components.game')
 	.factory('Direction', function($log) {
 		function Direction() {}
 

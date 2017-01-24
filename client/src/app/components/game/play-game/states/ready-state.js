@@ -1,5 +1,5 @@
 angular
-  	.module('app.components.game')
+  	.module('components.game')
   	.factory('ReadyState', function($http, $q, GameService, $log) {
 		function ReadyState(game) {
 			this._game = game;
@@ -11,10 +11,30 @@ angular
 		};
  
 		ReadyState.prototype.create = function() {
-			this._showReadyScreen();
-    		this._spaceKey = this._game.input.keyboard.addKey(
-    			Phaser.Keyboard.SPACEBAR);
-    		this._spaceKey.onDown.add(this._startGame, this);
+			var isContinuation = this._gameInfo.status === 'win';
+			if(isContinuation) {
+				this._continueGame();
+			} else {
+				this._showReadyScreen();
+	    		this._spaceKey = this._game.input.keyboard.addKey(
+	    			Phaser.Keyboard.SPACEBAR);
+	    		this._spaceKey.onDown.add(this._startGame, this);
+			}
+		};
+
+		ReadyState.prototype._continueGame = function() {
+			GameService.continueGame()
+				.then(continueGameCallback, continueGameError);
+
+			var self = this;
+			function continueGameCallback(response) {
+				self._game.state.start('play', true, 
+					false, self._gameInfo);
+			}
+
+			function continueGameError(reason) {
+				$log.error(reason);
+			}
 		};
 
 		ReadyState.prototype._showReadyScreen = function() {
@@ -41,7 +61,6 @@ angular
 
 			function startGameError(reason) {
 				$log.error(reason);
-				alert('Error occured');
 			}
 		}; 
 

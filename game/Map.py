@@ -1,29 +1,10 @@
 from MapBlock import MapBlock
+import sys
 
 
 class Map(object):
     def __init__(self, id, size):
-        self.id = id
-        self.matrix = [['E' for j in range(size)] for i in range(size)]
-        self.size = size
-        self.playerPos = [3, 3]
-        self.array = ['E' for i in range(size * size)]
-        self.bullets = []
-        self.tanks = []
-        self.bonuses = []
-        self.bonusSpawnTime = 7
-        self.enemySpawnTime = 5
-        self.maxNoOfEnemies = 5
-        self.maxNoOfBonuses = 5
-        self.currentBulletId = 0
-        self.enemiesToKill = 2
-
-        # just a map example
-        for i in range(4, 9):
-            self.setMapBlock(i, 6, 'B')
-
-        for i in range(4, 9):
-            self.setMapBlock(6, i, 'B')
+        self.loadMap(id,size)
 
     def getMatrix(self):
         return self.matrix
@@ -61,24 +42,27 @@ class Map(object):
         return None
 
     def loadMap(self, id, size):
-        self.id = id
-        self.matrix = [['E' for j in range(size)] for i in range(size)]
-        self.size = size
-        self.playerPos = [3, 3]
-        self.array = ['E' for i in range(size * size)]
+        path = "../game/maps/" + str(id)
+        with open(path) as f:
+            p1, p2, p3, p4, p5, p6, p7, p8, p9 = [
+                int(x) for x in next(f).split()]
+            self.id = p1
+            self.size = p2
+            self.playerPos = [p3, p4]
+            self.bonusSpawnTime = p5
+            self.enemySpawnTime = p6
+            self.maxNoOfEnemies = p6
+            self.maxNoOfBonuses = p7
+            self.currentBulletId = p8
+            self.enemiesToKill = p9
+            self.matrix = [['E' for j in range(self.size)] for i in range(self.size)]
+            self.matrix = [[x for x in line.split()] for line in f]
+
+        self.array = ['E' for i in range(self.size * self.size)]
+        for i in range(self.size):
+            for j in range(self.size):
+                self.array[self.size * i + j] = self.matrix[i][j]
+
         self.bullets = []
         self.tanks = []
         self.bonuses = []
-        self.bonusSpawnTime = 7
-        self.enemySpawnTime = 5
-        self.maxNoOfEnemies = 5
-        self.maxNoOfBonuses = 5
-        self.currentBulletId = 0
-        self.enemiesToKill = 5
-
-        # just a map example
-        for i in range(3, 9):
-            self.setMapBlock(i, 6, 'B')
-
-        for i in range(3, 9):
-            self.setMapBlock(6, i, 'B')

@@ -250,3 +250,19 @@ class Controller(object):
 		return {
 			"error": "game with given game_id does not exist"
 		}
+	def gethighscores(self,params):
+		f =open("../game/1.txt", 'r')
+		words = f.read().split()
+		return {
+			'first_name': words[0],
+			'first_score':words[1],
+			'second_name': words[2],
+			'second_score':words[3],
+			'third_name': words[4],
+			'third_score':words[5],
+			'forth_name': words[6],
+			'forth_score':words[7],
+			'fifth_name': words[8],
+			'fifth_score':words[9],
+			'error': ""
+		}

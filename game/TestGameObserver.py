@@ -45,3 +45,9 @@ class TestGameObserver(GameObserver):
 
     def updateGameStatus(self, new_status):
         print "GameStatus: ", new_status
+
+    def updateScore(self, new_score):
+        print "Score ", new_score
+
+    def updateMapId(self, new_id):
+        print "Id: ", new_id

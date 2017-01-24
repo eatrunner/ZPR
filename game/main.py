@@ -17,7 +17,7 @@ game.addObserver(gameO)
 
 game.addTank(Tank(1, [0, 0], game))
 #game.addTank(Tank(2, [8, 3], game))
-tmp = GameThread(0, 13)
+#tmp = GameThread(0, 13)
 bonus = WeaponBonus(999, [5, 3])
 
 game.addBonus(bonus)

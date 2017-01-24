@@ -20,8 +20,6 @@ class Bullet(MovingMapObject):
             for tank in self.map.tanks:
                 if tank.currPos == self.currPos and tank.id != self.tankId:
                     self.map.tanksToRemove.append(tank)
-                    if(tank.id == 0):
-                        self.map.gameOver = True
                     if(self.tankId == 0):
                         self.map.addPoints(10)
                         self.map.enemiesToKill -= 1
